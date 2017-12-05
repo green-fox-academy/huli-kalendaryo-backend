@@ -16,6 +16,7 @@ public class Event {
   private String description;
 
 
+
   @ManyToOne(fetch = FetchType.EAGER)
   Calendar calendar = new Calendar();
 
