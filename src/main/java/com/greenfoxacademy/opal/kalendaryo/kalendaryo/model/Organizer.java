@@ -13,7 +13,7 @@ public class Organizer {
   private String displayname;
 
   @OneToOne
-  Event event = new Event();
+  Event event;
 
   public Organizer(String id, String email, String displayname,
       Event event) {
