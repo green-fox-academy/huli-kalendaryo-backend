@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 
-@RestController()
+@RestController
 public class Controller {
 
     private static HttpTransport httpTransport;
