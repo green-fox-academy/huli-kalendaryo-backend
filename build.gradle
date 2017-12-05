@@ -31,4 +31,5 @@ dependencies {
 	runtime('mysql:mysql-connector-java')
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile 'com.google.api-client:google-api-client:1.23.0'
 }
