@@ -15,6 +15,46 @@ public class Organizer {
   @OneToOne
   Event event = new Event();
 
+  public Organizer(String id, String email, String displayname,
+      Event event) {
+    this.id = id;
+    this.email = email;
+    this.displayname = displayname;
+    this.event = event;
+  }
 
+  public Organizer() {
+  }
 
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getDisplayname() {
+    return displayname;
+  }
+
+  public void setDisplayname(String displayname) {
+    this.displayname = displayname;
+  }
+
+  public Event getEvent() {
+    return event;
+  }
+
+  public void setEvent(Event event) {
+    this.event = event;
+  }
 }
