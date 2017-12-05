@@ -1,5 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -17,7 +18,7 @@ public class Calendar {
 
   @OneToMany
   @JoinColumn(name = "id")
-  Event event;
+  List<Event> eventList;
 
   public Calendar(String id, String name, String kind, String summary) {
     this.id = id;
