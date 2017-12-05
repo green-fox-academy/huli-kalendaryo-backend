@@ -1,6 +1,5 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
-import com.google.api.client.util.DateTime;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -10,23 +9,21 @@ import javax.persistence.ManyToOne;
 public class EventModel {
 
   @Id
-  private String id;
+  private String event_id;
   private String name;
-  private DateTime date;
   private String description;
   private String summary;
 
 
 
   @ManyToOne
-  @JoinColumn(name = "id")
+  @JoinColumn(name = "calendar_id")
   Calendar calendar;
 
-  public EventModel(String id, String name, DateTime date, String description,
+  public EventModel(String event_id, String name, String description,
       Calendar calendar,String summary) {
-    this.id = id;
+    this.event_id = event_id;
     this.name = name;
-    this.date = date;
     this.description = description;
     this.calendar = calendar;
     this.summary = summary;
@@ -43,12 +40,12 @@ public class EventModel {
     this.summary = summary;
   }
 
-  public String getId() {
-    return id;
+  public String getEvent_id() {
+    return event_id;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setEvent_id(String event_id) {
+    this.event_id = event_id;
   }
 
   public String getName() {
@@ -57,14 +54,6 @@ public class EventModel {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public DateTime getDate() {
-    return date;
-  }
-
-  public void setDate(DateTime date) {
-    this.date = date;
   }
 
   public String getDescription() {

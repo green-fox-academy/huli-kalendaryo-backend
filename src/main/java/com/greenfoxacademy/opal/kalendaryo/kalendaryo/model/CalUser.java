@@ -6,8 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Creator {
-
+public class CalUser {
 
   @Id
   private String id;
@@ -18,15 +17,14 @@ public class Creator {
   List<EventModel> eventsList;
 
 
-  public Creator(String id, String displayname, String email,
-      List<EventModel> eventsList) {
+
+  public CalUser(String id, String displayname, String email) {
     this.id = id;
     this.displayname = displayname;
     this.email = email;
-    this.eventsList = eventsList;
   }
 
-  public Creator() {
+  public CalUser() {
   }
 
   public String getId() {
@@ -51,14 +49,5 @@ public class Creator {
 
   public void setEmail(String email) {
     this.email = email;
-  }
-
-  public List<EventModel> getEventsList() {
-    return eventsList;
-  }
-
-  public void setEventsList(
-      List<EventModel> eventsList) {
-    this.eventsList = eventsList;
   }
 }
