@@ -2,7 +2,6 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -15,7 +14,7 @@ public class Creator {
   private String displayname;
   private String email;
 
-  @OneToMany(fetch = FetchType.EAGER)
+  @OneToMany
   List<Event> eventsList;
 
 
