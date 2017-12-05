@@ -13,10 +13,10 @@ public class Organizer {
   private String displayname;
 
   @OneToOne
-  Event event;
+  EventModel event;
 
   public Organizer(String id, String email, String displayname,
-      Event event) {
+      EventModel event) {
     this.id = id;
     this.email = email;
     this.displayname = displayname;
@@ -50,11 +50,11 @@ public class Organizer {
     this.displayname = displayname;
   }
 
-  public Event getEvent() {
+  public EventModel getEvent() {
     return event;
   }
 
-  public void setEvent(Event event) {
+  public void setEvent(EventModel event) {
     this.event = event;
   }
 }

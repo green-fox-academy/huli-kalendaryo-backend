@@ -18,7 +18,7 @@ public class Calendar {
 
   @OneToMany
   @JoinColumn(name = "id")
-  List<Event> eventList;
+  List<EventModel> eventList;
 
   public Calendar(String id, String name, String kind, String summary) {
     this.id = id;

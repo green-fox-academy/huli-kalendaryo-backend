@@ -7,7 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Event {
+public class EventModel {
 
   @Id
   private String id;
@@ -22,8 +22,8 @@ public class Event {
   @JoinColumn(name = "id")
   Calendar calendar;
 
-  public Event(String id, String name, DateTime date, String description,
-      Calendar calendar,String summary) {
+  public EventModel(String id, String name, DateTime date, String description,
+                    Calendar calendar, String summary) {
     this.id = id;
     this.name = name;
     this.date = date;
@@ -32,7 +32,7 @@ public class Event {
     this.summary = summary;
   }
 
-  public Event() {
+  public EventModel() {
   }
 
   public String getSummary() {

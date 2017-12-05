@@ -15,11 +15,11 @@ public class Creator {
   private String email;
 
   @OneToMany
-  List<Event> eventsList;
+  List<EventModel> eventsList;
 
 
   public Creator(String id, String displayname, String email,
-      List<Event> eventsList) {
+      List<EventModel> eventsList) {
     this.id = id;
     this.displayname = displayname;
     this.email = email;
@@ -53,12 +53,12 @@ public class Creator {
     this.email = email;
   }
 
-  public List<Event> getEventsList() {
+  public List<EventModel> getEventsList() {
     return eventsList;
   }
 
   public void setEventsList(
-      List<Event> eventsList) {
+      List<EventModel> eventsList) {
     this.eventsList = eventsList;
   }
 }
