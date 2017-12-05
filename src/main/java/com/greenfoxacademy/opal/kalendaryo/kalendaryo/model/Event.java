@@ -2,8 +2,8 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
 import com.google.api.client.util.DateTime;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -14,22 +14,33 @@ public class Event {
   private String name;
   private DateTime date;
   private String description;
+  private String summary;
 
 
 
-  @ManyToOne(fetch = FetchType.EAGER)
-  Calendar calendar = new Calendar();
+  @ManyToOne
+  @JoinColumn(name = "id")
+  Calendar calendar;
 
   public Event(String id, String name, DateTime date, String description,
-      Calendar calendar) {
+      Calendar calendar,String summary) {
     this.id = id;
     this.name = name;
     this.date = date;
     this.description = description;
     this.calendar = calendar;
+    this.summary = summary;
   }
 
   public Event() {
+  }
+
+  public String getSummary() {
+    return summary;
+  }
+
+  public void setSummary(String summary) {
+    this.summary = summary;
   }
 
   public String getId() {

@@ -2,6 +2,7 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -11,20 +12,23 @@ public class Calendar {
   private String id;
   private String name;
   private String kind;
-  private String desctiption;
+  private String summary;
+
 
   @OneToMany
-  Event envet = new Event();
+  @JoinColumn(name = "id")
+  Event event;
 
-  public Calendar(String id, String name, String kind, String desctiption) {
+  public Calendar(String id, String name, String kind, String summary) {
     this.id = id;
     this.name = name;
     this.kind = kind;
-    this.desctiption = desctiption;
+    this.summary = summary;
   }
 
   public Calendar() {
   }
+
 
   public String getId() {
     return id;
@@ -50,11 +54,11 @@ public class Calendar {
     this.kind = kind;
   }
 
-  public String getDesctiption() {
-    return desctiption;
+  public String getSummary() {
+    return summary;
   }
 
-  public void setDesctiption(String desctiption) {
-    this.desctiption = desctiption;
+  public void setSummary(String summary) {
+    this.summary = summary;
   }
 }
