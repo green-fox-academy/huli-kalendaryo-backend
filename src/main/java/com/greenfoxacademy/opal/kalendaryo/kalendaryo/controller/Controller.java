@@ -1,5 +1,8 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controller;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,6 +11,10 @@ import com.google.api.services.calendar.model.Event;
 
 @RestController()
 public class Controller {
+
+    private static HttpTransport httpTransport;
+    private static JsonFactory jsonFactory;
+    private static GoogleCredential credentials;
 
     @GetMapping("/api/calendar/id")
     public Object findCalendar() {
