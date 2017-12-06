@@ -10,15 +10,15 @@ public class CalUser {
 
   @Id
   private String id;
-  private String displayname;
+  private String displayName;
   private String email;
 
   @OneToMany
   List<EventModel> eventsList;
 
-  public CalUser(String id, String displayname, String email) {
+  public CalUser(String id, String displayName, String email) {
     this.id = id;
-    this.displayname = displayname;
+    this.displayName = displayName;
     this.email = email;
   }
 
@@ -33,12 +33,12 @@ public class CalUser {
     this.id = id;
   }
 
-  public String getDisplayname() {
-    return displayname;
+  public String getDisplayName() {
+    return displayName;
   }
 
-  public void setDisplayname(String displayname) {
-    this.displayname = displayname;
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
   }
 
   public String getEmail() {
