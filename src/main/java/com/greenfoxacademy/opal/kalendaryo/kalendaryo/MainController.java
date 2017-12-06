@@ -1,6 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo;
 
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,8 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
 
 
-  @PostMapping("")
-  public Object insertEvent() {
+  @PostMapping("/api/{calendarId}/events/")
+  public Object insertEvent(@PathVariable(name = "calendarId") String calendarId) {
+    
+    return new EventModel();
 
 
   }
