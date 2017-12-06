@@ -16,8 +16,6 @@ public class CalUser {
   @OneToMany
   List<EventModel> eventsList;
 
-
-
   public CalUser(String id, String displayname, String email) {
     this.id = id;
     this.displayname = displayname;
