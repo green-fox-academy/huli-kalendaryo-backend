@@ -20,15 +20,9 @@ public class EventModel {
   @JoinColumn(name = "calendar_id")
   Calendar calendar;
 
-<<<<<<< HEAD:src/main/java/com/greenfoxacademy/opal/kalendaryo/kalendaryo/model/EventModel.java
-  public EventModel(String id, String name, DateTime date, String description,
-                    Calendar calendar, String summary) {
-    this.id = id;
-=======
   public EventModel(String eventId, String name, String description,
       Calendar calendar,String summary) {
     this.eventId = eventId;
->>>>>>> Eventmodel:src/main/java/com/greenfoxacademy/opal/kalendaryo/kalendaryo/model/EventModel.java
     this.name = name;
     this.description = description;
     this.calendar = calendar;
