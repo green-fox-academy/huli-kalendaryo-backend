@@ -20,6 +20,7 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.api.services.calendar.model.Events;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -81,7 +82,7 @@ public class MainController {
      */
     public static Credential authorize() throws IOException {
         // Load client secrets.
-        File initialFile = new File("client_secret.json");
+        File initialFile = new File("client_secretLica.json");
         InputStream targetStream = new FileInputStream(initialFile);
         GoogleClientSecrets clientSecrets =
                 GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(targetStream));
@@ -113,23 +114,35 @@ public class MainController {
                 .build();
     }
 
-    public static void serviceM() throws IOException {
-        com.google.api.services.calendar.Calendar service =
-                getCalendarService();
-    }
+//    public static void serviceM() throws IOException {
+//        com.google.api.services.calendar.Calendar service =
+//                getCalendarService();
+//    }
 
     public void listEvents() throws IOException {
-        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
-                .setApplicationName("applicationName").build();
+        com.google.api.services.calendar.Calendar service =
+                getCalendarService();
+        service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
+                .setApplicationName(APPLICATION_NAME).build();
 
-// Retrieve an event
-        Event event = service.events().get("huli.opal.kalendaryo@gmail.com", "36ktp915ldm6dbtb03jruasqur").execute();
-        event.setDescription("It's working!!!");
-        Event updatedEvent = service.events().update("huli.opal.kalendaryo@gmail.com", event.getId(), event).execute();
+//        String pageToken = null;
+//        do {
+//            Events events = service.events().list("huli.opal.kalendaryo@gmail.com").setPageToken(pageToken).execute();
+//            List<Event> items = events.getItems();
+//            for (Event event : items) {
+//                System.out.println(event.getSummary());
+//            }
+//            pageToken = events.getNextPageToken();
+//        } while (pageToken != null);
+//
+//    }
+//// Retrieve an event
+        Event event = service.events().get("primary", "61ci0q6bm9favagppea8enbmdu").execute();
+        event.setSummary("It's working!!!");
+        Event updatedEvent = service.events().update("primary", event.getId(), event).execute();
 
-        System.out.println(event.getDescription());
+        System.out.println(updatedEvent.getUpdated());
     }
 
 
 }
-
