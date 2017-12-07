@@ -6,20 +6,21 @@ public class EventResponse {
     //Identifies this as a notification channel used to watch for changes to a resource. Value: the fixed string "api#channel".
     String kind = "api#channel";
 
-    String id;
+    //The channel ID
+    String channelId;
 
+    //It identifies the watched resource, in our case the event
     String resourceId;
 
+    //  example:  "https://www.googleapis.com/calendar/v3/calendars/my_calendar@gmail.com/events"
     String resourceUri;
-
-
 
     public EventResponse() {
     }
 
-    public EventResponse(String kind, String id, String resourceId, String resourceUri) {
+    public EventResponse(String kind, String channelId, String resourceId, String resourceUri) {
         this.kind = kind;
-        this.id = id;
+        this.channelId = channelId;
         this.resourceId = resourceId;
         this.resourceUri = resourceUri;
     }
@@ -33,11 +34,11 @@ public class EventResponse {
     }
 
     public String getId() {
-        return id;
+        return channelId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.channelId = id;
     }
 
     public String getResourceId() {
