@@ -17,7 +17,7 @@ public class Calendar {
 
 
   @OneToMany
-  @JoinColumn(name = "event_id")
+  @JoinColumn(name = "eventId")
   List<EventModel> eventModelList;
 
 
