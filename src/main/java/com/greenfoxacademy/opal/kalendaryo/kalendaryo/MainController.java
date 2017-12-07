@@ -10,9 +10,9 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.calendar.Calendar;
-import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.*;
 
 import com.google.api.services.calendar.CalendarScopes;
 
@@ -20,7 +20,9 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.api.services.calendar.model.Events;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -53,7 +55,7 @@ public class MainController {
      */
     private static HttpTransport HTTP_TRANSPORT;
 
-    private static Credential credentials;
+    private static GoogleCredential CREDENTIALS;
 
     /**
      * Global instance of the scopes required by this quickstart.
@@ -62,7 +64,7 @@ public class MainController {
      * at ~/.credentials/calendar-java-quickstart
      */
     private static final List<String> SCOPES =
-            Arrays.asList(CalendarScopes.CALENDAR_READONLY);
+            Arrays.asList(CalendarScopes.CALENDAR);
 
     static {
         try {
@@ -82,8 +84,7 @@ public class MainController {
      */
     public static Credential authorize() throws IOException {
         // Load client secrets.
-        InputStream inputStream =
-                new FileInputStream("client_secretLica.json");
+        InputStream inputStream = new FileInputStream("client_secret.json");
 
 //        File initialFile = new File("client_secretLica.json");
 //        InputStream targetStream = new FileInputStream(initialFile);
@@ -122,12 +123,15 @@ public class MainController {
 //                getCalendarService();
 //    }
 
+    @GetMapping("/google")
     public void listEvents() throws IOException {
         com.google.api.services.calendar.Calendar service =
                 getCalendarService();
-        service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
-                .setApplicationName(APPLICATION_NAME).build();
+//        service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, CREDENTIALS)
+//                .setApplicationName(APPLICATION_NAME).build();
 
+
+//
 //        String pageToken = null;
 //        do {
 //            Events events = service.events().list("primary").setPageToken(pageToken).execute();
@@ -140,7 +144,7 @@ public class MainController {
 //
 //    }
 //// Retrieve an event
-        Event event = service.events().get("primary", "61ci0q6bm9favagppea8enbmdu").execute();
+        Event event = service.events().get("primary", "7nhdmehd85ogf46u0sdcpmfq7h").execute();
         event.setSummary("It's working!!!");
         Event updatedEvent = service.events().update("primary", event.getId(), event).execute();
 
