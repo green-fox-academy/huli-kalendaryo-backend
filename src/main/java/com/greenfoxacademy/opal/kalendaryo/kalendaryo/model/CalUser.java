@@ -6,27 +6,23 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Creator {
-
+public class CalUser {
 
   @Id
   private String id;
-  private String displayname;
+  private String displayName;
   private String email;
 
   @OneToMany
   List<EventModel> eventsList;
 
-
-  public Creator(String id, String displayname, String email,
-      List<EventModel> eventsList) {
+  public CalUser(String id, String displayName, String email) {
     this.id = id;
-    this.displayname = displayname;
+    this.displayName = displayName;
     this.email = email;
-    this.eventsList = eventsList;
   }
 
-  public Creator() {
+  public CalUser() {
   }
 
   public String getId() {
@@ -37,12 +33,12 @@ public class Creator {
     this.id = id;
   }
 
-  public String getDisplayname() {
-    return displayname;
+  public String getDisplayName() {
+    return displayName;
   }
 
-  public void setDisplayname(String displayname) {
-    this.displayname = displayname;
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
   }
 
   public String getEmail() {
@@ -51,14 +47,5 @@ public class Creator {
 
   public void setEmail(String email) {
     this.email = email;
-  }
-
-  public List<EventModel> getEventsList() {
-    return eventsList;
-  }
-
-  public void setEventsList(
-      List<EventModel> eventsList) {
-    this.eventsList = eventsList;
   }
 }
