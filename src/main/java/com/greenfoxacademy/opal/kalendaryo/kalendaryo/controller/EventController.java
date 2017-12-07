@@ -15,7 +15,7 @@ public class EventController {
     @PostMapping(value = "https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events/watch")
     public EventResponse watchEvents (@PathVariable("calendarId") String calendarId,
                                @RequestBody EventChange eventChange) {
-        
+
 
         return new EventResponse();
     }
