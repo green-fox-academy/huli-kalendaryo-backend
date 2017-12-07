@@ -53,7 +53,7 @@ public class MainController {
      */
     private static HttpTransport HTTP_TRANSPORT;
 
-    private static GoogleCredential credentials;
+    private static Credential credentials;
 
     /**
      * Global instance of the scopes required by this quickstart.
@@ -82,10 +82,13 @@ public class MainController {
      */
     public static Credential authorize() throws IOException {
         // Load client secrets.
-        File initialFile = new File("client_secretLica.json");
-        InputStream targetStream = new FileInputStream(initialFile);
+        InputStream inputStream =
+                new FileInputStream("client_secretLica.json");
+
+//        File initialFile = new File("client_secretLica.json");
+//        InputStream targetStream = new FileInputStream(initialFile);
         GoogleClientSecrets clientSecrets =
-                GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(targetStream));
+                GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(inputStream));
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow =
@@ -127,7 +130,7 @@ public class MainController {
 
 //        String pageToken = null;
 //        do {
-//            Events events = service.events().list("huli.opal.kalendaryo@gmail.com").setPageToken(pageToken).execute();
+//            Events events = service.events().list("primary").setPageToken(pageToken).execute();
 //            List<Event> items = events.getItems();
 //            for (Event event : items) {
 //                System.out.println(event.getSummary());
