@@ -27,7 +27,7 @@ public class EventController {
     }
 
     @PutMapping("api/calendars/{calendarId}/events/{eventId}")
-    public void update(@PathVariable("calendarId") String calendarId, @PathVariable("eventId") String eventId) {
+    public void updateEvents(@PathVariable("calendarId") String calendarId, @PathVariable("eventId") String eventId) {
         // Initialize Calendar service with valid OAuth credentials
         Calendar service = new Calendar.Builder(httpTransport, jsonFactory, credentials)
                 .setApplicationName("applicationName").build();
