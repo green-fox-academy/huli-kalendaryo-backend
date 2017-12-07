@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MainController {
 
-
+  private AuthorizationCodeTokenRequest authorizationCodeTokenRequest;
   @PostMapping("/api/{calendarId}/events/")
   public Object insertEvent(@PathVariable(name = "calendarId") String calendarId) {
-   
+   authorizationCodeTokenRequest = new AuthorizationCodeTokenRequest();
     return new EventModel();
 
 
