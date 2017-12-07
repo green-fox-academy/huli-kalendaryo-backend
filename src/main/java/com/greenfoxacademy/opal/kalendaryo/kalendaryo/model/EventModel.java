@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 public class EventModel {
 
   @Id
-  private String event_id;
+  private String eventId;
   private String name;
   private String description;
   private String summary;
@@ -20,9 +20,9 @@ public class EventModel {
   @JoinColumn(name = "calendar_id")
   Calendar calendar;
 
-  public EventModel(String event_id, String name, String description,
+  public EventModel(String eventId, String name, String description,
       Calendar calendar,String summary) {
-    this.event_id = event_id;
+    this.eventId = eventId;
     this.name = name;
     this.description = description;
     this.calendar = calendar;
@@ -40,12 +40,12 @@ public class EventModel {
     this.summary = summary;
   }
 
-  public String getEvent_id() {
-    return event_id;
+  public String getEventId() {
+    return eventId;
   }
 
-  public void setEvent_id(String event_id) {
-    this.event_id = event_id;
+  public void setEventId(String eventId) {
+    this.eventId = eventId;
   }
 
   public String getName() {

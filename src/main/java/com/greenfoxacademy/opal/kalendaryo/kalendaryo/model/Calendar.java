@@ -10,18 +10,19 @@ import javax.persistence.OneToMany;
 public class Calendar {
 
   @Id
-  private String calendar_id;
+  private String calendarId;
   private String name;
   private String kind;
   private String summary;
 
 
   @OneToMany
-  @JoinColumn(name = "event_id")
+  @JoinColumn(name = "eventId")
   List<EventModel> eventModelList;
 
-  public Calendar(String calendar_id, String name, String kind, String summary) {
-    this.calendar_id = calendar_id;
+
+  public Calendar(String calendarId, String name, String kind, String summary) {
+    this.calendarId = calendarId;
     this.name = name;
     this.kind = kind;
     this.summary = summary;
@@ -31,12 +32,12 @@ public class Calendar {
   }
 
 
-  public String getCalendar_id() {
-    return calendar_id;
+  public String getCalendarId() {
+    return calendarId;
   }
 
-  public void setCalendar_id(String calendar_id) {
-    this.calendar_id = calendar_id;
+  public void setCalendarId(String calendarId) {
+    this.calendarId = calendarId;
   }
 
   public String getName() {
