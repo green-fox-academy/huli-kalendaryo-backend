@@ -9,7 +9,7 @@ public class EventResponse {
     //The channel ID
     String channelId;
 
-    //It identifies the watched resource, in our case the event
+    //It identifies the watched resource, in our case the event, ID of the event
     String resourceId;
 
     //  example:  "https://www.googleapis.com/calendar/v3/calendars/my_calendar@gmail.com/events"
