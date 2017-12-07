@@ -1,4 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
+import com.google.api.services.calendar.Calendar.Events.Watch;
+import com.google.api.services.calendar.model.Channel;
 import com.google.api.services.calendar.model.Event;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventChange;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventResponse;
@@ -23,10 +25,21 @@ public class EventController {
         Event updatedEvent = service.events().update("primary", event.getId(), event).execute();
     }
 
+    @GetMapping(value = "/notification")
+    public Watch eventNotification() throws IOException {
+        com.google.api.services.calendar.Calendar service =
+            getCalendarService();
+        Channel channel = new Channel();
+        Watch eventWatch = service.events().watch("primary", channel);
+        return eventWatch;
+    }
+
     @PostMapping(value = "https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events/watch")
     public EventResponse watchEvents (@PathVariable("calendarId") String calendarId,
         @RequestBody EventChange eventChange) {
 
         return new EventResponse("api#channel", "channelid", eventChange.getId(), "https://www.googleapis.com/calendar/v3/calendars/" + calendarId + "/events");
     }
+
+
 }
