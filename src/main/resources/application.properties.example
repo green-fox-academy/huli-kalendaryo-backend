@@ -8,7 +8,7 @@ spring.logging.level.org.hibernate.SQL=debug
 spring.jpa.show-sql=true
 
 
-#API Configration
+#Google Calendar API Configuration
 google.client.client-id=${CLIENT_ID}
 google.client.client-secret=${CLIENT_SECRET}
 google.client.access-token-uri=https://www.googleapis.com/oauth2/v3/token
@@ -18,3 +18,5 @@ google.client.scope=profile,email,https://www.googleapis.com/auth/calendar
 google.resource.user-info-uri=https://www.googleapis.com/oauth2/v2/userinfo
 google.resource.prefer-token-info=true
 #google.client.redirectUri=http://localhost:9000/login/google
+
+

@@ -6,9 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.util.Date;
 
 @SpringBootApplication
-public class KalendaryoApplication {
+public class KalendaryoApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(KalendaryoApplication.class, args);
+
 	}
 }
