@@ -50,7 +50,7 @@ public class EventController {
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }
 
-    @GetMapping("events/list")
+    @GetMapping("/events/list")
     public String listEvents() throws IOException {
         com.google.api.services.calendar.Calendar service =
                 getCalendarService();
@@ -66,7 +66,7 @@ public class EventController {
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }
   
-    @GetMapping("event/find")
+    @GetMapping("/event/find")
     public String getEvent() throws IOException {
         com.google.api.services.calendar.Calendar service =
                 getCalendarService();
@@ -75,7 +75,7 @@ public class EventController {
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }
   
-    @DeleteMapping("event/delete")
+    @DeleteMapping("/event/delete")
     public String deleteEvent() throws IOException {
         com.google.api.services.calendar.Calendar service =
                 getCalendarService();

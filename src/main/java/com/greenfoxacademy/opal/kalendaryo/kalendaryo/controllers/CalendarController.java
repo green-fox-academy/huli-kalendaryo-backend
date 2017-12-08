@@ -8,10 +8,10 @@ import java.io.IOException;
 
 import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.AuthorizeKal.getCalendarService;
 
-@Controller
+@Controller("/calendar")
 public class CalendarController {
 
-    @GetMapping("calendar/show")
+    @GetMapping("/show")
     public String showCalendar() throws IOException {
         com.google.api.services.calendar.Calendar service =
                 getCalendarService();
@@ -22,7 +22,7 @@ public class CalendarController {
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }
 
-    @PutMapping("calendar/update")
+    @PutMapping("/update")
     public String updateCalendar() throws IOException {
         com.google.api.services.calendar.Calendar service =
                 getCalendarService();
@@ -35,7 +35,7 @@ public class CalendarController {
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }
 
-    @GetMapping("calendar/insert")
+    @GetMapping("/insert")
     public String insertCalendar() throws IOException {
         com.google.api.services.calendar.Calendar service =
                 getCalendarService();
@@ -47,7 +47,7 @@ public class CalendarController {
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }
 
-    @DeleteMapping("calendar/delete")
+    @DeleteMapping("/delete")
     public String deleteCalendar() throws IOException {
         com.google.api.services.calendar.Calendar service =
                 getCalendarService();
