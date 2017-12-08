@@ -3,7 +3,7 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 public class EventChange {
 
     // The channel ID
-    String channelId;
+    String id;
 
     // The type of delivery mechanism in the channel, web_hook in our case
     String type;
@@ -14,18 +14,18 @@ public class EventChange {
     public EventChange() {
     }
 
-    public EventChange(String channelId, String type, String address) {
-        this.channelId = channelId;
+    public EventChange(String id, String type, String address) {
+        this.id = id;
         this.type = type;
         this.address = address;
     }
 
     public String getId() {
-        return channelId;
+        return id;
     }
 
-    public void setId(String channelId) {
-        this.channelId = channelId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getType() {
