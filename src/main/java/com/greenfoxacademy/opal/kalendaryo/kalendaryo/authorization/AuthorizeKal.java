@@ -11,6 +11,7 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 
 import java.io.FileInputStream;
@@ -54,8 +55,7 @@ public class AuthorizeKal {
         return credential;
     }
 
-    public static com.google.api.services.calendar.Calendar
-    getCalendarService() throws IOException {
+    public static Calendar getCalendarService() throws IOException {
         Credential credential = authorize();
         return new com.google.api.services.calendar.Calendar.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, credential)
