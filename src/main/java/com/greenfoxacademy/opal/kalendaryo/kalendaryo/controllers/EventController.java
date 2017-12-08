@@ -26,7 +26,7 @@ public class EventController {
         .setTimeZone("America/Los_Angeles");
 
     @GetMapping("/insert")
-    public void insertEvent() throws IOException {
+    public String insertEvent() throws IOException {
 
         com.google.api.services.calendar.Calendar service =
             getCalendarService();
@@ -36,6 +36,9 @@ public class EventController {
             .setStart(start)
             .setEnd(end))
             .execute();
+
+        return "redirect:https://calendar.google.com/calendar/b/2/r";
+
     }
 
     @GetMapping("/update")
