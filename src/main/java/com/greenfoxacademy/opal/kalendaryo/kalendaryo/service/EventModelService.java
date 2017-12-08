@@ -11,6 +11,8 @@ public class EventModelService {
     @Autowired
     EventModelRepository eventModelRepository;
 
+    
+
     public void saveEventModel(EventModel eventModel) {
         eventModelRepository.save(eventModel);
     }
