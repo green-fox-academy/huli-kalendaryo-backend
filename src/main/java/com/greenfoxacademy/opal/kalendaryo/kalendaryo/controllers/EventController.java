@@ -7,11 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.AuthorizeKal.getCalendarService;
 
-@Controller("/kalendaryo")
+@Controller
 public class EventController {
 
 
@@ -46,7 +45,7 @@ public class EventController {
         com.google.api.services.calendar.Calendar service =
                 getCalendarService();
         Event event = service.events().get("primary", "7nhdmehd85ogf46u0sdcpmfq7h").execute();
-        event.setSummary("hello Barbi!!!");
+        event.setSummary("Trolloloooo!!!");
         Event updatedEvent = service.events().update("primary", event.getId(), event).execute();
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }

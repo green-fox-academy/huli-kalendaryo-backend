@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.AuthorizeKal.getCalendarService;
 
-@Controller("/kalendaryoo")
+@Controller
 public class CalendarController {
 
     @GetMapping("calendar/show")
