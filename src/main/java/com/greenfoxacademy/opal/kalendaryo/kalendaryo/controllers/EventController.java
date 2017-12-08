@@ -13,7 +13,7 @@ public class EventController {
         com.google.api.services.calendar.Calendar service =
                 getCalendarService();
         Event event = service.events().get("primary", "7nhdmehd85ogf46u0sdcpmfq7h").execute();
-        event.setSummary("Troollolloo!!!");
+        event.setSummary("Hi Nezih!");
         Event updatedEvent = service.events().update("primary", event.getId(), event).execute();
     }
 }
