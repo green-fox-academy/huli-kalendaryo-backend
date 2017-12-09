@@ -71,4 +71,5 @@ public class EventModel {
   public void setCalendar(Calendar calendar) {
     this.calendar = calendar;
   }
+
 }
