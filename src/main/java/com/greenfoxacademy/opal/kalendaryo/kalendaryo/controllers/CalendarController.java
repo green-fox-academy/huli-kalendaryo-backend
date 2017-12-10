@@ -1,6 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
 import com.google.api.services.calendar.model.Calendar;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,9 +48,17 @@ public class CalendarController {
                 getCalendarService();
 
         Calendar calendar = service.calendars().insert(new Calendar()
-                .setSummary("helloworld")
+                .setSummary("savetobackend")
                 .setTimeZone("America/Los_Angeles"))
                 .execute();
+
+        //Google Calendar
+        Calendar googleCalendar = service.calendars().get("primary").execute();
+
+        //Opal Calendar
+        com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.Calendar calendarModel = calendarService.setCalendarAttributes(googleCalendar);
+
+        calendarService.saveCalendar(calendarModel);
 
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }

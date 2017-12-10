@@ -53,6 +53,9 @@ public class EventController {
         //Opal Calendar
         com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.Calendar calendar = calendarService.setCalendarAttributes(googleCalendar);
 
+        // saving to the database
+        eventModelService.saveEvent(eventModel);
+
         return "redirect:https://calendar.google.com/calendar/b/2/r";
 
     }
