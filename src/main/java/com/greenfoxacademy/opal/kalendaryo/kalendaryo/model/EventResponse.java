@@ -1,7 +1,17 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class EventResponse {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long eventResponseId;
 
     //Identifies this as a notification channel used to watch for changes to a resource. Value: the fixed string "api#channel".
     String kind = "api#channel";
@@ -55,5 +65,13 @@ public class EventResponse {
 
     public void setResourceUri(String resourceUri) {
         this.resourceUri = resourceUri;
+    }
+
+    public Long getEventResponseId() {
+        return eventResponseId;
+    }
+
+    public void setEventResponseId(Long eventResponseId) {
+        this.eventResponseId = eventResponseId;
     }
 }
