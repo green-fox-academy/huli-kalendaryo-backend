@@ -14,18 +14,16 @@ public class EventModel {
   private String description;
   private String summary;
 
-
-
   @ManyToOne
-  @JoinColumn(name = "calendar_id")
-  Calendar calendar;
+  @JoinColumn(name = "event_model_list")
+  CalendarModel calendarModel;
 
   public EventModel(String eventId, String name, String description,
-      Calendar calendar,String summary) {
+      CalendarModel calendarModel,String summary) {
     this.eventId = eventId;
     this.name = name;
     this.description = description;
-    this.calendar = calendar;
+    this.calendarModel = calendarModel;
     this.summary = summary;
   }
 
@@ -64,12 +62,12 @@ public class EventModel {
     this.description = description;
   }
 
-  public Calendar getCalendar() {
-    return calendar;
+  public CalendarModel getCalendarModel() {
+    return calendarModel;
   }
 
-  public void setCalendar(Calendar calendar) {
-    this.calendar = calendar;
+  public void setCalendarModel(CalendarModel calendarModel) {
+    this.calendarModel = calendarModel;
   }
 
 }

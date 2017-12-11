@@ -1,8 +1,9 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
+
 import com.google.api.services.calendar.model.Calendar;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarService;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.CalendarModel;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +17,12 @@ import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.Autho
 public class CalendarController {
 
     @Autowired
-    CalendarService calendarService;
+    CalendarModelService calendarModelService;
 
     @GetMapping("/show")
     public String showCalendar() throws IOException {
-        com.google.api.services.calendar.Calendar service =
-                getCalendarService();
-
-        com.google.api.services.calendar.model.Calendar calendar =
-                service.calendars().get("primary").execute();
+        com.google.api.services.calendar.Calendar service = getCalendarService();
+        Calendar calendar = service.calendars().get("primary").execute();
         System.out.println(calendar.getSummary());
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }
@@ -56,9 +54,9 @@ public class CalendarController {
         Calendar googleCalendar = service.calendars().get("primary").execute();
 
         //Opal Calendar
-        com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.Calendar calendarModel = calendarService.setCalendarAttributes(googleCalendar);
+        CalendarModel calendarModel = calendarModelService.setCalendarAttributes(googleCalendar);
 
-        calendarService.saveCalendar(calendarModel);
+        calendarModelService.saveCalendar(calendarModel);
 
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }

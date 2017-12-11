@@ -1,8 +1,9 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.*;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.CalendarModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarService;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarModelService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class EventController {
     EventModelService eventModelService;
 
     @Autowired
-    CalendarService calendarService;
+    CalendarModelService calendarModelService;
 
     DateTime startDateTime = new DateTime("2017-12-09T09:00:00-07:00");
     EventDateTime start = new EventDateTime().setDateTime(startDateTime).setTimeZone("America/Los_Angeles");
@@ -35,11 +36,10 @@ public class EventController {
     public String insertEvent() throws IOException {
 
         //Google Event
-        com.google.api.services.calendar.Calendar service =
-                getCalendarService();
+        com.google.api.services.calendar.Calendar service = getCalendarService();
         Event event = service.events().insert("primary", new Event()
                 .setDescription("New Event")
-                .setSummary("Barbi was here")
+                .setSummary("Barbi is testing the database")
                 .setStart(start)
                 .setEnd(end))
                 .execute();
@@ -47,11 +47,11 @@ public class EventController {
         //Google Calendar
         Calendar googleCalendar = service.calendars().get("primary").execute();
 
+        //Opal Calendar
+        CalendarModel calendar = calendarModelService.setCalendarAttributes(googleCalendar);
+
         //Opal Event
         EventModel eventModel = eventModelService.setAttributes(event, googleCalendar);
-
-        //Opal Calendar
-        com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.Calendar calendar = calendarService.setCalendarAttributes(googleCalendar);
 
         // saving to the database
         eventModelService.saveEvent(eventModel);
@@ -73,8 +73,7 @@ public class EventController {
 
     @GetMapping("/events/list")
     public String listEvents() throws IOException {
-        com.google.api.services.calendar.Calendar service =
-                getCalendarService();
+        com.google.api.services.calendar.Calendar service = getCalendarService();
         String pageToken = null;
         do {
             Events events = service.events().list("primary").setPageToken(pageToken).execute();
@@ -89,8 +88,7 @@ public class EventController {
   
     @GetMapping("/event/find")
     public String getEvent() throws IOException {
-        com.google.api.services.calendar.Calendar service =
-                getCalendarService();
+        com.google.api.services.calendar.Calendar service = getCalendarService();
         Event event = service.events().get("primary", "7nhdmehd85ogf46u0sdcpmfq7h").execute();
         System.out.println(event.getSummary());
         return "redirect:https://calendar.google.com/calendar/b/1/r";
@@ -98,8 +96,7 @@ public class EventController {
   
     @DeleteMapping("/event/delete")
     public String deleteEvent() throws IOException {
-        com.google.api.services.calendar.Calendar service =
-                getCalendarService();
+        com.google.api.services.calendar.Calendar service = getCalendarService();
         service.events().delete("primary", "eventId").execute();
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }

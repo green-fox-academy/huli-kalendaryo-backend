@@ -3,41 +3,39 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Calendar {
+public class CalendarModel {
 
   @Id
-  private String calendarId;
+  private String calendarModelId;
   private String name;
   private String kind;
   private String summary;
 
 
-  @OneToMany
-  @JoinColumn(name = "eventId")
+  @OneToMany(mappedBy = "calendarModel")
   List<EventModel> eventModelList;
 
 
-  public Calendar(String calendarId, String name, String kind, String summary) {
-    this.calendarId = calendarId;
+  public CalendarModel(String calendarModelId, String name, String kind, String summary) {
+    this.calendarModelId = calendarModelId;
     this.name = name;
     this.kind = kind;
     this.summary = summary;
   }
 
-  public Calendar() {
+  public CalendarModel() {
   }
 
 
-  public String getCalendarId() {
-    return calendarId;
+  public String getCalendarModelId() {
+    return calendarModelId;
   }
 
-  public void setCalendarId(String calendarId) {
-    this.calendarId = calendarId;
+  public void setCalendarModelId(String calendarModelId) {
+    this.calendarModelId = calendarModelId;
   }
 
   public String getName() {
@@ -62,5 +60,13 @@ public class Calendar {
 
   public void setSummary(String summary) {
     this.summary = summary;
+  }
+
+  public List<EventModel> getEventModelList() {
+    return eventModelList;
+  }
+
+  public void setEventModelList(List<EventModel> eventModelList) {
+    this.eventModelList = eventModelList;
   }
 }
