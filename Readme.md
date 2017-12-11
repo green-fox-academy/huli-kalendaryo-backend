@@ -12,14 +12,14 @@ To run the application's backend part you need to have the following things set 
 2. Create a database with the help of MySQL.
 
 3. In the IDE there should be the following Environmental variables set up:
-... * CLIENTID: this is given after registering the application
-... * CLIENTSECRET: this is given after registering the application
-... * RDSHOSTNAME: localhost
-... * RDSPORT 3306
-... * RDSDBNAME: the name of the database 
-... * RDSUSERNAME: username for the database
-... * RDSPASSWORD: password for the database
-... * OPALCALPORT: 8080
+ * CLIENTID: this is given after registering the application
+ * CLIENTSECRET: this is given after registering the application
+ * RDSHOSTNAME: localhost
+ * RDSPORT 3306
+ * RDSDBNAME: the name of the database 
+ * RDSUSERNAME: username for the database
+ * RDSPASSWORD: password for the database
+ * OPALCALPORT: 8080
 
 
 
