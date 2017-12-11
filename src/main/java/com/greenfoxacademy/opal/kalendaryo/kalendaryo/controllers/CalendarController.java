@@ -7,6 +7,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarModelServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import com.google.api.services.calendar.model.*;
 
 import java.io.IOException;
 
@@ -31,10 +32,10 @@ public class CalendarController {
     public String updateCalendar() throws IOException {
         com.google.api.services.calendar.Calendar service =
                 getCalendarService();
-        com.google.api.services.calendar.model.Calendar calendar =
+       Calendar calendar =
                 service.calendars().get("primary").execute();
         calendar.setSummary("calendarSummary");
-        com.google.api.services.calendar.model.Calendar updatedCalendar =
+        Calendar updatedCalendar =
                 service.calendars().update(calendar.getId(), calendar).execute();
         System.out.println(updatedCalendar.getEtag());
         return "redirect:https://calendar.google.com/calendar/b/1/r";

@@ -1,15 +1,12 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.*;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.CalendarModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarModelService;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventModelService;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.*;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -71,7 +68,7 @@ public class EventController {
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }
 
-    @GetMapping("/events/list")
+    @GetMapping("/list")
     public String listEvents() throws IOException {
         com.google.api.services.calendar.Calendar service = getCalendarService();
         String pageToken = null;
@@ -86,7 +83,7 @@ public class EventController {
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }
   
-    @GetMapping("/event/find")
+    @GetMapping("/find")
     public String getEvent() throws IOException {
         com.google.api.services.calendar.Calendar service = getCalendarService();
         Event event = service.events().get("primary", "7nhdmehd85ogf46u0sdcpmfq7h").execute();
@@ -94,7 +91,7 @@ public class EventController {
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }
   
-    @DeleteMapping("/event/delete")
+    @DeleteMapping("/delete")
     public String deleteEvent() throws IOException {
         com.google.api.services.calendar.Calendar service = getCalendarService();
         service.events().delete("primary", "eventId").execute();
