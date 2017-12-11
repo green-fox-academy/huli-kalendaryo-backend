@@ -10,4 +10,5 @@ public class KalendaryoApplication {
 		SpringApplication.run(KalendaryoApplication.class, args);
 
 	}
+
 }

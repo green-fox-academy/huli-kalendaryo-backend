@@ -35,11 +35,11 @@ public class EventController {
         //Google Event
         com.google.api.services.calendar.Calendar service = getCalendarService();
         Event event = service.events().insert("primary", new Event()
-                .setDescription("New Event")
-                .setSummary("Barbi is testing the database")
-                .setStart(start)
-                .setEnd(end))
-                .execute();
+            .setDescription("New Event")
+            .setSummary("Barbi is testing the database")
+            .setStart(start)
+            .setEnd(end))
+            .execute();
 
         //Google Calendar
         Calendar googleCalendar = service.calendars().get("primary").execute();
@@ -60,7 +60,7 @@ public class EventController {
     @GetMapping("/update")
     public String updateEvent() throws IOException {
         com.google.api.services.calendar.Calendar service =
-                getCalendarService();
+            getCalendarService();
         Event event = service.events().get("primary", "7nhdmehd85ogf46u0sdcpmfq7h").execute();
         event.setSummary("Trolloloooo!!!");
 
@@ -82,7 +82,7 @@ public class EventController {
         } while (pageToken != null);
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }
-  
+
     @GetMapping("/find")
     public String getEvent() throws IOException {
         com.google.api.services.calendar.Calendar service = getCalendarService();
@@ -90,7 +90,7 @@ public class EventController {
         System.out.println(event.getSummary());
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }
-  
+
     @DeleteMapping("/delete")
     public String deleteEvent() throws IOException {
         com.google.api.services.calendar.Calendar service = getCalendarService();
