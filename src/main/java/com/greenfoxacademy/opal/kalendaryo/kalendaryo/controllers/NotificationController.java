@@ -14,13 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 public class NotificationController {
 
+    EventChange eventChange;
+
     @PostMapping("/noti")
     public EventResponse eventWatch(@RequestBody EventChange eventChange) throws IOException {
-       // com.google.api.services.calendar.Calendar service = getCalendarService();
+        com.google.api.services.calendar.Calendar service = getCalendarService();
         Channel channel = new Channel();
-       /* Watch eventWatch = service.events().watch(eventChange.getId(), channel);
-        eventWatch.execute();*/
-        return new EventResponse("api#channel", channel.getId(), eventChange.getId(), "https://www.googleapi.com/calendar/v3/calendars/\" + calendarId + \"/events" );
+        Watch eventWatch = service.events().watch(eventChange.getId(), channel);
+        eventWatch.execute();
+        return new EventResponse("api#channel", channel.getId(), eventChange.getId(), "https://www.googleapi.com/calendar/v3/calendars/huli.opal.kalendaryo@gmail.com/events/watch" );
     }
 
     /*@GetMapping(value = "/notification")

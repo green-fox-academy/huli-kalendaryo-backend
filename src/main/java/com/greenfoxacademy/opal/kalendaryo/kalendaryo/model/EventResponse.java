@@ -7,7 +7,7 @@ public class EventResponse {
     String kind = "api#channel";
 
     //The channel ID
-    String channelId;
+    String id;
 
     //It identifies the watched resource, in our case the event, ID of the event
     String resourceId;
@@ -18,9 +18,9 @@ public class EventResponse {
     public EventResponse() {
     }
 
-    public EventResponse(String kind, String channelId, String resourceId, String resourceUri) {
+    public EventResponse(String kind, String id, String resourceId, String resourceUri) {
         this.kind = kind;
-        this.channelId = channelId;
+        this.id = id;
         this.resourceId = resourceId;
         this.resourceUri = resourceUri;
     }
@@ -34,11 +34,11 @@ public class EventResponse {
     }
 
     public String getId() {
-        return channelId;
+        return id;
     }
 
     public void setId(String id) {
-        this.channelId = id;
+        this.id = id;
     }
 
     public String getResourceId() {
