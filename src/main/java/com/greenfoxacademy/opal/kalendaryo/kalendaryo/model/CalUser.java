@@ -1,9 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity
 public class CalUser {
@@ -12,9 +10,6 @@ public class CalUser {
   private String id;
   private String displayName;
   private String email;
-
-  @OneToMany
-  List<EventModel> eventsList;
 
   public CalUser(String id, String displayName, String email) {
     this.id = id;

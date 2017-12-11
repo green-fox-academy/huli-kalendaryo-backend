@@ -8,5 +8,7 @@ public class KalendaryoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(KalendaryoApplication.class, args);
+
 	}
+
 }
