@@ -17,6 +17,5 @@ google.client.client-authentication-scheme=query
 google.client.scope=profile,email,https://www.googleapis.com/auth/calendar
 google.resource.user-info-uri=https://www.googleapis.com/oauth2/v2/userinfo
 google.resource.prefer-token-info=true
-#google.client.redirectUri=http://localhost:9000/login/google
 
 

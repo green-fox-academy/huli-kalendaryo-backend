@@ -11,6 +11,7 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 
 import java.io.FileInputStream;
@@ -22,17 +23,13 @@ import java.util.List;
 
 public class AuthorizeKal {
 
-    private static final String APPLICATION_NAME =
-            "Kalendaryo";
-    private static final java.io.File DATA_STORE_DIR = new java.io.File(
-            System.getProperty("user.home"), ".credentials/calendar-java-quickstart");
+    private static final String APPLICATION_NAME = "Kalendaryo";
+    private static final java.io.File DATA_STORE_DIR = new java.io.File(System.getProperty("user.home"), ".credentials/calendar-java-quickstart");
     private static FileDataStoreFactory DATA_STORE_FACTORY;
-    private static final JsonFactory JSON_FACTORY =
-            JacksonFactory.getDefaultInstance();
+    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static HttpTransport HTTP_TRANSPORT;
     private static GoogleCredential CREDENTIALS;
-    private static final List<String> SCOPES =
-            Arrays.asList(CalendarScopes.CALENDAR);
+    private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR);
 
     static {
         try {
@@ -46,8 +43,7 @@ public class AuthorizeKal {
 
     public static Credential authorize() throws IOException {
         InputStream inputStream = new FileInputStream("client_secret.json");
-        GoogleClientSecrets clientSecrets =
-                GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(inputStream));
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(inputStream));
         GoogleAuthorizationCodeFlow flow =
                 new GoogleAuthorizationCodeFlow.Builder(
                         HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
@@ -59,8 +55,7 @@ public class AuthorizeKal {
         return credential;
     }
 
-    public static com.google.api.services.calendar.Calendar
-    getCalendarService() throws IOException {
+    public static Calendar getCalendarService() throws IOException {
         Credential credential = authorize();
         return new com.google.api.services.calendar.Calendar.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, credential)
