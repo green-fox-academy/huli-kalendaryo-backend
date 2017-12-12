@@ -14,14 +14,20 @@ To run the application's backend part you need to have the following things set 
 3. In the IDE there should be the following Environmental variables set up:
  * CLIENTID: this is given after registering the application
  * CLIENTSECRET: this is given after registering the application
- * RDSHOSTNAME: localhost
- * RDSPORT 3306
+ * RDSHOSTNAME: your hostname in MySQL
+ * RDSPORT your port in MySQL
  * RDSDBNAME: the name of the database 
  * RDSUSERNAME: username for the database
  * RDSPASSWORD: password for the database
- * OPALCALPORT: 8080
+ * LOCALPORT: 8080
 
 
+## Dependencies
+
+Compile the following dependencies in order to use the necessary google libraries:
+* 'com.google.apis:google-api-services-calendar:v3-rev271-1.23.0'
+* 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+* 'com.google.api-client:google-api-client:1.23.0'
 
 
 
