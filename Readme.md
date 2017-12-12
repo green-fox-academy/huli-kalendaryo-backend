@@ -11,15 +11,15 @@ To run the application's backend part you need to have the following things set 
 
 2. Create a database with the help of MySQL.
 
-3. In the IDE there should be the following Environmental variables set up:
- * CLIENTID: this is given after registering the application
- * CLIENTSECRET: this is given after registering the application
- * RDSHOSTNAME: your hostname in MySQL
- * RDSPORT your port in MySQL
- * RDSDBNAME: the name of the database 
- * RDSUSERNAME: username for the database
- * RDSPASSWORD: password for the database
- * LOCALPORT: 8080
+3. You should set up the following environmental variables:
+* CLIENT\_ID: this is given after registering the application
+* CLIENT\_SECRET: this is given after registering the application
+* RDS\_HOSTNAME: your hostname in MySQL
+* RDS\_PORT your port in MySQL
+* RDS\_DB\_NAME: the name of the database 
+* RDS\_USERNAME: username for the database
+* RDS\_PASSWORD: password for the database
+* OPAL\_CAL\_PORT: 8080
 
 
 ## Dependencies
