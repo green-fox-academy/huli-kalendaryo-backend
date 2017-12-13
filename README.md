@@ -1,4 +1,4 @@
-# Huli Kalendary Backend
+# Huli Kalendaryo Backend
 
 ## Introduction
 The goal of this project is to provide a simple application where the user can collect event data from multiple calendars into one calendar that can be shared with the right people.
