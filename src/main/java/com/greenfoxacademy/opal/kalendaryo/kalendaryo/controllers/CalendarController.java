@@ -2,9 +2,6 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
 
 import com.google.api.services.calendar.model.Calendar;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.CalendarModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarModelService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +12,6 @@ import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.Autho
 @Controller
 @RequestMapping("/calendar")
 public class CalendarController {
-
-    @Autowired
-    CalendarModelService calendarModelService;
 
     @GetMapping("/show")
     public String showCalendar() throws IOException {
@@ -49,14 +43,6 @@ public class CalendarController {
                 .setSummary("savetobackend")
                 .setTimeZone("America/Los_Angeles"))
                 .execute();
-
-        //Google Calendar
-        Calendar googleCalendar = service.calendars().get("primary").execute();
-
-        //Opal Calendar
-        CalendarModel calendarModel = calendarModelService.setCalendarAttributes(googleCalendar);
-
-        calendarModelService.saveCalendar(calendarModel);
 
         return "redirect:https://calendar.google.com/calendar/b/1/r";
     }
