@@ -1,9 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.*;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.*;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,12 +13,6 @@ import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.Autho
 @Controller
 @RequestMapping("/event")
 public class EventController {
-
-    @Autowired
-    EventModelService eventModelService;
-
-    @Autowired
-    CalendarModelService calendarModelService;
 
     DateTime startDateTime = new DateTime("2017-12-09T09:00:00-07:00");
     EventDateTime start = new EventDateTime().setDateTime(startDateTime).setTimeZone("America/Los_Angeles");
@@ -41,20 +32,7 @@ public class EventController {
             .setEnd(end))
             .execute();
 
-        //Google Calendar
-        Calendar googleCalendar = service.calendars().get("primary").execute();
-
-        //Opal Calendar
-        CalendarModel calendar = calendarModelService.setCalendarAttributes(googleCalendar);
-
-        //Opal Event
-        EventModel eventModel = eventModelService.setAttributes(event, googleCalendar);
-
-        // saving to the database
-        eventModelService.saveEvent(eventModel);
-
         return "redirect:https://calendar.google.com/calendar/b/2/r";
-
     }
 
     @GetMapping("/update")
