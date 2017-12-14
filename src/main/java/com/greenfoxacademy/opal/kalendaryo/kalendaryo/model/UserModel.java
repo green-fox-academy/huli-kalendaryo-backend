@@ -13,7 +13,6 @@ public class UserModel {
     private String accessToken;
 
     @OneToMany
-    //@JoinColumn(name = "...")
     List<AuthModel> authModelList;
 
     public UserModel(String clientToken) {
