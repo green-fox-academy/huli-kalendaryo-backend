@@ -12,4 +12,6 @@ public class UserModelService {
     public void saveUserModel(UserModel userModel) {
         userModelRepository.save(userModel);
     }
+
+
 }

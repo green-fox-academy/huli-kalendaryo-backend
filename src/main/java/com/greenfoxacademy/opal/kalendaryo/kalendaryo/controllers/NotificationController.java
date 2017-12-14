@@ -20,7 +20,7 @@ public class NotificationController {
     @Autowired
     EventResponseService eventResponseService;
 
-    @PostMapping(value = "/noti")
+    @PostMapping(value = "/notification")
     public ResponseEntity eventNotification(@RequestBody EventResponse eventResponse) {
         System.out.println("The kind of the response: " + eventResponse.getKind() + "\n The ID of the notification channel: " + eventResponse.getId() + "\n The ID of the watched event" + eventResponse.getResourceId() + "\n The resourceUri of the watch: " + eventResponse.getResourceUri());
 
@@ -33,7 +33,7 @@ public class NotificationController {
         }
     }
 
-    @GetMapping(value = "/allnotis")
+    @GetMapping(value = "/allnotifications")
     public Iterable<EventResponse> showAllEventResponse() {
         Iterable<EventResponse> responses = eventResponseService.findAllEventResponse();
         System.out.println(responses);
