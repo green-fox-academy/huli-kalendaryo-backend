@@ -9,7 +9,6 @@ public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
     private String accessToken;
 
     @OneToMany
