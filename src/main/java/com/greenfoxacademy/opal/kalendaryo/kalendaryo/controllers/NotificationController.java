@@ -1,6 +1,5 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
-import com.google.api.client.http.HttpResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+
+import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.AuthorizeKal.authorize;
 
 @RestController
 public class NotificationController {
@@ -35,5 +38,10 @@ public class NotificationController {
         Iterable<EventResponse> responses = eventResponseService.findAllEventResponse();
         System.out.println(responses);
         return responses;
+    }
+
+    @GetMapping("/accesstoken")
+    public String getAccessToken() throws IOException {
+        return authorize().getAccessToken();
     }
 }
