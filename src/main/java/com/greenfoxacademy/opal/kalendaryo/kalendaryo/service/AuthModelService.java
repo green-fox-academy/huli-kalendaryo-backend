@@ -14,7 +14,7 @@ public class AuthModelService {
         authModelRepository.save(authModel);
     }
 
-    public void getAuthModelByUser(String email) {
-        authModelRepository.findAuthModelByEmail(email);
+    public void findAuthModelByUser(UserModel userModel) {
+        authModelRepository.findAuthModelByUser(userModel);
     }
 }
