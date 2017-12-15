@@ -1,10 +1,12 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,14 +57,12 @@ public class NotificationController {
         return authorize().getAccessToken();
     }
 
-    @GetMapping("/saveUser")
-    public void getRegistration(@RequestParam Long user_ID, @RequestParam String client_token) {
-        if (userModelRepository.findById(user_ID).getId() != user_ID) {
-            userModelRepository.save(new UserModel());
+    @GetMapping("/saveuser")
+    public void getRegistration(@RequestParam String email, @RequestParam String accessToken) {
+        if (!Objects.equals(authModelRepository.findByEmail(email).getEmail(), email)) {
+            authModelRepository.save(new AuthModel(email, accessToken, new UserModel()));
         } else {
-            userModelRepository.findById(user_ID);
+            authModelRepository.findByEmail(email);
         }
     }
 }
-
-// user_ID, client_token

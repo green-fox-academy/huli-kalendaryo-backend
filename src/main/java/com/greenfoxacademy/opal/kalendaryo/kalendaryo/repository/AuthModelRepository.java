@@ -8,4 +8,6 @@ import java.util.List;
 public interface AuthModelRepository  extends CrudRepository<AuthModel, String> {
 
     List<AuthModel> findAuthModelByEmail(String email);
+
+    AuthModel findByEmail (String email);
 }
