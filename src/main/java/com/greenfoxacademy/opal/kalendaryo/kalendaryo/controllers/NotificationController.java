@@ -1,6 +1,9 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.UserModel;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -19,6 +23,12 @@ public class NotificationController {
 
     @Autowired
     EventResponseService eventResponseService;
+
+    @Autowired
+    AuthModelRepository authModelRepository;
+
+    @Autowired
+    UserModelRepository userModelRepository;
 
     @PostMapping(value = "/notification")
     public ResponseEntity eventNotification(@RequestBody EventResponse eventResponse) {
@@ -44,4 +54,15 @@ public class NotificationController {
     public String getAccessToken() throws IOException {
         return authorize().getAccessToken();
     }
+
+    @GetMapping("/saveUser")
+    public void getRegistration(@RequestParam Long user_ID, @RequestParam String client_token) {
+        if (userModelRepository.findById(user_ID).getId() != user_ID) {
+            userModelRepository.save(new UserModel());
+        } else {
+            userModelRepository.findById(user_ID);
+        }
+    }
 }
+
+// user_ID, client_token
