@@ -20,16 +20,17 @@ public class NotificationController {
     @Autowired
     EventResponseService eventResponseService;
 
+    // at this endpoint we need to receive a google-type object, which can be transferred to our EventModel.
+    // EventModel will be saved to the database afterwards.
     @PostMapping(value = "/notification")
     public ResponseEntity eventNotification(@RequestBody EventResponse eventResponse) {
         System.out.println("The kind of the response: " + eventResponse.getKind() + "\n The ID of the notification channel: " + eventResponse.getId() + "\n The ID of the watched event" + eventResponse.getResourceId() + "\n The resourceUri of the watch: " + eventResponse.getResourceUri());
 
         if (eventResponse.getId() == null || eventResponse.getKind() == null || eventResponse.getResourceId() == null || eventResponse.getResourceUri() == null || eventResponse.getEventResponseId() == null) {
-            return new ResponseEntity("not OK", HttpStatus.NOT_ACCEPTABLE);
-        }
-        else {
+            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+        } else {
             eventResponseService.saveEventResponse(eventResponse);
-            return new ResponseEntity("OK", HttpStatus.OK);
+            return new ResponseEntity(HttpStatus.OK);
         }
     }
 
