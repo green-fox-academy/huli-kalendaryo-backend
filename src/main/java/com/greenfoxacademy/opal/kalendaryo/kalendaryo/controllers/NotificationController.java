@@ -8,6 +8,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelReposi
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,14 +35,30 @@ public class NotificationController {
 
     @PostMapping(value = "/notification")
     public ResponseEntity eventNotification(@RequestBody EventResponse eventResponse) {
-        System.out.println("The kind of the response: " + eventResponse.getKind() + "\n The ID of the notification channel: " + eventResponse.getId() + "\n The ID of the watched event" + eventResponse.getResourceId() + "\n The resourceUri of the watch: " + eventResponse.getResourceUri());
+        System.out.println("The kind of the response: " + eventResponse.getKind()
+            + "\n The ID of the notification channel: " + eventResponse.getId()
+            + "\n The ID of the watched event" + eventResponse.getResourceId()
+            + "\n The resourceUri of the watch: " + eventResponse.getResourceUri());
 
-        if (eventResponse.getId() == null || eventResponse.getKind() == null || eventResponse.getResourceId() == null || eventResponse.getResourceUri() == null || eventResponse.getEventResponseId() == null) {
-            return new ResponseEntity("not OK", HttpStatus.NOT_ACCEPTABLE);
-        }
-        else {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Content-Length", "0");
+        httpHeaders.add("Content-Type", "application/json; utf-8");
+        httpHeaders.add("X-Goog-Channel-ID", "3435gtg35452");
+        httpHeaders.add("X-Goog-Resource-ID", "WDOXEjsdYtXzZHq93mDhG6dfTrg");
+        httpHeaders.add("X-Goog-Resource-State", "exists");
+        httpHeaders.add("X-Goog-Message-Number", "1");
+        httpHeaders.add("X-Goog-Resource-URI",
+            "https://www.googleapis.com/calendar/v3/calendars/huli.opal.kalendaryo@gmail.com/events");
+        //        httpHeaders.add("X-Goog-Channel-Token", "");
+        //        httpHeaders.add("X-Goog-Channel-Expiration", "");
+
+        if (eventResponse.getId() == null || eventResponse.getKind() == null
+            || eventResponse.getResourceId() == null || eventResponse.getResourceUri() == null
+            || eventResponse.getEventResponseId() == null) {
+            return new ResponseEntity("not OK", httpHeaders, HttpStatus.NOT_ACCEPTABLE);
+        } else {
             eventResponseService.saveEventResponse(eventResponse);
-            return new ResponseEntity("OK", HttpStatus.OK);
+            return new ResponseEntity("OK", httpHeaders, HttpStatus.OK);
         }
     }
 
