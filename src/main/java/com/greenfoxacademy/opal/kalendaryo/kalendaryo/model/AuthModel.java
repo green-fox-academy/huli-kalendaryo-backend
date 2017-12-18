@@ -9,14 +9,14 @@ public class AuthModel {
 
     @Id
     private String email;
-    private String accessToken;
+    private String authCode;
 
     @ManyToOne
     UserModel user;
 
-    public AuthModel(String email, String accessToken, UserModel user) {
+    public AuthModel(String email, String authCode, UserModel user) {
         this.email = email;
-        this.accessToken = accessToken;
+        this.authCode = authCode;
         this.user = user;
     }
 
@@ -31,19 +31,19 @@ public class AuthModel {
         this.email = email;
     }
 
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
     public UserModel getUser() {
         return user;
     }
 
     public void setUser(UserModel user) {
         this.user = user;
+    }
+
+    public String getAuthCode() {
+        return authCode;
+    }
+
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
     }
 }
