@@ -3,10 +3,14 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.servlet.http.HttpServletRequest;
 
 @Entity
 public class EventResponse {
@@ -26,7 +30,7 @@ public class EventResponse {
 
     String resourceState;
 
-    int messageNumber;
+    Integer messageNumber;
 
     @JsonInclude(Include.NON_NULL)
     String channelExpiration;
@@ -37,16 +41,14 @@ public class EventResponse {
     public EventResponse() {
     }
 
-    public EventResponse(String channelId, String resourceId, String resourceUri,
-        String resourceState, int messageNumber, String channelExpiration,
-        String channelToken) {
-        this.channelId = channelId;
-        this.resourceId = resourceId;
-        this.resourceUri = resourceUri;
-        this.resourceState = resourceState;
-        this.messageNumber = messageNumber;
-        this.channelExpiration = channelExpiration;
-        this.channelToken = channelToken;
+    public EventResponse(HttpServletRequest request) {
+        this.channelId = request.getHeader("X-Goog-Channel-ID");
+        this.resourceId = request.getHeader("X-Goog-Resource-ID");
+        this.resourceUri = request.getHeader("X-Goog-Resource-URI");
+        this.resourceState = request.getHeader("X-Goog-Resource-State");
+        this.messageNumber = Integer.parseInt(request.getHeader("X-Goog-Message-Number"));
+        this.channelExpiration = request.getHeader("X-Goog-Channel-Expiration");
+        this.channelToken = request.getHeader("X-Goog-Channel-Token");
     }
 
     public Long getEventResponseId() {
@@ -89,11 +91,11 @@ public class EventResponse {
         this.resourceState = resourceState;
     }
 
-    public int getMessageNumber() {
+    public Integer getMessageNumber() {
         return messageNumber;
     }
 
-    public void setMessageNumber(int messageNumber) {
+    public void setMessageNumber(Integer messageNumber) {
         this.messageNumber = messageNumber;
     }
 
@@ -111,5 +113,36 @@ public class EventResponse {
 
     public void setChannelToken(String channelToken) {
         this.channelToken = channelToken;
+    }
+
+    public ResponseEntity validate() {
+
+        if (getChannelId() == null ||
+                getResourceId() == null ||
+                getResourceState() == null ||
+                getMessageNumber() == null ||
+                getResourceUri() == null) {
+            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+        } else {
+            return new ResponseEntity(HttpStatus.OK);
+        }
+    }
+
+    public String getMissingFields() {
+        String missing = "";
+
+        if (getChannelId() == null) {
+            missing = "channel id";
+        } else if (getResourceId() == null) {
+            missing = "resource id";
+        } else if (getResourceState() == null) {
+            missing = "resource state";
+        } else if (getMessageNumber() == null) {
+            missing = "message number";
+        } else if (getResourceUri() == null) {
+            missing = "resource uri";
+        }
+
+        return missing;
     }
 }

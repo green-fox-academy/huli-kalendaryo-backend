@@ -14,7 +14,7 @@ public class AuthModelService {
         authModelRepository.save(authModel);
     }
 
-    public void findAuthModelByUser(UserModel userModel) {
-        authModelRepository.findAuthModelByUser(userModel);
-    }
+//    public void findAuthModelByUser(UserModel userModel) {
+//        authModelRepository.findAuthModelByUser(userModel);
+//    }
 }
