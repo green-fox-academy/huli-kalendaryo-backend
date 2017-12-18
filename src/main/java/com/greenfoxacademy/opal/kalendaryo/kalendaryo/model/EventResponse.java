@@ -1,6 +1,8 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,11 +15,8 @@ public class EventResponse {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long eventResponseId;
 
-    //Identifies this as a notification channel used to watch for changes to a resource. Value: the fixed string "api#channel".
-    String kind = "api#channel";
-
     //The channel ID
-    String id;
+    String channelId;
 
     //It identifies the watched resource, in our case the event, ID of the event
     String resourceId;
@@ -25,30 +24,45 @@ public class EventResponse {
     //  example:  "https://www.googleapis.com/calendar/v3/calendars/my_calendar@gmail.com/events"
     String resourceUri;
 
+    String resourceState;
+
+    int messageNumber;
+
+    @JsonInclude(Include.NON_NULL)
+    String channelExpiration;
+
+    @JsonInclude(Include.NON_NULL)
+    String channelToken;
+
     public EventResponse() {
     }
 
-    public EventResponse(String kind, String id, String resourceId, String resourceUri) {
-        this.kind = kind;
-        this.id = id;
+    public EventResponse(String channelId, String resourceId, String resourceUri,
+        String resourceState, int messageNumber, String channelExpiration,
+        String channelToken) {
+        this.channelId = channelId;
         this.resourceId = resourceId;
         this.resourceUri = resourceUri;
+        this.resourceState = resourceState;
+        this.messageNumber = messageNumber;
+        this.channelExpiration = channelExpiration;
+        this.channelToken = channelToken;
     }
 
-    public String getKind() {
-        return kind;
+    public Long getEventResponseId() {
+        return eventResponseId;
     }
 
-    public void setKind(String kind) {
-        this.kind = kind;
+    public void setEventResponseId(Long eventResponseId) {
+        this.eventResponseId = eventResponseId;
     }
 
-    public String getId() {
-        return id;
+    public String getChannelId() {
+        return channelId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setChannelId(String channelId) {
+        this.channelId = channelId;
     }
 
     public String getResourceId() {
@@ -67,11 +81,35 @@ public class EventResponse {
         this.resourceUri = resourceUri;
     }
 
-    public Long getEventResponseId() {
-        return eventResponseId;
+    public String getResourceState() {
+        return resourceState;
     }
 
-    public void setEventResponseId(Long eventResponseId) {
-        this.eventResponseId = eventResponseId;
+    public void setResourceState(String resourceState) {
+        this.resourceState = resourceState;
+    }
+
+    public int getMessageNumber() {
+        return messageNumber;
+    }
+
+    public void setMessageNumber(int messageNumber) {
+        this.messageNumber = messageNumber;
+    }
+
+    public String getChannelExpiration() {
+        return channelExpiration;
+    }
+
+    public void setChannelExpiration(String channelExpiration) {
+        this.channelExpiration = channelExpiration;
+    }
+
+    public String getChannelToken() {
+        return channelToken;
+    }
+
+    public void setChannelToken(String channelToken) {
+        this.channelToken = channelToken;
     }
 }
