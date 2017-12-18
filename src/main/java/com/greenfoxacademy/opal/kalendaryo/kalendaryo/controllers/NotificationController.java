@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.AuthorizeKal.authorize;
 
@@ -41,26 +42,16 @@ public class NotificationController {
 
     @PostMapping(value = "/notification")
     public ResponseEntity eventNotification(HttpServletRequest request) {
-       /* System.out.println("The kind of the response: " + eventResponse.getKind()
-            + "\n The ID of the notification channel: " + eventResponse.getId()
-            + "\n The ID of the watched event" + eventResponse.getResourceId()
-            + "\n The resourceUri of the watch: " + eventResponse.getResourceUri());*/
 
-        String channelId = request.getHeader("X-Goog-Channel-ID");
-        String resourceId = request.getHeader("X-Goog-Resource-ID");
-        String resourceState = request.getHeader("X-Goog-Resource-State");
-        String messageNumber = request.getHeader("X-Goog-Message-Number");
-        String resourceUri = request.getHeader("X-Goog-Resource-URI");
+        EventResponse eventResponse = new EventResponse(request);
 
-        if (eventResponse.getId() == null || eventResponse.getKind() == null
-            || eventResponse.getResourceId() == null || eventResponse.getResourceUri() == null
-            || eventResponse.getEventResponseId() == null) {
-            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
-
-        } else {
+        if (eventResponse.validate().equals(HttpStatus.OK)) {
             eventResponseService.saveEventResponse(eventResponse);
-            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            System.out.println("Missing: " + eventResponse.getMissingFields());
         }
+
+        return eventResponse.validate();
     }
 
     @GetMapping(value = "/allnotifications")
