@@ -33,12 +33,8 @@ Compile the following dependencies in order to use the necessary google librarie
 
 ## Deploy instructions
 
-For deployment we use AWS Elastic Beanstalk and you need to follow these steps for successful deploy:
+For deployment we use AWS Elastic Beanstalk and you need to follow these steps for successful deploy for updating:
 * Set the SNAPSHOT-version in `build.gradle`.
 * Build a `jar` file of the project.
 * Find this newly created file in build/libs/huli-kalendaryo-backend-version-number-SNAPSHOT.jar.
-* Create new application in your AWS account in Elastic Beanstalk.
-* Create two environments, one for `staging` and one for `production`.
-* Set the configurations for the RDS connecting it to your database in both environments.
-* Set the environment variable in Configuration for OPAL_CAL_PORT (AWS listens to 5000).
 * Upload & Deploy the `jar` file.
