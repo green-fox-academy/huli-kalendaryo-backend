@@ -55,10 +55,11 @@ public class NotificationController {
         if (eventResponse.getId() == null || eventResponse.getKind() == null
             || eventResponse.getResourceId() == null || eventResponse.getResourceUri() == null
             || eventResponse.getEventResponseId() == null) {
-            return new ResponseEntity("not OK", httpHeaders, HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+
         } else {
             eventResponseService.saveEventResponse(eventResponse);
-            return new ResponseEntity("OK", HttpStatus.OK);
+            return new ResponseEntity(HttpStatus.OK);
         }
     }
 
