@@ -7,15 +7,14 @@ The goal of this project is to provide a simple application where the user can c
 
 ## Setting up the environment
 To run the application's backend part you need to have the following things set up:
-1. In order to get the necessary components (client id and client secret) for the authentication part you should register your application by following the instructions on [this](https://developers.google.com/google-apps/calendar/quickstart/java) website
 
-2. Create a database with the help of MySQL.
+1. Create a database with the help of MySQL.
 
-3. You should set up the following environmental variables:
+2. You should set up the following environmental variables:
 
 
-* CLIENT\_ID: this is given after registering the application
-* CLIENT\_SECRET: this is given after registering the application
+* CLIENT\_ID: this is created in the Google API Console to validate the application.
+* CLIENT\_SECRET: this is created in the Google API Console to validate the application.
 * RDS\_HOSTNAME: your hostname in MySQL
 * RDS\_PORT your port in MySQL
 * RDS\_DB\_NAME: the name of the database
