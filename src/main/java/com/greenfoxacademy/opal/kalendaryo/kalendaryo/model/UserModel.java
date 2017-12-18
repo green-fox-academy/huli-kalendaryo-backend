@@ -10,14 +10,16 @@ public class UserModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    private String clientToken;
+
     @OneToMany
     List<AuthModel> authModelList;
 
     public UserModel() {
     }
 
-    public UserModel(List<AuthModel> authModelList) {
-        this.authModelList = authModelList;
+    public UserModel(String clientToken) {
+        this.clientToken = clientToken;
     }
 
     public long getId() {
@@ -34,5 +36,13 @@ public class UserModel {
 
     public void setAuthModelList(List<AuthModel> authModelList) {
         this.authModelList = authModelList;
+    }
+
+    public String getClientToken() {
+        return clientToken;
+    }
+
+    public void setClientToken(String clientToken) {
+        this.clientToken = clientToken;
     }
 }
