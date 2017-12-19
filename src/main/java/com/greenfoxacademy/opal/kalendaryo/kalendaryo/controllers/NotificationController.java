@@ -65,13 +65,4 @@ public class NotificationController {
     public String getAccessToken() throws IOException {
         return authorize().getAccessToken();
     }
-
-    @GetMapping("/saveuser")
-    public void getRegistration(@RequestParam String email, @RequestParam String accessToken) {
-        if (!Objects.equals(authModelRepository.findByEmail(email).getEmail(), email)) {
-            authModelRepository.save(new AuthModel(email, accessToken, new UserModel()));
-        } else {
-            authModelRepository.findByEmail(email);
-        }
-    }
 }
