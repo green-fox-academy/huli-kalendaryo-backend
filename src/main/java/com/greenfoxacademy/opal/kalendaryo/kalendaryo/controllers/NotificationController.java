@@ -1,18 +1,14 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventResponse;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
-import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -36,16 +32,16 @@ public class NotificationController {
 
         EventResponse eventResponse = new EventResponse(request);
 
-        if (eventResponse.validate().equals(HttpStatus.OK)) {
+        if (!eventResponse.validate()) {
             eventResponseService.saveEventResponse(eventResponse);
+            return HttpStatus.OK;
         } else {
             System.out.println("Missing: " + eventResponse.getMissingFields());
+            return HttpStatus.NOT_ACCEPTABLE;
         }
-
-        return eventResponse.validate();
     }
 
-    @GetMapping(value = "/allnotifications")
+    @GetMapping(value = "/notification")
     public Iterable<EventResponse> showAllEventResponse() {
         Iterable<EventResponse> responses = eventResponseService.findAllEventResponse();
         System.out.println(responses);
