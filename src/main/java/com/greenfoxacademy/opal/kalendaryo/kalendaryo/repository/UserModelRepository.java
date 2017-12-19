@@ -7,4 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface UserModelRepository extends CrudRepository<UserModel, Long> {
 
     UserModel findById(Long userId);
+
+    UserModel findAllByClientToken(String clienttoken);
+
 }
