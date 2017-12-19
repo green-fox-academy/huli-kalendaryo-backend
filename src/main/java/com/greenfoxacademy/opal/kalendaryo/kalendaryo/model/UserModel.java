@@ -21,8 +21,9 @@ public class UserModel {
     List<AuthModel> authModelList;
 
     public UserModel() {
+        this.clientToken = getRandomClientToken();
     }
-
+    
     public String getRandomClientToken() {
         secureRandom = new SecureRandom();
         random = new byte[256];
