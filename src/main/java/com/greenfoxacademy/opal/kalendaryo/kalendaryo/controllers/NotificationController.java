@@ -45,7 +45,7 @@ public class NotificationController {
         return eventResponse.validate();
     }
 
-    @GetMapping(value = "/allnotifications")
+    @GetMapping(value = "/notification")
     public Iterable<EventResponse> showAllEventResponse() {
         Iterable<EventResponse> responses = eventResponseService.findAllEventResponse();
         System.out.println(responses);
