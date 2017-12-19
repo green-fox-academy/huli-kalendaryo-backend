@@ -15,15 +15,15 @@ public class EventResponse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long eventResponseId;
+    Long id;
 
-    //The channel ID
+    // The channel ID
     String channelId;
 
-    //It identifies the watched resource, in our case the event, ID of the event
+    // It identifies the watched resource, in our case the event, ID of the event
     String resourceId;
 
-    //  example:  "https://www.googleapis.com/calendar/v3/calendars/my_calendar@gmail.com/events"
+    // example:  "https://www.googleapis.com/calendar/v3/calendars/my_calendar@gmail.com/events"
     String resourceUri;
 
     String resourceState;
@@ -49,12 +49,12 @@ public class EventResponse {
         this.channelToken = request.getHeader("X-Goog-Channel-Token");
     }
 
-    public Long getEventResponseId() {
-        return eventResponseId;
+    public Long getId() {
+        return id;
     }
 
-    public void setEventResponseId(Long eventResponseId) {
-        this.eventResponseId = eventResponseId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getChannelId() {
@@ -113,17 +113,8 @@ public class EventResponse {
         this.channelToken = channelToken;
     }
 
-    public HttpStatus validate() {
-
-        if (getChannelId() == null ||
-                getResourceId() == null ||
-                getResourceState() == null ||
-                getMessageNumber() == null ||
-                getResourceUri() == null) {
-            return HttpStatus.NOT_ACCEPTABLE;
-        } else {
-            return HttpStatus.OK;
-        }
+    public boolean validate() {
+        return getChannelId() == null || getResourceId() == null || getResourceState() == null || getMessageNumber() == null || getResourceUri() == null;
     }
 
     public String getMissingFields() {
