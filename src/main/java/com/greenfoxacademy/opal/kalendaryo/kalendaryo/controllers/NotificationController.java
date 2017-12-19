@@ -41,7 +41,7 @@ public class NotificationController {
     UserModelRepository userModelRepository;
 
     @PostMapping(value = "/notification")
-    public ResponseEntity eventNotification(HttpServletRequest request) {
+    public HttpStatus eventNotification(HttpServletRequest request) {
 
         EventResponse eventResponse = new EventResponse(request);
 

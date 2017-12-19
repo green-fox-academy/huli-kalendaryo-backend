@@ -115,16 +115,16 @@ public class EventResponse {
         this.channelToken = channelToken;
     }
 
-    public ResponseEntity validate() {
+    public HttpStatus validate() {
 
         if (getChannelId() == null ||
                 getResourceId() == null ||
                 getResourceState() == null ||
                 getMessageNumber() == null ||
                 getResourceUri() == null) {
-            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+            return HttpStatus.NOT_ACCEPTABLE;
         } else {
-            return new ResponseEntity(HttpStatus.OK);
+            return HttpStatus.OK;
         }
     }
 
