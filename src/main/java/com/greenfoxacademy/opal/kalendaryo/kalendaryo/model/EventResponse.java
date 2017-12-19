@@ -113,17 +113,8 @@ public class EventResponse {
         this.channelToken = channelToken;
     }
 
-    public HttpStatus validate() {
-
-        if (getChannelId() == null ||
-                getResourceId() == null ||
-                getResourceState() == null ||
-                getMessageNumber() == null ||
-                getResourceUri() == null) {
-            return HttpStatus.NOT_ACCEPTABLE;
-        } else {
-            return HttpStatus.OK;
-        }
+    public boolean validate() {
+        return getChannelId() == null || getResourceId() == null || getResourceState() == null || getMessageNumber() == null || getResourceUri() == null;
     }
 
     public String getMissingFields() {

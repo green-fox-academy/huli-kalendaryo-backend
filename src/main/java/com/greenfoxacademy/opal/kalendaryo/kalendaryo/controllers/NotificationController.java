@@ -32,13 +32,13 @@ public class NotificationController {
 
         EventResponse eventResponse = new EventResponse(request);
 
-        if (eventResponse.validate().equals(HttpStatus.OK)) {
+        if (!eventResponse.validate()) {
             eventResponseService.saveEventResponse(eventResponse);
+            return HttpStatus.OK;
         } else {
             System.out.println("Missing: " + eventResponse.getMissingFields());
+            return HttpStatus.ACCEPTED;
         }
-
-        return eventResponse.validate();
     }
 
     @GetMapping(value = "/notification")
