@@ -31,47 +31,48 @@ import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.Autho
 @RestController
 public class NotificationController {
 
-    @Autowired
-    EventResponseService eventResponseService;
+  @Autowired
+  EventResponseService eventResponseService;
 
-    @Autowired
-    AuthModelRepository authModelRepository;
+  @Autowired
+  AuthModelRepository authModelRepository;
 
-    @Autowired
-    UserModelRepository userModelRepository;
+  @Autowired
+  UserModelRepository userModelRepository;
 
-    @PostMapping(value = "/notification")
-    public ResponseEntity eventNotification(HttpServletRequest request) {
+  @PostMapping(value = "/notification")
+  public ResponseEntity eventNotification(HttpServletRequest request) {
 
-        EventResponse eventResponse = new EventResponse(request);
+    EventResponse eventResponse = new EventResponse(request);
 
-        if (eventResponse.validate().equals(HttpStatus.OK)) {
-            eventResponseService.saveEventResponse(eventResponse);
-        } else {
-            System.out.println("Missing: " + eventResponse.getMissingFields());
-        }
-
-        return eventResponse.validate();
+    if (eventResponse.validate().equals(HttpStatus.OK)) {
+      eventResponseService.saveEventResponse(eventResponse);
+    } else {
+      System.out.println("Missing: " + eventResponse.getMissingFields());
     }
 
-    @GetMapping(value = "/allnotifications")
-    public Iterable<EventResponse> showAllEventResponse() {
-        Iterable<EventResponse> responses = eventResponseService.findAllEventResponse();
-        System.out.println(responses);
-        return responses;
-    }
+    return eventResponse.validate();
+  }
 
-    @GetMapping("/accesstoken")
-    public String getAccessToken() throws IOException {
-        return authorize().getAccessToken();
-    }
+  @GetMapping(value = "/allnotifications")
+  public Iterable<EventResponse> showAllEventResponse() {
+    Iterable<EventResponse> responses = eventResponseService.findAllEventResponse();
+    System.out.println(responses);
+    return responses;
+  }
 
-    @GetMapping("/saveuser")
-    public void getRegistration(@RequestParam String email, @RequestParam String accessToken) {
-        if (!Objects.equals(authModelRepository.findByEmail(email).getEmail(), email)) {
-            authModelRepository.save(new AuthModel(email, accessToken, new UserModel()));
-        } else {
-            authModelRepository.findByEmail(email);
-        }
+  @GetMapping("/accesstoken")
+  public String getAccessToken() throws IOException {
+    return authorize().getAccessToken();
+  }
+
+  @PostMapping("/auth")
+  public UserModel getRegistration(@RequestBody AuthModel authModel) {
+    if (!authModel.equals(authModelRepository.findByEmail(authModel.getEmail()))) {
+      authModelRepository.save(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), new UserModel()));
+    } else {
+      authModelRepository.save(new AuthModel(email, accessToken,userModelRepository));
     }
+    return asdasdasdasdasdl
+  }
 }
