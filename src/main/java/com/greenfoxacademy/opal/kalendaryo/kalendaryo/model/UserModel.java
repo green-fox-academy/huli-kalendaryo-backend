@@ -16,7 +16,6 @@ public class UserModel {
     private byte[] random;
     private SecureRandom secureRandom;
 
-
     @OneToMany
     List<AuthModel> authModelList;
 
@@ -29,7 +28,6 @@ public class UserModel {
         random = new byte[256];
         secureRandom.nextBytes(random);
         return Base64.encodeBase64String(random);
-
     }
 
     public long getId() {
