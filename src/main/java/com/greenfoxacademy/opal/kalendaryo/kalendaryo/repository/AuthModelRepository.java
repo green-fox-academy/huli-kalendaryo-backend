@@ -12,4 +12,6 @@ public interface AuthModelRepository  extends CrudRepository<AuthModel, String> 
 
     AuthModel findByEmail (String email);
 
+    UserModel findAuthModelByUser(UserModel userModel);
+
 }
