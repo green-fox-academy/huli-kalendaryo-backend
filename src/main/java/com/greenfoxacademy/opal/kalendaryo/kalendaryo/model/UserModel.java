@@ -21,19 +21,18 @@ public class UserModel {
     List<AuthModel> authModelList;
 
     public UserModel() {
-
     }
 
     public UserModel(String clientToken) {
-        this.clientToken = getRandomClientToken(clientToken);
+        this.clientToken = getRandomClientToken();
     }
 
-    public String getRandomClientToken(String token) {
+    public String getRandomClientToken() {
         secureRandom = new SecureRandom();
         random = new byte[256];
         secureRandom.nextBytes(random);
-        token = Base64.encodeBase64String(random);
-        return token;
+        return Base64.encodeBase64String(random);
+
     }
 
     public long getId() {
