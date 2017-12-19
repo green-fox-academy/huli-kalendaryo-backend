@@ -37,7 +37,7 @@ public class NotificationController {
             return HttpStatus.OK;
         } else {
             System.out.println("Missing: " + eventResponse.getMissingFields());
-            return HttpStatus.ACCEPTED;
+            return HttpStatus.NOT_ACCEPTABLE;
         }
     }
 
