@@ -1,3 +1,4 @@
+/*
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthModel;
@@ -8,3 +9,4 @@ public interface UserModelRepository extends CrudRepository<UserModel, Long> {
 
     UserModel findById(Long userId);
 }
+*/

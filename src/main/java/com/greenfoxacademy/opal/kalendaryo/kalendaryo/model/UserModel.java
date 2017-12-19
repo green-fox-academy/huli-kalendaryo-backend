@@ -3,7 +3,6 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
 public class UserModel {
 
     @Id

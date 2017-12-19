@@ -1,3 +1,4 @@
+/*
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventResponse;
@@ -20,3 +21,4 @@ public class EventResponseService {
     }
 
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthModel;
@@ -18,3 +19,4 @@ public class AuthModelService {
         authModelRepository.findAuthModelByUser(userModel);
     }
 }
+*/

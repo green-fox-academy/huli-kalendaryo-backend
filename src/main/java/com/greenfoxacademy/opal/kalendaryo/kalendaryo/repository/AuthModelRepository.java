@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface AuthModelRepository  extends CrudRepository<AuthModel, String> {
+public interface AuthModelRepository {
 
     List<AuthModel> findAuthModelByEmail(String email);
 

@@ -1,3 +1,4 @@
+/*
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthModel;
@@ -57,3 +58,4 @@ public class NotificationController {
         return authorize().getAccessToken();
     }
 }
+*/
