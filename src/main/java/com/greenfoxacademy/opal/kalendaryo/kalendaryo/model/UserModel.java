@@ -28,12 +28,12 @@ public class UserModel {
         this.clientToken = getRandomClientToken(clientToken);
     }
 
-    public String getRandomClientToken(String Token) {
+    public String getRandomClientToken(String token) {
         secureRandom = new SecureRandom();
         random = new byte[256];
         secureRandom.nextBytes(random);
-        Token = Base64.encodeBase64String(random);
-        return Token;
+        token = Base64.encodeBase64String(random);
+        return token;
     }
 
     public long getId() {

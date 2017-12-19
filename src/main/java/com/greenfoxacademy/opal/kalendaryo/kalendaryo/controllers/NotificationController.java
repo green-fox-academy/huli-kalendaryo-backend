@@ -67,12 +67,14 @@ public class NotificationController {
   }
 
   @PostMapping("/auth")
-  public UserModel getRegistration(@RequestBody AuthModel authModel) {
+  public void getRegistration(@RequestBody AuthModel authModel) {
     if (!authModel.equals(authModelRepository.findByEmail(authModel.getEmail()))) {
-      authModelRepository.save(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), new UserModel()));
+      authModelRepository
+          .save(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), new UserModel()));
     } else {
-      authModelRepository.save(new AuthModel(email, accessToken,userModelRepository));
+      authModelRepository.save(new AuthModel(authModel.getEmail(),
+          authModel.getAuthCode(),
+          userModelRepository.findAllByClientToken(authModel.getUser().getClientToken())));
     }
-    return asdasdasdasdasdl
   }
 }
