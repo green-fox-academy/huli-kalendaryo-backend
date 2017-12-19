@@ -4,8 +4,6 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -115,16 +113,16 @@ public class EventResponse {
         this.channelToken = channelToken;
     }
 
-    public ResponseEntity validate() {
+    public HttpStatus validate() {
 
         if (getChannelId() == null ||
                 getResourceId() == null ||
                 getResourceState() == null ||
                 getMessageNumber() == null ||
                 getResourceUri() == null) {
-            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+            return HttpStatus.NOT_ACCEPTABLE;
         } else {
-            return new ResponseEntity(HttpStatus.OK);
+            return HttpStatus.OK;
         }
     }
 
