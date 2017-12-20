@@ -1,4 +1,3 @@
-/*
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthModel;
@@ -11,12 +10,11 @@ public class AuthModelService {
     @Autowired
     AuthModelRepository authModelRepository;
 
-    public void saveAuthModel(AuthModel authModel) {
-        authModelRepository.save(authModel);
-    }
+//    public void saveAuthModel(AuthModel authModel) {
+//        authModelRepository.save(authModel);
+//    }
 
-    public void findAuthModelByUser(UserModel userModel) {
-        authModelRepository.findAuthModelByUser(userModel);
-    }
+//    public void findAuthModelByUser(UserModel userModel) {
+//        authModelRepository.findAuthModelByUser(userModel);
+//    }
 }
-*/

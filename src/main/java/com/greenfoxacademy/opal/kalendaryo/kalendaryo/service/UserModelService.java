@@ -1,4 +1,3 @@
-/*
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.UserModel;
@@ -10,8 +9,7 @@ public class UserModelService {
     @Autowired
     UserModelRepository userModelRepository;
 
-    public void saveUserModel(UserModel userModel) {
-        userModelRepository.save(userModel);
-    }
+//    public void saveUserModel(UserModel userModel) {
+//        userModelRepository.save(userModel);
+//    }
 }
-*/

@@ -1,12 +1,12 @@
-/*
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository;
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.UserModel;
-import org.springframework.data.repository.CrudRepository;
+import org.flywaydb.core.api.migration.jdbc.JdbcMigration;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.Repository;
 
-public interface UserModelRepository extends CrudRepository<UserModel, Long> {
+public interface UserModelRepository extends JdbcMigration {
 
-    UserModel findById(Long userId);
+    @Query(value = "SELECT * FROM user_model WHERE (plate LIKE 'RB%')", nativeQuery = true)
+    UserModel findById();
 }
-*/

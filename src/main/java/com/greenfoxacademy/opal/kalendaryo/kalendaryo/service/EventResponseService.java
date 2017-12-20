@@ -1,4 +1,3 @@
-/*
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventResponse;
@@ -9,16 +8,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class EventResponseService {
 
-    @Autowired
-    EventResponseRepository eventResponseRepository;
+//    @Autowired
+//    EventResponseRepository eventResponseRepository;
 
-    public void saveEventResponse(EventResponse eventResponse) {
-        eventResponseRepository.save(eventResponse);
-    }
+//    public void saveEventResponse(EventResponse eventResponse) {
+//        eventResponseRepository.save(eventResponse);
+//    }
 
-    public Iterable<EventResponse> findAllEventResponse() {
-        return eventResponseRepository.findAll();
-    }
+//    public Iterable<EventResponse> findAllEventResponse() {
+//        return eventResponseRepository.findAll();
+//    }
 
 }
-*/
