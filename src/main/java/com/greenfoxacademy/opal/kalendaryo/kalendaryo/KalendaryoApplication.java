@@ -10,14 +10,14 @@ public class KalendaryoApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(KalendaryoApplication.class, args);
-
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
 		Flyway flyway = new Flyway();
-		flyway.setDataSource("jdbc:mysql://localhost:3306/flyway", "root", "12345");
-		flyway.migrate();
-		flyway.info();
+		flyway.setDataSource("jdbc:mysql://localhost:3306/kalendaryo_backend", "root", "12345");
+		//flyway.baseline();
+		//flyway.migrate();
+
 	}
 }

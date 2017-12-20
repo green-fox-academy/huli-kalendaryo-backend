@@ -12,17 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 
 public class EventResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@Id
     Long eventResponseId;
 
-    //The channel ID
     String channelId;
 
-    //It identifies the watched resource, in our case the event, ID of the event
     String resourceId;
 
-    //  example:  "https://www.googleapis.com/calendar/v3/calendars/my_calendar@gmail.com/events"
     String resourceUri;
 
     String resourceState;

@@ -5,13 +5,12 @@ import java.util.List;
 
 public class UserModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@Id
     private long id;
 
     private String clientToken;
 
-    @OneToMany
+    //@OneToMany
     List<AuthModel> authModelList;
 
     public UserModel() {
