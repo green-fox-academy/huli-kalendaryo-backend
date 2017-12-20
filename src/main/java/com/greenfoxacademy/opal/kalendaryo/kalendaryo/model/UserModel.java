@@ -21,6 +21,7 @@ public class UserModel {
 
     public UserModel() {
         this.clientToken = getRandomClientToken();
+        
     }
     
     public String getRandomClientToken() {
