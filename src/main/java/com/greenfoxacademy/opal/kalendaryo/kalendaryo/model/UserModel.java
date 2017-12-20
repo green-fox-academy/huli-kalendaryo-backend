@@ -5,12 +5,12 @@ import java.util.List;
 
 public class UserModel {
 
-    //@Id
+    @Id
     private long id;
 
     private String clientToken;
 
-    //@OneToMany
+    @OneToMany
     List<AuthModel> authModelList;
 
     public UserModel() {

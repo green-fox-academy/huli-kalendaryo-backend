@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class EventResponse {
 
-    //@Id
+    @Id
     Long eventResponseId;
 
     String channelId;

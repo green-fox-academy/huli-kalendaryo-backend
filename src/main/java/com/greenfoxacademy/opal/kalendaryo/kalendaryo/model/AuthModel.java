@@ -6,11 +6,11 @@ import javax.persistence.ManyToOne;
 
 public class AuthModel {
 
-    //@Id
+    @Id
     private String email;
     private String authCode;
 
-    //@ManyToOne
+    @ManyToOne
     UserModel user;
 
     public AuthModel(String email, String authCode, UserModel user) {
