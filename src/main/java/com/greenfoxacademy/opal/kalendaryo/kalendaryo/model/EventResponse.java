@@ -15,7 +15,7 @@ public class EventResponse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    Long eventResponseId;
 
     // The channel ID
     String channelId;
@@ -49,12 +49,12 @@ public class EventResponse {
         this.channelToken = request.getHeader("X-Goog-Channel-Token");
     }
 
-    public Long getId() {
-        return id;
+    public Long getEventResponseId() {
+        return eventResponseId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setEventResponseId(Long eventResponseId) {
+        this.eventResponseId = eventResponseId;
     }
 
     public String getChannelId() {
