@@ -9,10 +9,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseServi
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -44,20 +41,22 @@ public class NotificationController {
   }
   
   @GetMapping("/accesstoken")
-  public String getAccessToken() throws IOException {
-    return authorize().getAccessToken();
+  public String getAccessToken(@RequestParam String authCode) throws IOException {
+    return authorize(authCode);
   }
 
   @PostMapping("/auth")
-  public void getRegistration(@RequestBody AuthModel authModel) {
+  public void getRegistration(@RequestBody AuthModel authModel) throws IOException {
     if (!authModel.equals(authModelRepository.findByEmail(authModel.getEmail()))) {
       authModelRepository
           .save(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), new UserModel()));
-    } else {
-      authModelRepository.save(new AuthModel(authModel.getEmail(),
-          authModel.getAuthCode(),
-          userModelRepository.findAllByClientToken(authModel.getUser().getClientToken())));
+    }else {
+      authModelRepository.save(authModel);
     }
+
+    System.out.println(authModel.getAuthCode());
+    String accessToken = authorize("4/AAAF5cjr4Q34gky7DWNiPN-berJt8491_L2ZWhVFn4_OBzIbncv4hu_5EJ4pma8tWj2EfwimsYJhtCFhpDo8h_A");
+    System.out.println(accessToken);
   }
   
     @GetMapping(value = "/notification")

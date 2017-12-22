@@ -11,12 +11,9 @@ public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
     private String clientToken;
-    private byte[] random;
-    private SecureRandom secureRandom;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     List<AuthModel> authModelList;
 
     public UserModel() {
@@ -24,8 +21,8 @@ public class UserModel {
     }
     
     public String getRandomClientToken() {
-        secureRandom = new SecureRandom();
-        random = new byte[256];
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] random = new byte[20];
         secureRandom.nextBytes(random);
         return Base64.encodeBase64String(random);
     }

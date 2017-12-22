@@ -1,8 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class AuthModel {
@@ -10,8 +8,9 @@ public class AuthModel {
     @Id
     private String email;
     private String authCode;
+    private String displayName;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     UserModel user;
 
     public AuthModel(String email, String authCode, UserModel user) {
@@ -21,6 +20,14 @@ public class AuthModel {
     }
 
     public AuthModel() {
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getEmail() {
