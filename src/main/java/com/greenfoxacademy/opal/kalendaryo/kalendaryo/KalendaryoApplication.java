@@ -16,12 +16,7 @@ public class KalendaryoApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		Flyway flyway = new Flyway();
-		flyway.baseline();
-		flyway.setBaselineOnMigrate(true);
-		//flyway.setDataSource("jdbc:mysql://localhost:3306/kalendaryo_backend", "root", "12345");
-
-		//flyway.setBaselineOnMigrate(true);
-		//flyway.migrate();
-
+		flyway.setDataSource("jdbc:mysql://localhost:3306/kalendaryo_backend", "root", "12345");
 	}
+
 }

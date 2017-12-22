@@ -10,15 +10,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 
+@Entity
 public class EventResponse {
 
     @Id
     Long eventResponseId;
 
+    // The channel ID
     String channelId;
 
+    // It identifies the watched resource, in our case the event, ID of the event
     String resourceId;
 
+    // example:  "https://www.googleapis.com/calendar/v3/calendars/my_calendar@gmail.com/events"
     String resourceUri;
 
     String resourceState;
@@ -108,17 +112,8 @@ public class EventResponse {
         this.channelToken = channelToken;
     }
 
-    public HttpStatus validate() {
-
-        if (getChannelId() == null ||
-                getResourceId() == null ||
-                getResourceState() == null ||
-                getMessageNumber() == null ||
-                getResourceUri() == null) {
-            return HttpStatus.NOT_ACCEPTABLE;
-        } else {
-            return HttpStatus.OK;
-        }
+    public boolean validate() {
+        return getChannelId() == null || getResourceId() == null || getResourceState() == null || getMessageNumber() == null || getResourceUri() == null;
     }
 
     public String getMissingFields() {

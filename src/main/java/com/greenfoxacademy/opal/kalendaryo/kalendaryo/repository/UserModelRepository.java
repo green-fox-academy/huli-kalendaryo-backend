@@ -1,8 +1,12 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository;
 
 
-public interface UserModelRepository {
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.UserModel;
+import org.springframework.data.repository.CrudRepository;
 
-//    @Query(value = "SELECT * FROM user_model WHERE (plate LIKE 'RB%')", nativeQuery = true)
-//    UserModel findById();
+public interface UserModelRepository extends CrudRepository<UserModel, Long> {
+
+    UserModel findById(Long userId);
+
+    UserModel findAllByClientToken(String clienttoken);
 }
