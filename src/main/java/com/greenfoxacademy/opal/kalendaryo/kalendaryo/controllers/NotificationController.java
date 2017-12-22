@@ -1,6 +1,8 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -48,8 +51,7 @@ public class NotificationController {
   @PostMapping("/auth")
   public void getRegistration(@RequestBody AuthModel authModel) {
     if (!authModel.equals(authModelRepository.findByEmail(authModel.getEmail()))) {
-      authModelRepository
-          .save(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), new UserModel()));
+      authModelRepository.save(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), new UserModel()));
     } else {
       authModelRepository.save(new AuthModel(authModel.getEmail(),
           authModel.getAuthCode(),
@@ -63,4 +65,4 @@ public class NotificationController {
         System.out.println(responses);
         return responses;
     }
-  }
+}

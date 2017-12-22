@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 public class EventResponse {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     Long eventResponseId;
 
     // The channel ID

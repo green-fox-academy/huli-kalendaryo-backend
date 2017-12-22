@@ -2,11 +2,11 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.UserModel;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import org.springframework.data.repository.CrudRepository;
 
-public interface AuthModelRepository  extends CrudRepository<AuthModel, String> {
+public interface AuthModelRepository extends CrudRepository<AuthModel, String> {
 
     List<AuthModel> findAuthModelByEmail(String email);
 

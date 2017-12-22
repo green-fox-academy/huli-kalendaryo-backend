@@ -9,7 +9,7 @@ public class UserModelService {
     @Autowired
     UserModelRepository userModelRepository;
 
-    public void saveUserModel(UserModel userModel) {
-        userModelRepository.save(userModel);
-    }
+//    public void saveUserModel(UserModel userModel) {
+//        userModelRepository.save(userModel);
+//    }
 }

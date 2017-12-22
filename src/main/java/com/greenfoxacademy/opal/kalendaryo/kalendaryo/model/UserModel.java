@@ -9,7 +9,6 @@ import java.util.List;
 public class UserModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String clientToken;
