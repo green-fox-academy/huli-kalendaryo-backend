@@ -3,7 +3,6 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization;
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.GenericUrl;
@@ -14,11 +13,9 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.calendar.CalendarScopes;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+
 
 public class AuthorizeKal {
 
@@ -27,8 +24,6 @@ public class AuthorizeKal {
     private static FileDataStoreFactory DATA_STORE_FACTORY;
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static HttpTransport HTTP_TRANSPORT;
-    private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR);
-    private static GoogleClientSecrets clientSecrets;
 
     static {
         try {
@@ -50,20 +45,17 @@ public class AuthorizeKal {
     }
 
     public static String authorize(String authCode) throws IOException {
-        GoogleClientSecrets.Details web = new GoogleClientSecrets.Details();
-        web.setClientId(System.getenv("CLIENT_ID"));
-        web.setClientSecret(System.getenv("CLIENT_SECRET"));
-        clientSecrets = new GoogleClientSecrets().setWeb(web);
-
+        String clientId = System.getenv("CLIENT_ID");
+        String clientSecret = System.getenv("CLIENT_SECRET");
         GoogleTokenResponse tokenResponse =
                 new GoogleAuthorizationCodeTokenRequest(
                         new NetHttpTransport(),
                         JSON_FACTORY,
                         "https://www.googleapis.com/oauth2/v4/token",
-                        clientSecrets.getDetails().getClientId(),
-                        clientSecrets.getDetails().getClientSecret(),
+                        clientId,
+                        clientSecret,
                         authCode,
-                        "urn:ietf:wg:oauth:2.0:oob")
+                        "https://huli-kalendaryo-android.firebaseapp.com/__/auth/handler")
                         .execute();
 
         return tokenResponse.getAccessToken();
