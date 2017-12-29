@@ -74,7 +74,7 @@ public class UserModel {
         this.accessToken = accessToken;
     }
 
-    public void setRemainings(String userEmail, String accessToken) {
+    public void setEmailAndToken(String userEmail, String accessToken) {
         setUserEmail(userEmail);
         setAccessToken(accessToken);
     }
