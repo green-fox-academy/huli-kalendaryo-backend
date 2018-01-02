@@ -16,8 +16,9 @@ public class KalendaryoApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		Flyway flyway = new Flyway();
-		flyway.setDataSource("jdbc:mysql://localhost:3306/kalendaryo_backend", "root", "12345");
-		//flyway.baseline();
+
+		/*String url = "jdbc:mysql://" + System.getenv("RDS_HOSTNAME") + ":" + System.getenv("RDS_PORT") + "/" + System.getenv("RDS_DB_NAME");*/
+		flyway.setDataSource("jdbc:mysql://" + System.getenv("RDS_HOSTNAME") + ":" + System.getenv("RDS_PORT") + "/" + System.getenv("RDS_DB_NAME"), System.getenv("RDS_USERNAME"), System.getenv("RDS_PASSWORD"));
 		flyway.migrate();
 	}
 
