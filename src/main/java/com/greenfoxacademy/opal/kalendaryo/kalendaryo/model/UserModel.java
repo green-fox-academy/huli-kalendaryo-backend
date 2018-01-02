@@ -1,6 +1,8 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
 import com.google.api.client.util.Base64;
+import lombok.Getter;
+
 import java.security.SecureRandom;
 import javax.persistence.*;
 import java.util.List;
@@ -9,23 +11,24 @@ import java.util.List;
 public class UserModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
     private String clientToken;
-    private byte[] random;
-    private SecureRandom secureRandom;
+    private String userEmail;
+    private String accessToken;
 
-    @OneToMany
+
+    @OneToMany(mappedBy = "user")
     List<AuthModel> authModelList;
+
 
     public UserModel() {
         this.clientToken = getRandomClientToken();
     }
-    
+
+
     public String getRandomClientToken() {
-        secureRandom = new SecureRandom();
-        random = new byte[256];
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] random = new byte[20];
         secureRandom.nextBytes(random);
         return Base64.encodeBase64String(random);
     }
@@ -52,5 +55,26 @@ public class UserModel {
 
     public void setClientToken(String clientToken) {
         this.clientToken = clientToken;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public void setEmailAndToken(String userEmail, String accessToken) {
+        setUserEmail(userEmail);
+        setAccessToken(accessToken);
     }
 }
