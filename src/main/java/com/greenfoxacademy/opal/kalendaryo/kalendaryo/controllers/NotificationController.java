@@ -46,7 +46,7 @@ public class NotificationController {
     public UserModel getRegistration(@RequestBody AuthModel authModel) throws IOException {
         if (!authModel.equals(authAndUserService.findAuthModelByEmail(authModel.getEmail()))) {
             authAndUserService
-                    .saveAuthModel(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), new UserModel()));
+                    .saveAuthModel(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), authModel.getDisplayName(),new UserModel()));
         }else {
             authAndUserService.saveAuthModel(authModel);
         }

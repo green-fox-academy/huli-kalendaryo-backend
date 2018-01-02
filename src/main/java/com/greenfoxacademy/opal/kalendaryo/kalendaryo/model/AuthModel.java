@@ -19,9 +19,10 @@ public class AuthModel {
     @ManyToOne(cascade = CascadeType.ALL)
     UserModel user;
 
-    public AuthModel(String email, String authCode, UserModel user) {
+    public AuthModel(String email, String authCode, String displayName, UserModel user) {
         this.email = email;
         this.authCode = authCode;
+        this.displayName = displayName;
         this.user = user;
     }
 
