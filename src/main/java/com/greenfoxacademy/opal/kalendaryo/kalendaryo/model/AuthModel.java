@@ -6,13 +6,10 @@ import javax.persistence.*;
 public class AuthModel {
 
     @Id
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "authCode")
     private String authCode;
 
-    @Column(name = "displayName")
     private String displayName;
 
     @ManyToOne(cascade = CascadeType.ALL)

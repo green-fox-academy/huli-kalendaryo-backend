@@ -11,18 +11,13 @@ import java.util.List;
 public class UserModel {
 
     @Id
-    @Column(name = "id")
     private long id;
 
-    @Column(name = "clientToken")
     private String clientToken;
 
-    @Column(name = "userEmail")
     private String userEmail;
 
-    @Column(name = "accessToken")
     private String accessToken;
-
 
     @OneToMany(mappedBy = "user")
     List<AuthModel> authModelList;
