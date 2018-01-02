@@ -15,7 +15,7 @@ public class EventResponse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long eventResponseId;
+    Long id;
 
     // The channel ID
     String channelId;
@@ -50,11 +50,11 @@ public class EventResponse {
     }
 
     public Long getEventResponseId() {
-        return eventResponseId;
+        return id;
     }
 
     public void setEventResponseId(Long eventResponseId) {
-        this.eventResponseId = eventResponseId;
+        this.id = eventResponseId;
     }
 
     public String getChannelId() {
