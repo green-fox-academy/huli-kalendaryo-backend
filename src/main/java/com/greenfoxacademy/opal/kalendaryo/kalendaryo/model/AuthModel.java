@@ -1,6 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class AuthModel {
@@ -9,6 +10,9 @@ public class AuthModel {
     private String email;
     private String authCode;
     private String displayName;
+    private List<String> calendarId;
+    private String accessToken;
+    private String refreshToken;
 
     @ManyToOne(cascade = CascadeType.ALL)
     UserModel user;
@@ -52,5 +56,29 @@ public class AuthModel {
 
     public void setAuthCode(String authCode) {
         this.authCode = authCode;
+    }
+
+    public List<String> getCalendarId() {
+        return calendarId;
+    }
+
+    public void setCalendarId(List<String> calendarId) {
+        this.calendarId = calendarId;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }
