@@ -10,9 +10,11 @@ public class AuthModel {
     private String email;
     private String authCode;
     private String displayName;
-    private List<String> calendarId;
     private String accessToken;
     private String refreshToken;
+
+    @OneToMany(mappedBy = "authModel")
+    List<CalendarId> calendarId;
 
     @ManyToOne(cascade = CascadeType.ALL)
     UserModel user;
@@ -58,13 +60,6 @@ public class AuthModel {
         this.authCode = authCode;
     }
 
-    public List<String> getCalendarId() {
-        return calendarId;
-    }
-
-    public void setCalendarId(List<String> calendarId) {
-        this.calendarId = calendarId;
-    }
 
     public String getAccessToken() {
         return accessToken;
@@ -80,5 +75,13 @@ public class AuthModel {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public List<CalendarId> getCalendarId() {
+        return calendarId;
+    }
+
+    public void setCalendarId(List<CalendarId> calendarId) {
+        this.calendarId = calendarId;
     }
 }
