@@ -13,4 +13,7 @@ public class CalendarId {
     @ManyToOne(cascade = CascadeType.ALL)
     AuthModel authModel;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    MergedCalendar mergedCalendar;
+
 }

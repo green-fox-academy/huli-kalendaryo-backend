@@ -1,21 +1,28 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.List;
 
+@Entity
 public class MergedCalendar {
 
+    @Id
     private long userId;
     private String userName;
-    private List<String> inputCalendarId;
     private String outputAccount;
-    private List<String> outputCalendarId;
+    private String outputCalendarId;
 
-    public MergedCalendar(long userId, String userName, List<String> inputCalendarId, String outputAccount, List<String> outputCalendarId) {
+    @OneToMany(mappedBy = "mergedCalendar")
+    List<CalendarId> calendarId;
+
+    public MergedCalendar(long userId, String userName, String outputAccount, String outputCalendarId, List<CalendarId> calendarId) {
         this.userId = userId;
         this.userName = userName;
-        this.inputCalendarId = inputCalendarId;
         this.outputAccount = outputAccount;
         this.outputCalendarId = outputCalendarId;
+        this.calendarId = calendarId;
     }
 
     public long getUserId() {
@@ -34,14 +41,6 @@ public class MergedCalendar {
         this.userName = userName;
     }
 
-    public List<String> getInputCalendarId() {
-        return inputCalendarId;
-    }
-
-    public void setInputCalendarId(List<String> inputCalendarId) {
-        this.inputCalendarId = inputCalendarId;
-    }
-
     public String getOutputAccount() {
         return outputAccount;
     }
@@ -50,11 +49,19 @@ public class MergedCalendar {
         this.outputAccount = outputAccount;
     }
 
-    public List<String> getOutputCalendarId() {
+    public String getOutputCalendarId() {
         return outputCalendarId;
     }
 
-    public void setOutputCalendarId(List<String> outputCalendarId) {
+    public void setOutputCalendarId(String outputCalendarId) {
         this.outputCalendarId = outputCalendarId;
+    }
+
+    public List<CalendarId> getCalendarId() {
+        return calendarId;
+    }
+
+    public void setCalendarId(List<CalendarId> calendarId) {
+        this.calendarId = calendarId;
     }
 }
