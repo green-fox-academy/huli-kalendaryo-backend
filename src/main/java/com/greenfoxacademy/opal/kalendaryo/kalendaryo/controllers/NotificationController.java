@@ -43,7 +43,8 @@ public class NotificationController {
     }
 
     @PostMapping("/postAuth")
-    public UserModel getRegistration(@RequestBody AuthModel authModel, UserModel userModel) throws IOException {
+    public UserModel getRegistration(@RequestBody AuthModel authModel) throws IOException {
+
         if  (!userModel.equals(authAndUserService.findUserByClientToken(userModel.getClientToken()))) {
             authAndUserService
                     .saveAuthModel(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), authModel.getDisplayName(),new UserModel(), authModel.getAccessToken()));
@@ -53,6 +54,7 @@ public class NotificationController {
         UserModel savedUser = authAndUserService.getUserModel(authModel);
         return savedUser;
     }
+
 
     @GetMapping(value = "/notification")
     public Iterable<EventResponse> showAllEventResponse() {
