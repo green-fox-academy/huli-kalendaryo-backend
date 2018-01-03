@@ -8,5 +8,5 @@ public interface UserModelRepository extends CrudRepository<UserModel, Long> {
 
     UserModel findById(Long userId);
 
-    UserModel findByClientToken(String clienttoken);
+    UserModel findByClientToken(String clientToken);
 }
