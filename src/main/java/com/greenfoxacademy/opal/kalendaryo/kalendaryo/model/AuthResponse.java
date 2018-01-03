@@ -1,24 +1,27 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
-public class authResponse {
+public class AuthResponse {
 
-    int userId;
+    long userId;
     String clientToken;
-    int authId;
+    long authId;
     String accessToken;
 
-    public authResponse(int userId, String clientToken, int authId, String accessToken) {
+    public AuthResponse(long userId, String clientToken, long authId, String accessToken) {
         this.userId = userId;
         this.clientToken = clientToken;
         this.authId = authId;
         this.accessToken = accessToken;
     }
 
-    public int getUserId() {
+    public AuthResponse() {
+    }
+
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -30,11 +33,11 @@ public class authResponse {
         this.clientToken = clientToken;
     }
 
-    public int getAuthId() {
+    public long getAuthId() {
         return authId;
     }
 
-    public void setAuthId(int authId) {
+    public void setAuthId(long authId) {
         this.authId = authId;
     }
 
