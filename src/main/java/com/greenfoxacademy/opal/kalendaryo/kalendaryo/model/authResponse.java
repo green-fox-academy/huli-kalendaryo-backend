@@ -1,7 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
 public class authResponse {
-    
+
     int userId;
     String clientToken;
     int authId;

@@ -3,6 +3,7 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.UserModel;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.authResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
 import javax.servlet.http.HttpServletRequest;
@@ -43,16 +44,16 @@ public class NotificationController {
     }
 
     @PostMapping("/postAuth")
-    public UserModel getRegistration(@RequestBody AuthModel authModel) throws IOException {
-
-        if  (!userModel.equals(authAndUserService.findUserByClientToken(userModel.getClientToken()))) {
-            authAndUserService
-                    .saveAuthModel(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), authModel.getDisplayName(),new UserModel(), authModel.getAccessToken()));
-        } else {
-            authAndUserService.saveAuthModel(authModel);
+    public authResponse getRegistration(@RequestBody AuthModel authModel, @RequestHeader("X-Client-Token") String clientToken) throws IOException {
+        if (clientToken != null) {
+            UserModel userModel = authAndUserService.findUserByClientToken(clientToken);
         }
-        UserModel savedUser = authAndUserService.getUserModel(authModel);
-        return savedUser;
+        else {
+            UserModel userModel = new UserModel();
+            userModel.setUserEmail(authModel.getEmail());
+            authAndUserService.saveUserModel(userModel);
+        }
+
     }
 
 
