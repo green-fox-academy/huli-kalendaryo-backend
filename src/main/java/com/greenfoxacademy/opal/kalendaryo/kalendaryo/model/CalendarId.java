@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class CalendarId {
     @Id
-    private long id;
+    private String id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     AuthModel authModel;

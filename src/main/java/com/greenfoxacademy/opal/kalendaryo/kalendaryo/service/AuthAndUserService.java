@@ -29,6 +29,10 @@ public class AuthAndUserService {
         return authModelRepository.findByEmail(email);
     }
 
+    public UserModel findUserByClientToken(String clientToken) {
+        return userModelRepository.findByClientToken(clientToken);
+    }
+
     public void saveUserModel(UserModel userModel) {
         userModelRepository.save(userModel);
     }

@@ -11,7 +11,9 @@ import java.util.List;
 public class UserModel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @Column(unique=true)
     private String clientToken;
     private String userEmail;
     private String accessToken;

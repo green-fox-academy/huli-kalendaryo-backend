@@ -19,11 +19,12 @@ public class AuthModel {
     @ManyToOne(cascade = CascadeType.ALL)
     UserModel user;
 
-    public AuthModel(String email, String authCode, String displayName, UserModel user) {
+    public AuthModel(String email, String authCode, String displayName, UserModel user, String accesToken) {
         this.email = email;
         this.authCode = authCode;
         this.displayName = displayName;
         this.user = user;
+        this.accessToken = accesToken;
     }
 
     public AuthModel() {
@@ -85,4 +86,6 @@ public class AuthModel {
     public void setCalendarId(List<CalendarId> calendarId) {
         this.calendarId = calendarId;
     }
+
+
 }

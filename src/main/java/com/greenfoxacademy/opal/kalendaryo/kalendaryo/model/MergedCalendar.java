@@ -17,12 +17,14 @@ public class MergedCalendar {
     @OneToMany(mappedBy = "mergedCalendar")
     List<CalendarId> calendarId;
 
-    public MergedCalendar(long userId, String userName, String outputAccount, String outputCalendarId, List<CalendarId> calendarId) {
+    public MergedCalendar(long userId, String userName, String outputAccount, List<CalendarId> calendarId) {
         this.userId = userId;
         this.userName = userName;
         this.outputAccount = outputAccount;
-        this.outputCalendarId = outputCalendarId;
         this.calendarId = calendarId;
+    }
+
+    public MergedCalendar() {
     }
 
     public long getUserId() {

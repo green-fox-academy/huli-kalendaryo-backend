@@ -42,12 +42,12 @@ public class NotificationController {
         return authorize(authCode);
     }
 
-    @PostMapping("/auth")
-    public UserModel getRegistration(@RequestBody AuthModel authModel) throws IOException {
-        if (!authModel.equals(authAndUserService.findAuthModelByEmail(authModel.getEmail()))) {
+    @PostMapping("/postAuth")
+    public UserModel getRegistration(@RequestBody AuthModel authModel, @RequestBody UserModel userModel) throws IOException {
+        if (!authModel.equals(authAndUserService.findUserByClientToken(userModel.getClientToken()))) {
             authAndUserService
-                    .saveAuthModel(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), authModel.getDisplayName(),new UserModel()));
-        }else {
+                    .saveAuthModel(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), authModel.getDisplayName(),new UserModel(), authModel.getAccessToken()));
+        } else {
             authAndUserService.saveAuthModel(authModel);
         }
         UserModel savedUser = authAndUserService.getUserModel(authModel);
