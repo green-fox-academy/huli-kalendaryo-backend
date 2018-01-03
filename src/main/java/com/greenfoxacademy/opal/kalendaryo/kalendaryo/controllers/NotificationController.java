@@ -59,7 +59,7 @@ public class NotificationController {
         AuthResponse authResponse = new AuthResponse();
         authResponse.setUserId(userModel.getId());
         authResponse.setClientToken(userModel.getClientToken());
-        authResponse.setAuthId();
+        authResponse.setAuthId(0);
         authResponse.setAccessToken(authModel.getAccessToken());
 
         return authResponse;
