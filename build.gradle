@@ -35,5 +35,5 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile('com.google.oauth-client:google-oauth-client-jetty:1.23.0')
 	compile('com.google.api-client:google-api-client:1.23.0')
-	compile('org.flywaydb:flyway-commandline:5.0.4')
+	compile 'org.flywaydb:flyway-core:5.0.4'
 }
