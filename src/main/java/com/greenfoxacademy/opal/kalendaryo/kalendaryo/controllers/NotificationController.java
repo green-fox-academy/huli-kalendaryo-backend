@@ -43,15 +43,15 @@ public class NotificationController {
         return authorize(authCode);
     }
 
-    @PostMapping("/postAuth")
+    @PostMapping("/auth")
     public AuthResponse getRegistration(@RequestBody AuthModel authModel, @RequestHeader("X-Client-Token") String clientToken) throws IOException {
         UserModel userModel;
-        if (clientToken.equals("")) {
+        if (!clientToken.equals("")) {
             userModel = authAndUserService.findUserByClientToken(clientToken);
         }
         else {
             userModel = new UserModel();
-            userModel.setUserEmail(authModel.getEmail());
+            authAndUserService.getUserModel(authModel);
             authAndUserService.saveUserModel(userModel);
         }
         authModel.setUser(userModel);
@@ -64,7 +64,6 @@ public class NotificationController {
 
         return authResponse;
     }
-
 
     @GetMapping(value = "/notification")
     public Iterable<EventResponse> showAllEventResponse() {
