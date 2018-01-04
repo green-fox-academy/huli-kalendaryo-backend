@@ -16,7 +16,6 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 
 import java.io.IOException;
 
-
 public class AuthorizeKal {
 
     private static final String APPLICATION_NAME = "Kalendaryo";

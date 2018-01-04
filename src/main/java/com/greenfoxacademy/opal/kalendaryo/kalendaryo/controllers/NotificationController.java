@@ -9,14 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-
+import org.apache.log4j.Logger;
 import java.io.IOException;
-
 import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.AuthorizeKal.authorize;
 
 @RestController
 public class NotificationController {
+
+    final static Logger logger = Logger.getLogger("logger");
 
     @Autowired
     EventResponseService eventResponseService;
@@ -32,7 +32,7 @@ public class NotificationController {
             eventResponseService.saveEventResponse(eventResponse);
             return HttpStatus.OK;
         } else {
-            System.out.println("Missing: " + eventResponse.getMissingFields());
+            logger.info("Missing: " + eventResponse.getMissingFields());
             return HttpStatus.NOT_ACCEPTABLE;
         }
     }
