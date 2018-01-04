@@ -7,9 +7,7 @@ public class AuthModel {
 
     @Id
     private String email;
-
     private String authCode;
-
     private String displayName;
 
     @ManyToOne(cascade = CascadeType.ALL)
