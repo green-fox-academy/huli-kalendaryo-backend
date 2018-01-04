@@ -44,7 +44,7 @@ public class NotificationController {
     }
 
     @PostMapping("/auth")
-    public AuthResponse getRegistration(@RequestBody AuthModel authModel, @RequestHeader("X-Client-Token") String clientToken) throws IOException {
+    public AuthResponse postAuth(@RequestBody AuthModel authModel, @RequestHeader("X-Client-Token") String clientToken) throws IOException {
         UserModel userModel;
         if (!clientToken.equals("")) {
             userModel = authAndUserService.findUserByClientToken(clientToken);
@@ -52,7 +52,6 @@ public class NotificationController {
         else {
             userModel = new UserModel();
             userModel.setUserEmail(authModel.getEmail());
-            userModel.setId(userModel.getId());
             authAndUserService.saveUserModel(userModel);
         }
         authModel.setUser(userModel);
