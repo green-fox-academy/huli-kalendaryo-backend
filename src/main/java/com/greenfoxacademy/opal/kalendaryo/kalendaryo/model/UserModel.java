@@ -13,7 +13,6 @@ public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Column(unique=true)
     private String clientToken;
     private String userEmail;
     private String accessToken;
@@ -25,6 +24,7 @@ public class UserModel {
 
     public UserModel() {
         this.clientToken = getRandomClientToken();
+        this.id = getId();
     }
 
 

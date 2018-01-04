@@ -51,7 +51,8 @@ public class NotificationController {
         }
         else {
             userModel = new UserModel();
-            authAndUserService.getUserModel(authModel);
+            userModel.setUserEmail(authModel.getEmail());
+            userModel.setId(userModel.getId());
             authAndUserService.saveUserModel(userModel);
         }
         authModel.setUser(userModel);
