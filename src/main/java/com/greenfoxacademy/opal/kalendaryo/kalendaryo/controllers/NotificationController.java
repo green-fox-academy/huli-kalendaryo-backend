@@ -46,7 +46,7 @@ public class NotificationController {
     @PostMapping("/postAuth")
     public AuthResponse getRegistration(@RequestBody AuthModel authModel, @RequestHeader("X-Client-Token") String clientToken) throws IOException {
         UserModel userModel;
-        if (clientToken != null) {
+        if (clientToken.equals("")) {
             userModel = authAndUserService.findUserByClientToken(clientToken);
         }
         else {
