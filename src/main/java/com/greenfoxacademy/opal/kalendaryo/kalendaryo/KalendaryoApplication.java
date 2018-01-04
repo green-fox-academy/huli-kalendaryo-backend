@@ -21,5 +21,4 @@ public class KalendaryoApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		flywayService.flywayMigrate();
 	}
-
 }
