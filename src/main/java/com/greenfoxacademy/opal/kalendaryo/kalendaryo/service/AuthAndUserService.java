@@ -45,4 +45,10 @@ public class AuthAndUserService {
         userModelRepository.save(savedUser);
         return savedUser;
     }
+    public String getRandomClientToken() {
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] random = new byte[20];
+        secureRandom.nextBytes(random);
+        return Base64.encodeBase64String(random);
+    }
 }
