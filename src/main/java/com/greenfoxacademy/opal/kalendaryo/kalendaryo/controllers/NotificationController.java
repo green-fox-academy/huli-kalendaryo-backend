@@ -30,6 +30,7 @@ public class NotificationController {
 
         if (!eventResponse.validate()) {
             eventResponseService.saveEventResponse(eventResponse);
+            logger.info("Event Response saved.");
             return HttpStatus.OK;
         } else {
             logger.info("Missing: " + eventResponse.getMissingFields());
@@ -44,14 +45,7 @@ public class NotificationController {
 
     @PostMapping("/auth")
     public UserModel getRegistration(@RequestBody AuthModel authModel) throws IOException {
-        if (!authModel.equals(authAndUserService.findAuthModelByEmail(authModel.getEmail()))) {
-            authAndUserService
-                    .saveAuthModel(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), new UserModel()));
-        }else {
-            authAndUserService.saveAuthModel(authModel);
-        }
-        UserModel savedUser = authAndUserService.getUserModel(authModel);
-        return savedUser;
+        return authAndUserService.registerAuthModel(authModel);
     }
 
     @GetMapping(value = "/notification")

@@ -53,4 +53,13 @@ public class AuthAndUserService {
         return Base64.encodeBase64String(random);
     }
 
+    public UserModel registerAuthModel(AuthModel authModel) throws IOException {
+        if (!authModel.equals(findAuthModelByEmail(authModel.getEmail()))) {
+            saveAuthModel(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), new UserModel(getRandomClientToken())));
+        } else {
+            saveAuthModel(authModel);
+        }
+        UserModel savedUser = getUserModel(authModel);
+        return savedUser;
+    }
 }

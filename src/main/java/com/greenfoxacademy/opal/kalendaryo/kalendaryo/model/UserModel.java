@@ -1,6 +1,5 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
 import javax.persistence.*;
 import java.util.List;
 
@@ -18,7 +17,10 @@ public class UserModel {
     List<AuthModel> authModelList;
 
     public UserModel() {
-        setClientToken(new AuthAndUserService().getRandomClientToken());
+    }
+
+    public UserModel(String clientToken) {
+        setClientToken(clientToken);
     }
 
     public long getId() {
