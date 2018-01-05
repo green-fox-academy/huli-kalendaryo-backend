@@ -37,14 +37,14 @@ public class AuthAndUserService {
         userModelRepository.save(userModel);
     }
 
-    public UserModel getUserModel(@RequestBody AuthModel authModel) throws IOException {
+    public UserModel setAndGetUserModel(@RequestBody AuthModel authModel) throws IOException {
         System.out.println(authModel.getAuthCode());
         String accessToken = authorize(authModel.getAuthCode());
         System.out.println(accessToken);
         AuthModel savedAuth = authModelRepository.findByEmail(authModel.getEmail());
         UserModel savedUser = userModelRepository.findById(savedAuth.getUser().getId());
         savedUser.setEmailAndToken(savedAuth.getEmail(), accessToken);
-        userModelRepository.save(savedUser);
+
         return savedUser;
     }
 }

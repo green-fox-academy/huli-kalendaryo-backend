@@ -24,7 +24,6 @@ public class UserModel {
 
     public UserModel() {
         this.clientToken = getRandomClientToken();
-        this.id = getId();
     }
 
 
