@@ -29,18 +29,23 @@ public class AuthAndUserService {
         return authModelRepository.findByEmail(email);
     }
 
+    public UserModel findUserByClientToken(String clientToken) {
+        return userModelRepository.findByClientToken(clientToken);
+    }
+
     public void saveUserModel(UserModel userModel) {
         userModelRepository.save(userModel);
     }
 
-    public UserModel getUserModel(@RequestBody AuthModel authModel) throws IOException {
+    public UserModel setAndGetUserModel(@RequestBody AuthModel authModel) throws IOException {
         System.out.println(authModel.getAuthCode());
         String accessToken = authorize(authModel.getAuthCode());
         System.out.println(accessToken);
         AuthModel savedAuth = authModelRepository.findByEmail(authModel.getEmail());
         UserModel savedUser = userModelRepository.findById(savedAuth.getUser().getId());
+        savedAuth.setAccessToken(savedUser.getAccessToken());
         savedUser.setEmailAndToken(savedAuth.getEmail(), accessToken);
-        userModelRepository.save(savedUser);
+
         return savedUser;
     }
 }

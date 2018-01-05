@@ -46,15 +46,22 @@ public class NotificationController {
     }
 
     @PostMapping("/auth")
-    public UserModel getRegistration(@RequestBody AuthModel authModel) throws IOException {
-        if (!authModel.equals(authAndUserService.findAuthModelByEmail(authModel.getEmail()))) {
-            authAndUserService
-                    .saveAuthModel(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), new UserModel()));
-        }else {
-            authAndUserService.saveAuthModel(authModel);
+    public UserModel postAuth(@RequestBody AuthModel authModel, @RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
+        UserModel userModel;
+        if (!request.getHeader("X-Client-Token").equals("")) {
+            userModel = authAndUserService.findUserByClientToken(clientToken);
         }
-        UserModel savedUser = authAndUserService.getUserModel(authModel);
-        return savedUser;
+        else {
+            userModel = new UserModel();
+            userModel.setUserEmail(authModel.getEmail());
+            authAndUserService.saveUserModel(userModel);
+        }
+        authModel.setUser(userModel);
+        authAndUserService.saveAuthModel(authModel);
+
+        userModel = authAndUserService.setAndGetUserModel(authModel);
+        authAndUserService.saveUserModel(userModel);
+        return userModel;
     }
 
     @GetMapping(value = "/notification")

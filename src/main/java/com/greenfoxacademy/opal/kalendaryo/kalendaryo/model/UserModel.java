@@ -9,6 +9,7 @@ import java.util.List;
 public class UserModel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @Column(unique = true, nullable = false)
     private String clientToken;
