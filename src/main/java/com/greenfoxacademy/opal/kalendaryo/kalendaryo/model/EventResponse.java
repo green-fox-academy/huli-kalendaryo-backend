@@ -49,11 +49,11 @@ public class EventResponse {
         this.channelToken = request.getHeader("X-Goog-Channel-Token");
     }
 
-    public Long getEventResponseId() {
+    public Long getId() {
         return id;
     }
 
-    public void setEventResponseId(Long eventResponseId) {
+    public void setId(Long eventResponseId) {
         this.id = eventResponseId;
     }
 
