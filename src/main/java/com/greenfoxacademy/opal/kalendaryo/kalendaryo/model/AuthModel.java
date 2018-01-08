@@ -17,6 +17,7 @@ public class AuthModel {
     List<CalendarId> calendarId;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     UserModel user;
 
     public AuthModel(String email, String authCode, String displayName, UserModel user, String accesToken) {
