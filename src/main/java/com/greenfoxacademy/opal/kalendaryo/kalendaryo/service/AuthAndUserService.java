@@ -43,8 +43,8 @@ public class AuthAndUserService {
         System.out.println(accessToken);
         AuthModel savedAuth = authModelRepository.findByEmail(authModel.getEmail());
         UserModel savedUser = userModelRepository.findById(savedAuth.getUser().getId());
-        savedAuth.setAccessToken(savedUser.getAccessToken());
-        savedUser.setEmailAndToken(savedAuth.getEmail(), accessToken);
+  //      savedAuth.setAccessToken(savedUser.getAccessToken());
+  //      savedUser.setEmailAndToken(savedAuth.getEmail(), accessToken);
         userModelRepository.save(savedUser);
 
         return savedUser;
