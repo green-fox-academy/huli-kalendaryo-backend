@@ -4,6 +4,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.MergedCalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.UserModel;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.MergedCalendarRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,9 @@ public class NotificationController {
 
     @Autowired
     AuthAndUserService authAndUserService;
+
+    @Autowired
+    MergedCalendarRepository mergedCalendarRepository;
 
     final static Logger logger = Logger.getLogger("logger");
 
@@ -74,8 +78,7 @@ public class NotificationController {
 
     @PostMapping(value = "/mergedcal")
     public HttpStatus getMergedCal(@RequestBody MergedCalendar mergedCalendar) {
-
+        mergedCalendarRepository.save(mergedCalendar);
         return HttpStatus.OK;
-
     }
 }
