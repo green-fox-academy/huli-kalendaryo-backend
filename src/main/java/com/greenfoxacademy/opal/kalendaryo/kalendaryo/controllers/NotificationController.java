@@ -74,7 +74,7 @@ public class NotificationController {
 
     @PostMapping(value = "/mergedcal")
     public HttpStatus getMergedCal(@RequestBody MergedCalendar mergedCalendar) {
-        
+
         return HttpStatus.OK;
 
     }
