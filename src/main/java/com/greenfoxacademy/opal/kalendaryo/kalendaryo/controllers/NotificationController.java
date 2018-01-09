@@ -2,6 +2,7 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.MergedCalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
@@ -69,5 +70,12 @@ public class NotificationController {
         Iterable<EventResponse> responses = eventResponseService.findAllEventResponse();
         System.out.println(responses);
         return responses;
+    }
+
+    @PostMapping(value = "/mergedcal")
+    public HttpStatus getMergedCal(@RequestBody MergedCalendar mergedCalendar) {
+        
+        return HttpStatus.OK;
+
     }
 }
