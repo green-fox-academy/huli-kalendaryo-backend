@@ -47,12 +47,13 @@ public class KalendaryoApplicationTests {
 		response.put("id", "01234567-89ab-cdef-0123456788");
 		response.put("resourceId", "WDOXEjsdYtXzZHq93mDhG6dfTrg");
 		response.put("resourceUri", "https://www.googleapis.com/calendar/v3/calendars/huli.opal.kalendaryo@gmail.com/events?maxResults=250&alt=json");
-		response.put("expiration", "1515496369000");
+		response.put("expiration", "1516102799000");
 
 		mock.perform(post("/notification")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(response.toString()))
-				.andExpect(status().isOk());
+				.andExpect(status().isOk())
+                .andExpect(content().contentType(contentType));
 
 
 	}

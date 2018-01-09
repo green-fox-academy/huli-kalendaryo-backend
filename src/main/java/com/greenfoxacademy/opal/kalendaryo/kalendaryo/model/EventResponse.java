@@ -28,7 +28,7 @@ public class EventResponse {
 
     String resourceState;
 
-    Integer messageNumber;
+    String messageNumber;
 
     @JsonInclude(Include.NON_NULL)
     String channelExpiration;
@@ -44,7 +44,7 @@ public class EventResponse {
         this.resourceId = request.getHeader("X-Goog-Resource-ID");
         this.resourceUri = request.getHeader("X-Goog-Resource-URI");
         this.resourceState = request.getHeader("X-Goog-Resource-State");
-        this.messageNumber = Integer.parseInt(request.getHeader("X-Goog-Message-Number"));
+        this.messageNumber = request.getHeader("X-Goog-Message-Number");
         this.channelExpiration = request.getHeader("X-Goog-Channel-Expiration");
         this.channelToken = request.getHeader("X-Goog-Channel-Token");
     }
@@ -89,11 +89,11 @@ public class EventResponse {
         this.resourceState = resourceState;
     }
 
-    public Integer getMessageNumber() {
+    public String getMessageNumber() {
         return messageNumber;
     }
 
-    public void setMessageNumber(Integer messageNumber) {
+    public void setMessageNumber(String messageNumber) {
         this.messageNumber = messageNumber;
     }
 
