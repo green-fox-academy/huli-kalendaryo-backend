@@ -75,17 +75,4 @@ public class NotificationController {
         System.out.println(responses);
         return responses;
     }
-
-    @PostMapping(value = "/mergedcal")
-    public HttpStatus postMergedCal(@RequestBody MergedCalendar mergedCalendar) {
-        mergedCalendarRepository.save(mergedCalendar);
-        return HttpStatus.OK;
-    }
-
-    @GetMapping(value = "/listmergedcal")
-    public Iterable<MergedCalendar> getMergedCalList() {
-        Iterable<MergedCalendar> mergedCalendarsResponse = mergedCalendarRepository.findAll();
-        return  mergedCalendarsResponse;
-    }
-
 }
