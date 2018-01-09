@@ -7,9 +7,9 @@ CREATE TABLE user_model (
   access_token VARCHAR(255)
 );
 
-DROP TABLE IF EXISTS Auth_Model;
+DROP TABLE IF EXISTS auth_model;
 
-CREATE TABLE Auth_Model (
+CREATE TABLE auth_model (
   email VARCHAR(255) NOT NULL PRIMARY KEY,
   auth_code VARCHAR(255),
   display_name VARCHAR(255),
