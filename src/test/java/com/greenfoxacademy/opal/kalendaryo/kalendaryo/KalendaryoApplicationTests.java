@@ -40,25 +40,18 @@ public class KalendaryoApplicationTests {
 	}
 
 	@Test
-	public void successfulMessageReceiving() throws Exception {
-		JSONObject message = new JSONObject();
+	public void postNotificationgivesHttpStatusOk() throws Exception {
+		JSONObject response = new JSONObject();
 
-		message.put("id", new Integer(7655482));
-		message.put("username", "EggDice");
-		message.put("text", "How you doin'?");
-		message.put("timestamp", Long.valueOf("1322018752992"));
-
-		JSONObject client = new JSONObject();
-
-		client.put("id", "EggDice");
-
-		JSONObject wrapper = new JSONObject();
-		wrapper.put("message", message);
-		wrapper.put("client", client);
+		response.put("kind", "api#channel");
+		response.put("id", "01234567-89ab-cdef-0123456788");
+		response.put("resourceId", "WDOXEjsdYtXzZHq93mDhG6dfTrg");
+		response.put("resourceUri", "https://www.googleapis.com/calendar/v3/calendars/huli.opal.kalendaryo@gmail.com/events?maxResults=250&alt=json");
+		response.put("expiration", "1515496369000");
 
 		mock.perform(post("/notification")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(wrapper.toString()))
+				.content(response.toString()))
 				.andExpect(status().isOk());
 
 
