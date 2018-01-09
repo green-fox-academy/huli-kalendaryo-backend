@@ -21,7 +21,9 @@ public class AuthAndUserService {
     @Autowired
     UserModelRepository userModelRepository;
 
-    public void saveAuthModel(AuthModel authModel) {
+    public void saveAuthModel(AuthModel authModel) throws IOException{
+        String accessToken = authorize(authModel.getAuthCode());
+        authModel.setAccessToken(accessToken);
         authModelRepository.save(authModel);
     }
 
