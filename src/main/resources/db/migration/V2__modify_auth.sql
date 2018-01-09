@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS merged_calendar;
+
 CREATE TABLE merged_calendar (
   user_id BIGINT PRIMARY KEY,
   user_name VARCHAR(255),
@@ -9,6 +11,8 @@ ALTER TABLE auth_model
   ADD access_token VARCHAR (255),
   ADD refresh_token VARCHAR (255),
   ADD calendar_id VARCHAR (255);
+
+DROP TABLE IF EXISTS calendar_id;
 
 CREATE TABLE calendar_id (
   id VARCHAR (255) PRIMARY KEY,
