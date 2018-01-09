@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -15,6 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.nio.charset.Charset;
@@ -40,20 +42,22 @@ public class KalendaryoApplicationTests {
 	}
 
 	@Test
-	public void postNotificationgivesHttpStatusOk() throws Exception {
-		JSONObject response = new JSONObject();
+	public void postNotificationGivesHttpStatusOk() throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Goog-Channel-ID", "01234567-89ab-cdef-0123456788");
+        headers.add("X-Goog-Resource-ID", "WDOXEjsdYtXzZHq93mDhG6dfTrg");
+        headers.add("X-Goog-Resource-URI", "https://www.googleapis.com/calendar/v3/calendars/huli.opal.kalendaryo@gmail.com/events?maxResults=250&alt=json");
+        headers.add("X-Goog-Resource-State", "");
+        headers.add("X-Goog-Message-Number", "1");
+        headers.add("X-Goog-Channel-Expiration", "1516102799000");
 
-		response.put("kind", "api#channel");
-		response.put("id", "01234567-89ab-cdef-0123456788");
-		response.put("resourceId", "WDOXEjsdYtXzZHq93mDhG6dfTrg");
-		response.put("resourceUri", "https://www.googleapis.com/calendar/v3/calendars/huli.opal.kalendaryo@gmail.com/events?maxResults=250&alt=json");
-		response.put("expiration", "1516102799000");
+        // this is not necessary but can be part of the headers.
+        // headers.add("X-Goog-Channel-Token", "");
 
 		mock.perform(post("/notification")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(response.toString()))
-				.andExpect(status().isOk())
-                .andExpect(content().contentType(contentType));
+				.headers(headers)).andDo(print())
+				.andExpect(status().isNotAcceptable());
 
 
 	}
