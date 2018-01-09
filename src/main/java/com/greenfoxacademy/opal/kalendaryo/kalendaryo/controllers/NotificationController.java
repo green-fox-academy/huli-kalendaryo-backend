@@ -9,8 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-
+import org.apache.log4j.Logger;
 import java.io.IOException;
 
 import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.AuthorizeKal.authorize;
@@ -24,15 +23,19 @@ public class NotificationController {
     @Autowired
     AuthAndUserService authAndUserService;
 
+    final static Logger logger = Logger.getLogger("logger");
+
     @PostMapping(value = "/notification")
     public HttpStatus eventNotification(HttpServletRequest request) {
         EventResponse eventResponse = new EventResponse(request);
 
         if (!eventResponse.validate()) {
             eventResponseService.saveEventResponse(eventResponse);
+            logger.info("Event Response saved.");
             return HttpStatus.OK;
         } else {
             System.out.println("Missing: " + eventResponse.getMissingFields());
+            logger.info("Missing: " + eventResponse.getMissingFields());
             return HttpStatus.NOT_ACCEPTABLE;
         }
     }
@@ -43,15 +46,22 @@ public class NotificationController {
     }
 
     @PostMapping("/auth")
-    public UserModel getRegistration(@RequestBody AuthModel authModel) throws IOException {
-        if (!authModel.equals(authAndUserService.findAuthModelByEmail(authModel.getEmail()))) {
-            authAndUserService
-                    .saveAuthModel(new AuthModel(authModel.getEmail(), authModel.getAuthCode(), new UserModel()));
-        }else {
-            authAndUserService.saveAuthModel(authModel);
+    public UserModel postAuth(@RequestBody AuthModel authModel, @RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
+        UserModel userModel;
+        if (!request.getHeader("X-Client-Token").equals("")) {
+            userModel = authAndUserService.findUserByClientToken(clientToken);
         }
-        UserModel savedUser = authAndUserService.getUserModel(authModel);
-        return savedUser;
+        else {
+            userModel = new UserModel();
+            userModel.setUserEmail(authModel.getEmail());
+            authAndUserService.saveUserModel(userModel);
+        }
+        authModel.setUser(userModel);
+        authAndUserService.saveAuthModel(authModel);
+
+        userModel = authAndUserService.setAndGetUserModel(authModel);
+        authAndUserService.saveUserModel(userModel);
+        return userModel;
     }
 
     @GetMapping(value = "/notification")
