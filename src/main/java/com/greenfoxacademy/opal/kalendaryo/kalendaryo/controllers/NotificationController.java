@@ -1,9 +1,9 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthResponse;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.EventResponse;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.UserModel;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.AuthResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.EventResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
 import javax.servlet.http.HttpServletRequest;

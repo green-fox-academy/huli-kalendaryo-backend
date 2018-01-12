@@ -1,12 +1,11 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.AuthModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.UserModel;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
 
