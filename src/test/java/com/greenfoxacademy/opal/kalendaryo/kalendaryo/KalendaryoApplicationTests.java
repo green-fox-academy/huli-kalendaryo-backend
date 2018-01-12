@@ -1,11 +1,13 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo;
 
+import com.google.api.client.http.HttpResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -42,9 +44,10 @@ public class KalendaryoApplicationTests {
 	}
 
     @Test
-    public void watchIsSetup() throws Exception {
+    public void endPointExists() throws Exception {
         mock.perform(post("/notification"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string("\"NOT_ACCEPTABLE\""));
     }
 
 	@Test
@@ -55,35 +58,30 @@ public class KalendaryoApplicationTests {
         headers.add("X-Goog-Resource-URI", "https://www.googleapis.com/calendar/v3/calendars/huli.opal.kalendaryo@gmail.com/events?maxResults=250&alt=json");
         headers.add("X-Goog-Resource-State", "sync");
         headers.add("X-Goog-Message-Number", "1");
-
-        // these are not necessary but can be part of the headers.
         headers.add("X-Goog-Channel-Expiration", "1516102799000");
         headers.add("X-Goog-Channel-Token", "");
 
 		mock.perform(post("/notification")
 				.contentType(contentType)
 				.headers(headers)).andDo(print())
-				.andExpect(status().isOk());
+				.andExpect(status().isOk())
+                .andExpect(content().string("\"OK\""));
 	}
 
     @Test
-    public void postNotificationGivesHttpStatusNotAcceptable() throws Exception {
+    public void channelLIdMissing() throws Exception {
         HttpHeaders headers = new HttpHeaders();
-
-        // if we don't use the first required header, we still get a 200 OK. instead we should get a 406, Not Acceptable
-        // headers.add("X-Goog-Channel-ID", "01234567-89ab-cdef-0123456788");
         headers.add("X-Goog-Resource-ID", "WDOXEjsdYtXzZHq93mDhG6dfTrg");
         headers.add("X-Goog-Resource-URI", "https://www.googleapis.com/calendar/v3/calendars/huli.opal.kalendaryo@gmail.com/events?maxResults=250&alt=json");
         headers.add("X-Goog-Resource-State", "sync");
         headers.add("X-Goog-Message-Number", "34");
-
-        // these are not necessary but can be part of the headers.
         headers.add("X-Goog-Channel-Expiration", "1516102799000");
         headers.add("X-Goog-Channel-Token", "");
 
         mock.perform(post("/notification")
                 .contentType(contentType)
                 .headers(headers)).andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string("\"NOT_ACCEPTABLE\""));
     }
 }
