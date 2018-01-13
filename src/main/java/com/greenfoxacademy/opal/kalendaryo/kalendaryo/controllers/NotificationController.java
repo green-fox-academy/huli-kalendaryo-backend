@@ -53,7 +53,7 @@ public class NotificationController {
             userModel = authAndUserService.findUserByClientToken(clientToken);
         }
         else {
-            userModel = new UserModel();
+            userModel = new UserModel(authAndUserService.getRandomClientToken());
             userModel.setUserEmail(authModel.getEmail());
             userModel.setId(userModel.getId());
             authAndUserService.saveUserModel(userModel);
