@@ -1,6 +1,8 @@
-package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
+package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 
 import com.google.api.client.util.Base64;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
+
 import java.security.SecureRandom;
 import javax.persistence.*;
 import java.util.List;
@@ -14,7 +16,6 @@ public class UserModel {
     @Column(unique = true, nullable = false)
     private String clientToken;
     private String userEmail;
-    private String accessToken;
 
     @OneToMany(mappedBy = "user")
     List<AuthModel> authModelList;
@@ -63,16 +64,4 @@ public class UserModel {
         this.userEmail = userEmail;
     }
 
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public void setEmailAndToken(String userEmail, String accessToken) {
-        setUserEmail(userEmail);
-        setAccessToken(accessToken);
-    }
 }

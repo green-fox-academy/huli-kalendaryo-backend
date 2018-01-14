@@ -1,4 +1,6 @@
-package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
+package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
+
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.CalendarId;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
