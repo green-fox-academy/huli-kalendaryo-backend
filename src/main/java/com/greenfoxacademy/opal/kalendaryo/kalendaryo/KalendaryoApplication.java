@@ -16,7 +16,7 @@ public class KalendaryoApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		Flyway flyway = new Flyway();
-		String url = "jdbc:mysql://" + System.getenv("RDS_HOSTNAME") + ":3306" + "/" + System.getenv("RDS_DB_NAME");
+		String url = "jdbc:mysql://" + System.getenv("RDS_HOSTNAME") + ":" + System.getenv("RDS_PORT") + "/" + System.getenv("RDS_DB_NAME");
 		String username = System.getenv("RDS_USERNAME");
 		String password = System.getenv("RDS_PASSWORD");
 
