@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -46,8 +45,7 @@ public class KalendaryoApplicationTests {
     @Test
     public void endPointExists() throws Exception {
         mock.perform(post("/notification"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("\"NOT_ACCEPTABLE\""));
+                .andExpect(status().isNotAcceptable());
     }
 
 	@Test
@@ -64,8 +62,7 @@ public class KalendaryoApplicationTests {
 		mock.perform(post("/notification")
 				.contentType(contentType)
 				.headers(headers)).andDo(print())
-				.andExpect(status().isOk())
-                .andExpect(content().string("\"OK\""));
+				.andExpect(status().isOk());
 	}
 
     @Test
@@ -81,7 +78,6 @@ public class KalendaryoApplicationTests {
         mock.perform(post("/notification")
                 .contentType(contentType)
                 .headers(headers)).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string("\"NOT_ACCEPTABLE\""));
+                .andExpect(status().isNotAcceptable());
     }
 }
