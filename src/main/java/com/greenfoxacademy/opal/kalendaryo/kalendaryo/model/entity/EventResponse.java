@@ -1,4 +1,4 @@
-package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
+package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -17,10 +17,8 @@ public class EventResponse {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    // The channel ID
     String channelId;
 
-    // It identifies the watched resource, in our case the event, ID of the event
     String resourceId;
 
     // example:  "https://www.googleapis.com/calendar/v3/calendars/my_calendar@gmail.com/events"

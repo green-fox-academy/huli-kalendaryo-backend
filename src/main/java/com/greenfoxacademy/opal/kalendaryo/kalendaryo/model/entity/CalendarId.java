@@ -1,4 +1,4 @@
-package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model;
+package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
