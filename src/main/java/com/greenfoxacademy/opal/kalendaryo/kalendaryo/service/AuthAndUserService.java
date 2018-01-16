@@ -42,5 +42,4 @@ public class AuthAndUserService {
         secureRandom.nextBytes(random);
         return Base64.encodeBase64String(random);
     }
-
 }

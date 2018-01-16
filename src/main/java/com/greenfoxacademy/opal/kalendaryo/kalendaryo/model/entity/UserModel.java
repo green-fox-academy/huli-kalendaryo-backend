@@ -1,9 +1,5 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 
-import com.google.api.client.util.Base64;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
-
-import java.security.SecureRandom;
 import javax.persistence.*;
 import java.util.List;
 
@@ -20,8 +16,12 @@ public class UserModel {
     @OneToMany(mappedBy = "user")
     List<AuthModel> authModelList;
 
+    public UserModel() {
+
+    }
+
     public UserModel(String clientToken) {
-        this.clientToken = clientToken;
+        setClientToken(clientToken);
     }
 
     public long getId() {
