@@ -20,15 +20,8 @@ public class UserModel {
     @OneToMany(mappedBy = "user")
     List<AuthModel> authModelList;
 
-    public UserModel() {
-        this.clientToken = getRandomClientToken();
-    }
-
-    public String getRandomClientToken() {
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] random = new byte[20];
-        secureRandom.nextBytes(random);
-        return Base64.encodeBase64String(random);
+    public UserModel(String clientToken) {
+        this.clientToken = clientToken;
     }
 
     public long getId() {
