@@ -29,12 +29,10 @@ public class AuthContoller {
             userModel = new UserModel(authAndUserService.getRandomClientToken());
             userModel.setUserEmail(authModel.getEmail());
             userModel.setId(userModel.getId());
-            authAndUserService.saveUserModel(userModel);
         }
         authModel.setUser(userModel);
         authAndUserService.saveAuthModel(authModel);
-        AuthResponse authResponse = new AuthResponse(userModel.getId(), userModel.getClientToken(), authModel.getEmail(), authModel.getAccessToken());
 
-        return authResponse;
+        return new AuthResponse(userModel.getId(), userModel.getClientToken(), authModel.getEmail(), authModel.getAccessToken());
     }
 }
