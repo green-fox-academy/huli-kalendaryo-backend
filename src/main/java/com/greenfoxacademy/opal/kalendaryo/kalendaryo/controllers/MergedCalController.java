@@ -4,6 +4,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.MergedCalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.MergedCalendarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,13 +16,13 @@ public class MergedCalController {
   @Autowired
   MergedCalendarRepository mergedCalendarRepository;
 
-  @PostMapping(value = "/mergedcal")
-  public HttpStatus postMergedCal(@RequestBody MergedCalendar mergedCalendar) {
+  @PostMapping(value = "/calendar")
+  public ResponseEntity postMergedCal(@RequestBody MergedCalendar mergedCalendar) {
     mergedCalendarRepository.save(mergedCalendar);
-    return HttpStatus.OK;
+    return new ResponseEntity(HttpStatus.OK);
   }
 
-  @GetMapping(value = "/listmergedcal")
+  @GetMapping(value = "/calendar")
   public Iterable<MergedCalendar> getMergedCalList() {
     Iterable<MergedCalendar> mergedCalendarsResponse = mergedCalendarRepository.findAll();
     return  mergedCalendarsResponse;
