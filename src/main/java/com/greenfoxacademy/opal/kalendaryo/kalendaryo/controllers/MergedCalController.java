@@ -1,6 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.MergedCalendar;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.MergedCalendarResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.MergedCalendarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,8 @@ public class MergedCalController {
   }
 
   @GetMapping(value = "/calendar")
-  public Iterable<MergedCalendar> getMergedCalList() {
-    Iterable<MergedCalendar> mergedCalendarsResponse = mergedCalendarRepository.findAll();
+  public MergedCalendarResponse getMergedCalList() {
+    MergedCalendarResponse mergedCalendarsResponse = new MergedCalendarResponse();
     return  mergedCalendarsResponse;
   }
 
