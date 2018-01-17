@@ -26,8 +26,7 @@ public class MergedCalController {
 
   @GetMapping(value = "/calendar")
   public MergedCalendarResponse getMergedCalList() {
-    MergedCalendarResponse mergedCalendarsResponse = new MergedCalendarResponse();
-    return  mergedCalendarsResponse;
+    return new MergedCalendarResponse();
   }
 
 }
