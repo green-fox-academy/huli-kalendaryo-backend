@@ -19,7 +19,7 @@ public class MergedCalController {
   MergedCalendarRepository mergedCalendarRepository;
 
   @PostMapping(value = "/calendar")
-  public ResponseEntity postMergedCal(@RequestBody MergedCalendar mergedCalendar) {
+  public ResponseEntity postCalendar(@RequestBody MergedCalendar mergedCalendar) {
     mergedCalendarRepository.save(mergedCalendar);
     return new ResponseEntity(HttpStatus.OK);
   }
