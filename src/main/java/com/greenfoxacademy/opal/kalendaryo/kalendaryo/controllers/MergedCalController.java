@@ -10,6 +10,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.MergedCalendarR
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,21 +33,24 @@ public class MergedCalController {
   AuthModelRepository authModelRepository;
 
   @PostMapping(value = "/calendar")
-  public ResponseEntity postMergedCal(@RequestHeader String clientToken, @RequestBody MergedCalendarFromAndroid mergedCalendarFromAndroid) {
+  public ResponseEntity postMergedCal(@RequestHeader("X-Client-Token") String clientToken, @RequestBody MergedCalendarFromAndroid mergedCalendarFromAndroid) {
     MergedCalendar mergedCalendar = new MergedCalendar();
-    mergedCalendar.setUserId(userModelRepository.findByClientToken(clientToken).getId());
+    //mergedCalendar.setUser(userModelRepository.findByClientToken(clientToken));
     mergedCalendar.setOutputCalendarId(mergedCalendarFromAndroid.getOutputCalendarId());
-    List<String> inputStrings = mergedCalendarFromAndroid.getInputCalendaIds();
+    String[] inputStrings = mergedCalendarFromAndroid.getInputCalendarIds();
 
     List<CalendarId> calendarIds = new ArrayList<>();
-    for (int i = 0; i < inputStrings.size(); i++) {
+    for (int i = 0; i < inputStrings.length; i++) {
       CalendarId calendarId = new CalendarId();
-      calendarId.setId(inputStrings.get(i));
+      calendarId.setId(inputStrings[i]);
+      calendarId.setAuthModel(null);
+      calendarId.setMergedCalendar(null);
       calendarIds.add(calendarId);
     }
     mergedCalendar.setCalendarId(calendarIds);
     mergedCalendar.setUserName(userModelRepository.findByClientToken(clientToken).getUserEmail());
     mergedCalendar.setOutputAccount(userModelRepository.findByClientToken(clientToken).getUserEmail());
+   //mergedCalendar.setUser(null);
     mergedCalendarRepository.save(mergedCalendar);
     return new ResponseEntity(HttpStatus.OK);
   }

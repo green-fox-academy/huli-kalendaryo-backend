@@ -5,9 +5,14 @@ import java.util.List;
 public class MergedCalendarFromAndroid {
 
   private String outputCalendarId;
-  private List<String> inputCalendaIds;
+  private String[] inputCalendarIds;
 
   public MergedCalendarFromAndroid() {
+  }
+
+  public MergedCalendarFromAndroid(String outputCalendarId, String[] inputCalendarIds) {
+    this.outputCalendarId = outputCalendarId;
+    this.inputCalendarIds = inputCalendarIds;
   }
 
   public String getOutputCalendarId() {
@@ -18,11 +23,11 @@ public class MergedCalendarFromAndroid {
     this.outputCalendarId = outputCalendarId;
   }
 
-  public List<String> getInputCalendaIds() {
-    return inputCalendaIds;
+  public String[] getInputCalendarIds() {
+    return inputCalendarIds;
   }
 
-  public void setInputCalendaIds(List<String> inputCalendaIds) {
-    this.inputCalendaIds = inputCalendaIds;
+  public void setInputCalendarIds(String[] inputCalendarIds) {
+    this.inputCalendarIds = inputCalendarIds;
   }
 }

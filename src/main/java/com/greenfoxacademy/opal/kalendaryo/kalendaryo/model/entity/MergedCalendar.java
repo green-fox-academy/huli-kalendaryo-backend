@@ -3,7 +3,11 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -11,7 +15,8 @@ import java.util.List;
 public class MergedCalendar {
 
     @Id
-    private long userId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private String userName;
     private String outputAccount;
     private String outputCalendarId;
@@ -19,22 +24,32 @@ public class MergedCalendar {
     @OneToMany(mappedBy = "mergedCalendar")
     List<CalendarId> calendarId;
 
-    public MergedCalendar(long userId, String userName, String outputAccount, List<CalendarId> calendarId) {
-        this.userId = userId;
+/*
+    @ManyToOne
+    UserModel user;
+*/
+
+    public MergedCalendar(long id, String userName, String outputAccount,
+        String outputCalendarId,
+        List<CalendarId> calendarId,
+        UserModel userModel) {
+        this.id = id;
         this.userName = userName;
         this.outputAccount = outputAccount;
+        this.outputCalendarId = outputCalendarId;
         this.calendarId = calendarId;
+        //this.user = userModel;
     }
 
     public MergedCalendar() {
     }
 
-    public long getUserId() {
-        return userId;
+    public long getId() {
+        return id;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUserName() {
@@ -65,7 +80,16 @@ public class MergedCalendar {
         return calendarId;
     }
 
-    public void setCalendarId(List<CalendarId> calendarId) {
+    public void setCalendarId(
+        List<CalendarId> calendarId) {
         this.calendarId = calendarId;
     }
+
+//    public UserModel getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(UserModel user) {
+//        this.user = user;
+//    }
 }

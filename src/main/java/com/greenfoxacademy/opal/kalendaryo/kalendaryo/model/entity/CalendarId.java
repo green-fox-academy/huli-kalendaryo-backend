@@ -16,6 +16,17 @@ public class CalendarId {
     @ManyToOne(cascade = CascadeType.ALL)
     MergedCalendar mergedCalendar;
 
+    public CalendarId(String id,
+        AuthModel authModel,
+        MergedCalendar mergedCalendar) {
+        this.id = id;
+        this.authModel = authModel;
+        this.mergedCalendar = mergedCalendar;
+    }
+
+    public CalendarId() {
+    }
+
     public String getId() {
         return id;
     }
