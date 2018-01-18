@@ -1,5 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
