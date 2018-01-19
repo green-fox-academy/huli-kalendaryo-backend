@@ -16,19 +16,15 @@ public class UserModel {
     @OneToMany(mappedBy = "user")
     List<AuthModel> authModelList;
 
-//    @OneToMany(mappedBy = "user")
-//    List<MergedCalendar> mergedCalendarList;
 
     public UserModel() {
     }
 
     public UserModel(String clientToken, String userEmail,
-        List<AuthModel> authModelList,
-        List<MergedCalendar> mergedCalendars) {
+        List<AuthModel> authModelList) {
         this.clientToken = clientToken;
         this.userEmail = userEmail;
         this.authModelList = authModelList;
-        //this.mergedCalendarList = mergedCalendars;
     }
 
     public UserModel(String clientToken) {
@@ -67,13 +63,4 @@ public class UserModel {
         List<AuthModel> authModelList) {
         this.authModelList = authModelList;
     }
-
-//    public List<MergedCalendar> getMergedCalendarList() {
-//        return mergedCalendarList;
-//    }
-//
-//    public void setMergedCalendarList(
-//        List<MergedCalendar> mergedCalendarList) {
-//        this.mergedCalendarList = mergedCalendarList;
-//    }
 }

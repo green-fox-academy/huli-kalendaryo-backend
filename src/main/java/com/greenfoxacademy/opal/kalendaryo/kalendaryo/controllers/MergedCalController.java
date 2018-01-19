@@ -23,41 +23,33 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MergedCalController {
 
-  @Autowired
-  MergedCalendarRepository mergedCalendarRepository;
+    @Autowired
+    MergedCalendarRepository mergedCalendarRepository;
 
-  @Autowired
-  UserModelRepository userModelRepository;
+    @Autowired
+    UserModelRepository userModelRepository;
 
-  @Autowired
-  AuthModelRepository authModelRepository;
+    @Autowired
+    AuthModelRepository authModelRepository;
 
-  @PostMapping(value = "/calendar")
-  public ResponseEntity postMergedCal(@RequestHeader("X-Client-Token") String clientToken, @RequestBody MergedCalendarFromAndroid mergedCalendarFromAndroid) {
-    MergedCalendar mergedCalendar = new MergedCalendar();
-    //mergedCalendar.setUser(userModelRepository.findByClientToken(clientToken));
-    mergedCalendar.setOutputCalendarId(mergedCalendarFromAndroid.getOutputCalendarId());
-    String[] inputStrings = mergedCalendarFromAndroid.getInputCalendarIds();
-
-    List<CalendarId> calendarIds = new ArrayList<>();
-    for (int i = 0; i < inputStrings.length; i++) {
-      CalendarId calendarId = new CalendarId();
-      calendarId.setId(inputStrings[i]);
-      calendarId.setAuthModel(null);
-      calendarId.setMergedCalendar(null);
-      calendarIds.add(calendarId);
+    @PostMapping(value = "/calendar")
+    public ResponseEntity postMergedCal(@RequestHeader("X-Client-Token") String clientToken,
+        @RequestBody MergedCalendarFromAndroid mergedCalendarFromAndroid) {
+        MergedCalendar mergedCalendar = new MergedCalendar();
+        mergedCalendar.setOutputCalendarId(mergedCalendarFromAndroid.getOutputCalendarId());
+        String[] inputStrings = mergedCalendarFromAndroid.getInputCalendarIds();
+        mergedCalendar.setCalendarIds(mergedCalendar.getCalendarIds(inputStrings));
+        mergedCalendar
+            .setUserName(userModelRepository.findByClientToken(clientToken).getUserEmail());
+        mergedCalendar
+            .setOutputAccount(userModelRepository.findByClientToken(clientToken).getUserEmail());
+        mergedCalendarRepository.save(mergedCalendar);
+        return new ResponseEntity(HttpStatus.OK);
     }
-    mergedCalendar.setCalendarId(calendarIds);
-    mergedCalendar.setUserName(userModelRepository.findByClientToken(clientToken).getUserEmail());
-    mergedCalendar.setOutputAccount(userModelRepository.findByClientToken(clientToken).getUserEmail());
-   //mergedCalendar.setUser(null);
-    mergedCalendarRepository.save(mergedCalendar);
-    return new ResponseEntity(HttpStatus.OK);
-  }
 
-  @GetMapping(value = "/calendar")
-  public MergedCalendarResponse getMergedCalList() {
-    return new MergedCalendarResponse();
-  }
+    @GetMapping(value = "/calendar")
+    public MergedCalendarResponse getMergedCalList() {
+        return new MergedCalendarResponse();
+    }
 
 }
