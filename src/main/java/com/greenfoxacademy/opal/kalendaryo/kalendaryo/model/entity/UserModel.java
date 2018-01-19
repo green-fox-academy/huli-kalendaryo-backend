@@ -16,8 +16,15 @@ public class UserModel {
     @OneToMany(mappedBy = "user")
     List<AuthModel> authModelList;
 
-    public UserModel() {
 
+    public UserModel() {
+    }
+
+    public UserModel(String clientToken, String userEmail,
+        List<AuthModel> authModelList) {
+        this.clientToken = clientToken;
+        this.userEmail = userEmail;
+        this.authModelList = authModelList;
     }
 
     public UserModel(String clientToken) {
@@ -30,14 +37,6 @@ public class UserModel {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public List<AuthModel> getAuthModelList() {
-        return authModelList;
-    }
-
-    public void setAuthModelList(List<AuthModel> authModelList) {
-        this.authModelList = authModelList;
     }
 
     public String getClientToken() {
@@ -54,5 +53,14 @@ public class UserModel {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public List<AuthModel> getAuthModelList() {
+        return authModelList;
+    }
+
+    public void setAuthModelList(
+        List<AuthModel> authModelList) {
+        this.authModelList = authModelList;
     }
 }

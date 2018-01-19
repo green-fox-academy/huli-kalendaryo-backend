@@ -1,6 +1,10 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 
+
+import java.util.ArrayList;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.List;
@@ -9,30 +13,35 @@ import java.util.List;
 public class MergedCalendar {
 
     @Id
-    private long userId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private String userName;
     private String outputAccount;
     private String outputCalendarId;
 
     @OneToMany(mappedBy = "mergedCalendar")
-    List<CalendarId> calendarId;
+    List<CalendarId> CalendarIds;
 
-    public MergedCalendar(long userId, String userName, String outputAccount, List<CalendarId> calendarId) {
-        this.userId = userId;
+
+    public MergedCalendar(long id, String userName, String outputAccount,
+        String outputCalendarId,
+        List<CalendarId> CalendarIds) {
+        this.id = id;
         this.userName = userName;
         this.outputAccount = outputAccount;
-        this.calendarId = calendarId;
+        this.outputCalendarId = outputCalendarId;
+        this.CalendarIds = CalendarIds;
     }
 
     public MergedCalendar() {
     }
 
-    public long getUserId() {
-        return userId;
+    public long getId() {
+        return id;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUserName() {
@@ -59,11 +68,26 @@ public class MergedCalendar {
         this.outputCalendarId = outputCalendarId;
     }
 
-    public List<CalendarId> getCalendarId() {
-        return calendarId;
+    public List<CalendarId> getCalendarIds() {
+        return CalendarIds;
     }
 
-    public void setCalendarId(List<CalendarId> calendarId) {
-        this.calendarId = calendarId;
+    public void setCalendarIds(
+        List<CalendarId> calendarIds) {
+        this.CalendarIds = CalendarIds;
     }
+
+
+    public List<CalendarId> getCalendarIds(String[] arrayOfStrings) {
+        List<CalendarId> calendarIds = new ArrayList<>();
+        for (int i = 0; i < arrayOfStrings.length; i++) {
+            CalendarId calendarId = new CalendarId();
+            calendarId.setId(arrayOfStrings[i]);
+            calendarId.setAuthModel(null);
+            calendarId.setMergedCalendar(null);
+            calendarIds.add(calendarId);
+        }
+        return calendarIds;
+    }
+
 }
