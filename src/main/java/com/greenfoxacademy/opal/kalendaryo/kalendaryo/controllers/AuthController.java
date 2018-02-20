@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-public class AuthContoller {
+public class AuthController {
 
     @Autowired
     AuthAndUserService authAndUserService;
