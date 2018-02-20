@@ -156,4 +156,19 @@ public class KalendaryoApplicationTests {
                 .headers(headers)).andDo(print())
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void channelTokenMissingAndStatusIsOk() throws Exception {
+        headers.add("X-Goog-Channel-ID", "01234567-89ab-cdef-0123456788");
+        headers.add("X-Goog-Resource-ID", "WDOXEjsdYtXzZHq93mDhG6dfTrg");
+        headers.add("X-Goog-Resource-URI", "https://www.googleapis.com/calendar/v3/calendars/huli.opal.kalendaryo@gmail.com/events?maxResults=250&alt=json");
+        headers.add("X-Goog-Resource-State", "sync");
+        headers.add("X-Goog-Message-Number", "1");
+        headers.add("X-Goog-Channel-Expiration", "1516102799000");
+
+        mock.perform(post("/notification")
+                .contentType(contentType)
+                .headers(headers)).andDo(print())
+                .andExpect(status().isOk());
+    }
 }
