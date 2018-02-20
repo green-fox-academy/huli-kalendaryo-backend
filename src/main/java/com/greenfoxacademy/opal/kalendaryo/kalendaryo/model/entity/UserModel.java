@@ -12,10 +12,8 @@ public class UserModel {
     @Column(unique = true, nullable = false)
     private String clientToken;
     private String userEmail;
-
     @OneToMany(mappedBy = "user")
     List<AuthModel> authModelList;
-
 
     public UserModel() {
     }

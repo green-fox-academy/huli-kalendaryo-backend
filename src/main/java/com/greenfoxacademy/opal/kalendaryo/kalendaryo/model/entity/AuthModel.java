@@ -12,10 +12,8 @@ public class AuthModel {
     private String displayName;
     private String accessToken;
     private String refreshToken;
-
     @OneToMany(mappedBy = "authModel")
     List<CalendarId> calendarId;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     UserModel user;

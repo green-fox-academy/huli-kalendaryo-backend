@@ -1,6 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api;
 
 public class AuthResponse {
+
     private long userId;
     private String clientToken;
     private String userEmail;
