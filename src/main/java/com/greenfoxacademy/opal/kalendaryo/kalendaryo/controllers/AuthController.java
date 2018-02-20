@@ -1,6 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.AuthResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.UserResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
@@ -28,7 +29,7 @@ public class AuthController {
         else {
             userModel = new UserModel(authAndUserService.getRandomClientToken());
             userModel.setUserEmail(authModel.getEmail());
-            userModel.setId(userModel.getId());
+            userModel.setId(userModel.getId()); //WHY???
         }
         authModel.setUser(userModel);
         authAndUserService.saveAuthModel(authModel);
@@ -37,10 +38,10 @@ public class AuthController {
     }
 
     @GetMapping("/auth")
-    public ResponseEntity<?> listAuthentications(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
+    public ResponseEntity getAuth(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
         if (!request.getHeader("X-Client-Token").equals("")) {
-            List<AuthModel> listOfAuthentications = (List<AuthModel>) authAndUserService.findUserByClientToken(clientToken);
-            return ResponseEntity.ok().body(listOfAuthentications);
+            UserModel userModel = authAndUserService.findUserByClientToken(clientToken);
+            return ResponseEntity.ok().body(new UserResponse(userModel.getId(), userModel.getUserEmail(), userModel.getAuthModelList()));
         }
         return ResponseEntity.badRequest().body("Client token is missing or invalid");
     }

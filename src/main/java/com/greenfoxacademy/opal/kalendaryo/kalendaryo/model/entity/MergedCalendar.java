@@ -21,8 +21,7 @@ public class MergedCalendar {
     @OneToMany(mappedBy = "mergedCalendar")
     List<CalendarId> CalendarIds;
 
-    public MergedCalendar(long id, String userName, String outputAccount,
-        String outputCalendarId,
+    public MergedCalendar(long id, String userName, String outputAccount, String outputCalendarId,
         List<CalendarId> CalendarIds) {
         this.id = id;
         this.userName = userName;
