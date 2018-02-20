@@ -15,7 +15,7 @@ public class MergedCalendar {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private UserModel user;
+    private String username;
     private String outputAccount;
     private String outputCalendarId;
 
@@ -23,11 +23,11 @@ public class MergedCalendar {
     List<CalendarId> CalendarIds;
 
 
-    public MergedCalendar(long id, UserModel user, String outputAccount,
+    public MergedCalendar(long id, String username, String outputAccount,
         String outputCalendarId,
         List<CalendarId> CalendarIds) {
         this.id = id;
-        this.user = user;
+        this.username = username;
         this.outputAccount = outputAccount;
         this.outputCalendarId = outputCalendarId;
         this.CalendarIds = CalendarIds;
@@ -44,12 +44,12 @@ public class MergedCalendar {
         this.id = id;
     }
 
-    public UserModel getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(UserModel user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getOutputAccount() {

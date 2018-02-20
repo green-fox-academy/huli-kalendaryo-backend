@@ -4,17 +4,20 @@ import java.util.List;
 
 public class MergedCalendarResponse {
 
-  private List<MergedCalendar> mergedCalendar;
+  private List<MergedCalendar> mergedCalendars;
 
   public MergedCalendarResponse() {
   }
 
+  public MergedCalendarResponse(List<MergedCalendar> mergedCalendarByOutputCalendarId) {
+  }
+
   public List<MergedCalendar> getMergedCalendar() {
-    return mergedCalendar;
+    return mergedCalendars;
   }
 
   public void setMergedCalendar(
       List<MergedCalendar> mergedCalendar) {
-    this.mergedCalendar = mergedCalendar;
+    this.mergedCalendars = mergedCalendars;
   }
 }
