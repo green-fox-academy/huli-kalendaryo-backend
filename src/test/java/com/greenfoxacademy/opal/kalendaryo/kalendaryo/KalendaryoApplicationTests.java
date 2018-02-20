@@ -12,10 +12,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -138,5 +140,20 @@ public class KalendaryoApplicationTests {
                 .contentType(contentType)
                 .headers(headers)).andDo(print())
                 .andExpect(status().isNotAcceptable());
+    }
+
+    @Test
+    public void channelExpirationMissingAndStatusIsOk() throws Exception {
+        headers.add("X-Goog-Channel-ID", "01234567-89ab-cdef-0123456788");
+        headers.add("X-Goog-Resource-ID", "WDOXEjsdYtXzZHq93mDhG6dfTrg");
+        headers.add("X-Goog-Resource-URI", "https://www.googleapis.com/calendar/v3/calendars/huli.opal.kalendaryo@gmail.com/events?maxResults=250&alt=json");
+        headers.add("X-Goog-Resource-State", "sync");
+        headers.add("X-Goog-Message-Number", "1");
+        headers.add("X-Goog-Channel-Token", "");
+
+        mock.perform(post("/notification")
+                .contentType(contentType)
+                .headers(headers)).andDo(print())
+                .andExpect(status().isOk());
     }
 }
