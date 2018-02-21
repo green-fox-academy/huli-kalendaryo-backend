@@ -20,6 +20,15 @@ public class AuthController {
     @Autowired
     AuthAndUserService authAndUserService;
 
+    @GetMapping("/auth")
+    public ResponseEntity getAuth(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
+        if (!request.getHeader("X-Client-Token").equals("")) {
+            UserModel userModel = authAndUserService.findUserByClientToken(clientToken);
+            return ResponseEntity.ok().body(new UserResponse(userModel.getId(), userModel.getUserEmail(), userModel.getAuthModelList()));
+        }
+        return ResponseEntity.badRequest().body("Client token is missing or invalid");
+    }
+
     @PostMapping("/auth")
     public AuthResponse postAuth(@RequestBody AuthModel authModel, @RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
         UserModel userModel;
@@ -29,7 +38,6 @@ public class AuthController {
         else {
             userModel = new UserModel(authAndUserService.getRandomClientToken());
             userModel.setUserEmail(authModel.getEmail());
-            userModel.setId(userModel.getId()); //WHY???
         }
         authModel.setUser(userModel);
         authAndUserService.saveAuthModel(authModel);
@@ -37,13 +45,6 @@ public class AuthController {
         return new AuthResponse(userModel.getId(), userModel.getClientToken(), authModel.getEmail(), authModel.getAccessToken());
     }
 
-    @GetMapping("/auth")
-    public ResponseEntity getAuth(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
-        if (!request.getHeader("X-Client-Token").equals("")) {
-            UserModel userModel = authAndUserService.findUserByClientToken(clientToken);
-            return ResponseEntity.ok().body(new UserResponse(userModel.getId(), userModel.getUserEmail(), userModel.getAuthModelList()));
-        }
-        return ResponseEntity.badRequest().body("Client token is missing or invalid");
-    }
+
 
 }
