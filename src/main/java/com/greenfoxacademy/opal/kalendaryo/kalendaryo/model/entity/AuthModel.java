@@ -32,7 +32,6 @@ public class AuthModel {
     }
 
     public String getDisplayName() {
-
         return displayName;
     }
 
@@ -45,7 +44,6 @@ public class AuthModel {
     }
 
     public void setEmail(String email) {
-
         this.email = email;
     }
 
