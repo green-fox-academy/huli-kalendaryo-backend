@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.MergedCalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,9 @@ public class MergedCalController {
     @Autowired
     AuthModelRepository authModelRepository;
 
+    @Autowired
+    MergedCalendarService mergedCalendarService;
+
     @PostMapping(value = "/calendar")
     public ResponseEntity postMergedCal(@RequestHeader("X-Client-Token") String clientToken,
                                         @RequestBody MergedCalendarFromAndroid mergedCalendarFromAndroid) {
@@ -39,7 +44,7 @@ public class MergedCalController {
         String[] inputStrings = mergedCalendarFromAndroid.getInputCalendarIds();
         mergedCalendar.setCalendarIds(mergedCalendar.getCalendarIds(inputStrings));
         mergedCalendar
-                .setUsername(userModelRepository.findByClientToken(clientToken).getUserEmail());
+                .setUser(userModelRepository.findByClientToken(clientToken));
         mergedCalendar
                 .setOutputAccount(userModelRepository.findByClientToken(clientToken).getUserEmail());
         mergedCalendarRepository.save(mergedCalendar);
@@ -48,10 +53,11 @@ public class MergedCalController {
 
     @GetMapping(value = "/calendar")
     public ResponseEntity getMergedCalList(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
-        UserModel userModel;
         if (!request.getHeader("X-Client-Token").equals("")) {
             MergedCalendarResponse mergedCalendarResponse = new MergedCalendarResponse();
-            mergedCalendarResponse.setMergedCalendar(mergedCalendarRepository.findMergedCalendarsByUsername(userModelRepository.findByClientToken(clientToken).getUserEmail()));
+            UserModel user = userModelRepository.findByClientToken(clientToken);
+            user = mergedCalendarService.findMergedCalendars(user);
+            mergedCalendarResponse.setMergedCalendar(user.getMergedCalendarList());
             return ResponseEntity.ok(mergedCalendarResponse);
         }
         return ResponseEntity.badRequest().body("Client token is missing or invalid");
