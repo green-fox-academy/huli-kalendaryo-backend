@@ -28,7 +28,7 @@ import java.nio.charset.Charset;
 @SpringBootTest
 @WebAppConfiguration
 @EnableWebMvc
-public class KalendaryoApplicationTests {
+public class NotificationControllerTests {
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
