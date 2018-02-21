@@ -40,7 +40,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void postRequestResponseWithOk () throws Exception {
+    public void shouldReturnHTTPStatusBadRequest () throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Goog-Channel-ID", "01234567-89ab-cdef-0123456788");
         headers.add("X-Goog-Resource-ID", "WDOXEjsdYtXzZHq93mDhG6dfTrg");
@@ -53,6 +53,6 @@ public class AuthControllerTest {
         mock.perform(post("/auth")
                 .contentType(contentType)
                 .headers(headers)).andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isBadRequest());
     }
 }
