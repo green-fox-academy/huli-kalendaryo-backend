@@ -1,5 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.AuthGetResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.AuthResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.UserResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,7 +26,15 @@ public class AuthController {
     public ResponseEntity getAuth(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
         if (!request.getHeader("X-Client-Token").equals("")) {
             UserModel userModel = authAndUserService.findUserByClientToken(clientToken);
-            return ResponseEntity.status(200).body(new UserResponse(userModel.getId(), userModel.getUserEmail(), userModel.getAuthModelList()));
+            UserResponse userResponse = new UserResponse();
+
+            for (int i = 0; i < userModel.getAuthModelList().size() ; i++) {
+                AuthModel currentAuthModel = userModel.getAuthModelList().get(i);
+                AuthGetResponse currentAuthGetResponse = new AuthGetResponse(currentAuthModel.getEmail(), currentAuthModel.getAccessToken());
+                userResponse.getAuthModels().add(currentAuthGetResponse);
+            }
+
+            return ResponseEntity.status(200).body(new UserResponse(userModel.getId(), userModel.getUserEmail(), userResponse.getAuthModels()));
         }
         return ResponseEntity.status(401).body("Client token is missing or invalid");
     }
@@ -44,7 +54,4 @@ public class AuthController {
 
         return new AuthResponse(userModel.getId(), userModel.getClientToken(), authModel.getEmail(), authModel.getAccessToken());
     }
-
-
-
 }

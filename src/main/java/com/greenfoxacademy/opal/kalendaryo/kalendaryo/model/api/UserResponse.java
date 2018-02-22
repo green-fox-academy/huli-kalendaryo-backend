@@ -8,12 +8,12 @@ public class UserResponse {
 
     private long id;
     private String userEmail;
-    List<AuthModel> authModels;
+    List<AuthGetResponse> authModels;
 
     public UserResponse() {
     }
 
-    public UserResponse(long id, String userEmail, List<AuthModel> authModels) {
+    public UserResponse(long id, String userEmail, List<AuthGetResponse> authModels) {
         this.id = id;
         this.userEmail = userEmail;
         this.authModels = authModels;
@@ -35,11 +35,11 @@ public class UserResponse {
         this.userEmail = userEmail;
     }
 
-    public List<AuthModel> getAuthModels() {
+    public List<AuthGetResponse> getAuthModels() {
         return authModels;
     }
 
-    public void setAuthModels(List<AuthModel> authModels) {
+    public void setAuthModels(List<AuthGetResponse> authModels) {
         this.authModels = authModels;
     }
 }
