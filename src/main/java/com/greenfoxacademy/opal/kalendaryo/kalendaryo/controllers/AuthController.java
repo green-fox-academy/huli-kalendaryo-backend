@@ -24,9 +24,9 @@ public class AuthController {
     public ResponseEntity getAuth(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
         if (!request.getHeader("X-Client-Token").equals("")) {
             UserModel userModel = authAndUserService.findUserByClientToken(clientToken);
-            return ResponseEntity.ok().body(new UserResponse(userModel.getId(), userModel.getUserEmail(), userModel.getAuthModelList()));
+            return ResponseEntity.status(200).body(new UserResponse(userModel.getId(), userModel.getUserEmail(), userModel.getAuthModelList()));
         }
-        return ResponseEntity.badRequest().body("Client token is missing or invalid");
+        return ResponseEntity.status(401).body("Client token is missing or invalid");
     }
 
     @PostMapping("/auth")
