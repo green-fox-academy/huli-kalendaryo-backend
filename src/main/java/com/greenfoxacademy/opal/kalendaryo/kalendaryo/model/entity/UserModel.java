@@ -13,6 +13,7 @@ public class UserModel {
     private String clientToken;
     private String userEmail;
 
+    @OneToMany(mappedBy = "userName")
     List<MergedCalendar> mergedCalendarList;
 
     @OneToMany(mappedBy = "user")

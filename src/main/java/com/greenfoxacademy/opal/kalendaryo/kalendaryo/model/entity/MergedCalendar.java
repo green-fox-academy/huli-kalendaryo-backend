@@ -4,11 +4,7 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 import org.apache.catalina.User;
 
 import java.util.ArrayList;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -17,7 +13,8 @@ public class MergedCalendar {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private UserModel user;
+    @ManyToOne
+    private UserModel userName;
     private String outputAccount;
     private String outputCalendarId;
 
@@ -25,11 +22,11 @@ public class MergedCalendar {
     List<CalendarId> CalendarIds;
 
 
-    public MergedCalendar(long id, UserModel user, String outputAccount,
+    public MergedCalendar(long id, UserModel userName, String outputAccount,
         String outputCalendarId,
         List<CalendarId> CalendarIds) {
         this.id = id;
-        this.user = user;
+        this.userName = userName;
         this.outputAccount = outputAccount;
         this.outputCalendarId = outputCalendarId;
         this.CalendarIds = CalendarIds;
@@ -46,12 +43,12 @@ public class MergedCalendar {
         this.id = id;
     }
 
-    public UserModel getUser() {
-        return user;
+    public UserModel getUserName() {
+        return userName;
     }
 
-    public void setUser(UserModel user) {
-        this.user = user;
+    public void setUserName(UserModel userName) {
+        this.userName = userName;
     }
 
     public String getOutputAccount() {
