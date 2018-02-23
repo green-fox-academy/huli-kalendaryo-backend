@@ -59,7 +59,7 @@ public class MergedCalController {
         if (!request.getHeader("X-Client-Token").equals("")) {
             MergedCalendarResponse mergedCalendarResponse = new MergedCalendarResponse();
             UserModel user = userModelRepository.findByClientToken(clientToken);
-            user = mergedCalendarService.findMergedCalendars(user);
+            mergedCalendarService.findMergedCalendars(user);
             mergedCalendarResponse.setMergedCalendar(user.getMergedCalendarList());
             return ResponseEntity.ok(mergedCalendarResponse);
         }
