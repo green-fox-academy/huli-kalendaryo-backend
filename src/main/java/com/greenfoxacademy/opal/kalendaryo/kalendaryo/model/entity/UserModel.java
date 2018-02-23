@@ -12,7 +12,7 @@ public class UserModel {
     @Column(unique = true, nullable = false)
     private String clientToken;
     private String userEmail;
-
+  
     @OneToMany(mappedBy = "userName")
     List<MergedCalendar> mergedCalendarList;
 

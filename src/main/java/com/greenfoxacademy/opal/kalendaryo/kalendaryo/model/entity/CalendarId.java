@@ -7,18 +7,15 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class CalendarId {
+
     @Id
     private String id;
-
     @ManyToOne(cascade = CascadeType.ALL)
     AuthModel authModel;
-
     @ManyToOne(cascade = CascadeType.ALL)
     MergedCalendar mergedCalendar;
 
-    public CalendarId(String id,
-        AuthModel authModel,
-        MergedCalendar mergedCalendar) {
+    public CalendarId(String id, AuthModel authModel, MergedCalendar mergedCalendar) {
         this.id = id;
         this.authModel = authModel;
         this.mergedCalendar = mergedCalendar;
