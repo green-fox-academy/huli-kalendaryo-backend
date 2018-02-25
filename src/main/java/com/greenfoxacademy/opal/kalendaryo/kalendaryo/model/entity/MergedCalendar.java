@@ -23,8 +23,8 @@ public class MergedCalendar {
 
 
     public MergedCalendar(long id, UserModel userName, String outputAccount,
-        String outputCalendarId,
-        List<CalendarId> CalendarIds) {
+                          String outputCalendarId,
+                          List<CalendarId> CalendarIds) {
         this.id = id;
         this.userName = userName;
         this.outputAccount = outputAccount;
@@ -77,7 +77,7 @@ public class MergedCalendar {
     }
 
 
-    public List<CalendarId> getCalendarIds(String[] arrayOfStrings) {
+    public List<CalendarId> getCalendarsIds(String[] arrayOfStrings) {
         List<CalendarId> calendarIds = new ArrayList<>();
         for (int i = 0; i < arrayOfStrings.length; i++) {
             CalendarId calendarId = new CalendarId();
