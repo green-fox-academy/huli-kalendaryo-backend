@@ -75,7 +75,7 @@ public class MergedCalendar {
     }
 
 
-    public List<CalendarId> getCalendarIds(String[] arrayOfStrings) {
+    public List<CalendarId> getCalendarsIds(String[] arrayOfStrings) {
         List<CalendarId> calendarIds = new ArrayList<>();
         for (int i = 0; i < arrayOfStrings.length; i++) {
             CalendarId calendarId = new CalendarId();
