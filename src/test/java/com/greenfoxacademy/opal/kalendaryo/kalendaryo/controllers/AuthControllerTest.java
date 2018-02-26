@@ -1,4 +1,5 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.AuthResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,10 +41,16 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void shouldReturnHTTPStatusBadRequest () throws Exception {
+    public void shouldReturnHTTPStatusIsCreated () throws Exception {
+        HttpHeaders header = new HttpHeaders();
+        header.add("X-Client-Token", "rut3464ts");
+
+        String expectedResult = "{\"userId\": 4,\"clientToken\":\"my_access32\",\"userEmail\":\"jimbo@jimbo.com\",\"accessToken\":\"scxc230112\"}";
 
         mock.perform(post("/auth")
-                .contentType(contentType))
-                .andExpect(status().isBadRequest());
+                .contentType(contentType)
+                .content(expectedResult)
+                .headers(header)).andDo(print())
+                .andExpect(status().isCreated());
     }
 }
