@@ -55,14 +55,14 @@ public class MergedCalController {
 
     @GetMapping(value = "/calendar")
     public ResponseEntity getMergedCalList(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
-        if (!request.getHeader("X-Client-Token").equals("")) {
+        if (!request.getHeader("X-Client-Token").equals(null)) {
             MergedCalendarListResponse mergedCalendarListResponse = new MergedCalendarListResponse();
             UserModel user = userModelRepository.findByClientToken(clientToken);
             mergedCalendarService.findMergedCalendars(user);
             mergedCalendarListResponse.setMergedCalendarResponse(user.getMergedCalendarList());
-            return ResponseEntity.ok(mergedCalendarListResponse);
+            return new ResponseEntity<>(mergedCalendarListResponse, HttpStatus.OK);
         }
-        return ResponseEntity.badRequest().body("Client token is missing or invalid");
+        return new ResponseEntity<String>("Client token is missing or invalid", HttpStatus.UNAUTHORIZED);
 
     }
 

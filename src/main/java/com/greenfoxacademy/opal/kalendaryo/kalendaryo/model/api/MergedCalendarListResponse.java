@@ -6,18 +6,18 @@ import java.util.List;
 
 public class MergedCalendarListResponse {
 
-  private List<MergedCalendarResponse> calendarResponseList;
+  private List<MergedCalendarResponse> mergedCalendars;
 
   public MergedCalendarListResponse() {
   }
 
   public List<MergedCalendarResponse> getCalendarResponseList() {
-    return calendarResponseList;
+    return mergedCalendars;
   }
 
   public void setCalendarResponseList(
       List<MergedCalendarResponse> calendarResponseList) {
-    this.calendarResponseList = calendarResponseList;
+    this.mergedCalendars = calendarResponseList;
   }
 
   public void setMergedCalendarResponse(List<MergedCalendar> mergedCalendars) {
@@ -25,16 +25,16 @@ public class MergedCalendarListResponse {
       MergedCalendarResponse mergedCalendarResponse = new MergedCalendarResponse();
       mergedCalendarResponse.setOutputAccountId(mergedCalendars.get(i).getOutputAccount());
       mergedCalendarResponse.setOutputCalendarId(mergedCalendars.get(i).getOutputCalendarId());
-      mergedCalendarResponse.setInputCalendarId((setToStringCalendarIds(mergedCalendars.get(i))));
-      this.calendarResponseList.add(mergedCalendarResponse);
+      mergedCalendarResponse.setInputCalendarIds((setToStringCalendarIds(mergedCalendars.get(i))));
+      this.mergedCalendars.add(mergedCalendarResponse);
     }
   }
 
   List<String> setToStringCalendarIds(MergedCalendar mergedCalendar) {
-    List<String> CalendarIDstoString = new ArrayList<>();
-    for (int i = 0; i <mergedCalendar.getCalendarIds().size(); i++) {
-      CalendarIDstoString.add(mergedCalendar.getCalendarIds().get(i).toString());
+    List<String> CalendarIDsToString = new ArrayList<>();
+    for (int i = 0; i < mergedCalendar.getCalendarIds().size(); i++) {
+      CalendarIDsToString.add(mergedCalendar.getCalendarIds().get(i).toString());
     }
-    return CalendarIDstoString;
+    return CalendarIDsToString;
   }
 }

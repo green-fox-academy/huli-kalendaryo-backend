@@ -5,7 +5,7 @@ import java.util.List;
 public class MergedCalendarResponse {
     private String outputAccountId;
     private String outputCalendarId;
-    private List<String> inputCalendarId;
+    private List<String> inputCalendarIds;
 
     public MergedCalendarResponse() {
     }
@@ -26,11 +26,11 @@ public class MergedCalendarResponse {
         this.outputCalendarId = outputCalendarId;
     }
 
-    public List<String> getInputCalendarId() {
-        return inputCalendarId;
+    public List<String> getInputCalendarIds() {
+        return inputCalendarIds;
     }
 
-    public void setInputCalendarId(List<String> inputCalendarId) {
-        this.inputCalendarId = inputCalendarId;
+    public void setInputCalendarIds(List<String> inputCalendarIds) {
+        this.inputCalendarIds = inputCalendarIds;
     }
 }
