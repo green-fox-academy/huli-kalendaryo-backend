@@ -16,21 +16,14 @@ public class EventResponse {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
-
     String channelId;
-
     String resourceId;
-
     // example:  "https://www.googleapis.com/calendar/v3/calendars/my_calendar@gmail.com/events"
     String resourceUri;
-
     String resourceState;
-
     String messageNumber;
-
     @JsonInclude(Include.NON_NULL)
     String channelExpiration;
-
     @JsonInclude(Include.NON_NULL)
     String channelToken;
 

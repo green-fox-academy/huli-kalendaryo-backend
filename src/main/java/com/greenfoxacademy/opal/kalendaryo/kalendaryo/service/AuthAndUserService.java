@@ -7,13 +7,14 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelReposi
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.SecureRandom;
 
 import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.AuthorizeKal.authorize;
 
-@Component
+@Service
 public class AuthAndUserService {
 
     @Autowired
