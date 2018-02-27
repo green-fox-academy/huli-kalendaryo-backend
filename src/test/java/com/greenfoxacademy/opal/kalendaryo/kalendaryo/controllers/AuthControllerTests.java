@@ -17,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import java.nio.charset.Charset;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -30,7 +31,7 @@ public class AuthControllerTests {
             Charset.forName("utf8"));
 
     private MockMvc mockMvc;
-    private HttpHeaders headers = new HttpHeaders();
+    private HttpHeaders header = new HttpHeaders();
 
     @Autowired
     WebApplicationContext webApplicationContext;
@@ -49,13 +50,15 @@ public class AuthControllerTests {
 
     @Test
     public void shouldReturnHTTPStatusOK() throws Exception {
-        headers.add("X-Client-Token", "gumimaci");
+        header.add("X-Client-Token", "gumimaci");
 
         String expectedResult = "{\"id\": 123456,\"email\":\"gumimaci@gumimaci.com\"," +
                 "\"authModels\":\"gumimaci@gumimaci.com\",\"accesToken\": \"abcdefghijklmnopqr\"}";
 
         mockMvc.perform(get("/auth")
-                .contentType(contentType))
+                .contentType(contentType)
+                .content(expectedResult)
+                .headers(header))
                 .andExpect(status().isOk());
     }
 
