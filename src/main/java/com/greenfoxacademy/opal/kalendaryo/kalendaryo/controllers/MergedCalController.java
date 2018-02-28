@@ -39,7 +39,7 @@ public class MergedCalController {
     public ResponseEntity postMergedCal(@RequestHeader("X-Client-Token") String clientToken,
         @RequestBody MergedCalendarFromAndroid mergedCalendarFromAndroid) throws IOException {
         if (clientToken == null) {
-            return ResponseEntity.status(401).body("Client token is missing or invalid");
+            return new ResponseEntity("Client token is missing or invalid", HttpStatus.UNAUTHORIZED);
         }
         MergedCalendar mergedCalendar = new MergedCalendar();
         mergedCalendar.setOutputCalendarId(mergedCalendarFromAndroid.getOutputCalendarId());
