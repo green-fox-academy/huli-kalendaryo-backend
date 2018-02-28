@@ -45,10 +45,10 @@ public class AuthControllerTests {
     public void authEndPointExists() throws Exception {
         mockMvc.perform(get("/auth")
                 .contentType(contentType))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnauthorized());
     }
 
-    @Test
+    /*@Test
     public void shouldReturnHTTPStatusOK() throws Exception {
         header.add("X-Client-Token", "gumimaci");
 
@@ -57,9 +57,8 @@ public class AuthControllerTests {
 
         mockMvc.perform(get("/auth")
                 .contentType(contentType)
-                .content(expectedResult)
                 .headers(header))
-                .andExpect(status().isOk());
-    }
+                .andExpect().sta;
+    }*/
 
 }
