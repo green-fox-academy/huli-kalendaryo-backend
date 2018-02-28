@@ -18,12 +18,12 @@ public class AuthModel {
     @JoinColumn(name = "user_id")
     UserModel user;
 
-    public AuthModel(String email, String authCode, String displayName, UserModel user, String accesToken) {
+    public AuthModel(String email, String authCode, String displayName, UserModel user, String accessToken) {
         this.email = email;
         this.authCode = authCode;
         this.displayName = displayName;
         this.user = user;
-        this.accessToken = accesToken;
+        this.accessToken = accessToken;
     }
 
     public AuthModel() {
@@ -61,7 +61,6 @@ public class AuthModel {
         this.authCode = authCode;
     }
 
-
     public String getAccessToken() {
         return accessToken;
     }
@@ -85,6 +84,4 @@ public class AuthModel {
     public void setCalendarId(List<CalendarId> calendarId) {
         this.calendarId = calendarId;
     }
-
-
 }
