@@ -11,10 +11,6 @@ public class MergedCalendarListResponse {
   public MergedCalendarListResponse() {
   }
 
-  public List<MergedCalendarResponse> getCalendarResponseList() {
-    return mergedCalendars;
-  }
-
   public List<MergedCalendarResponse> getMergedCalendars() {
     return mergedCalendars;
   }
