@@ -6,14 +6,14 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.MergedCalenda
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarIdService;
-import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+// vagy ez @Component vagy a felette lévő
 @Profile("test")
 public class KalendaryoTestApplication implements CommandLineRunner {
 
