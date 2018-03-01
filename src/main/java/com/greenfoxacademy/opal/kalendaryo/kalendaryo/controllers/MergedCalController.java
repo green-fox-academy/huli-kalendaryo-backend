@@ -51,7 +51,7 @@ public class MergedCalController {
         String[] inputStrings = mergedCalendarFromAndroid.getInputCalendarIds();
         mergedCalendar.setCalendarIds(mergedCalendar.getCalendarsIds(inputStrings));
         mergedCalendar
-                .setUserName(userModelRepository.findByClientToken(clientToken));
+                .setUser(userModelRepository.findByClientToken(clientToken));
         mergedCalendar
                 .setOutputAccount(userModelRepository.findByClientToken(clientToken).getUserEmail());
         mergedCalendarRepository.save(mergedCalendar);
