@@ -29,7 +29,6 @@ public class CalendarId {
     }
 
     public void setId(String id) {
-
         this.id = id;
     }
 
@@ -45,8 +44,7 @@ public class CalendarId {
         return mergedCalendar;
     }
 
-    public void setMergedCalendar(
-        MergedCalendar mergedCalendar) {
+    public void setMergedCalendar(MergedCalendar mergedCalendar) {
         this.mergedCalendar = mergedCalendar;
     }
 }

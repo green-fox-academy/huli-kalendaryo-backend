@@ -22,8 +22,7 @@ public class UserModel {
     public UserModel() {
     }
 
-    public UserModel(String clientToken, String userEmail,
-        List<AuthModel> authModelList) {
+    public UserModel(String clientToken, String userEmail, List<AuthModel> authModelList) {
         this.clientToken = clientToken;
         this.userEmail = userEmail;
         this.authModelList = authModelList;
@@ -69,8 +68,7 @@ public class UserModel {
         return authModelList;
     }
 
-    public void setAuthModelList(
-        List<AuthModel> authModelList) {
+    public void setAuthModelList(List<AuthModel> authModelList) {
         this.authModelList = authModelList;
     }
 }

@@ -13,7 +13,7 @@ public class MergedCalendar {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private UserModel userName;
     private String outputAccount;
     private String outputCalendarId;
@@ -69,11 +69,9 @@ public class MergedCalendar {
         return CalendarIds;
     }
 
-    public void setCalendarIds(
-        List<CalendarId> calendarIds) {
+    public void setCalendarIds(List<CalendarId> CalendarIds) {
         this.CalendarIds = CalendarIds;
     }
-
 
     public List<CalendarId> getCalendarsIds(String[] arrayOfStrings) {
         List<CalendarId> calendarIds = new ArrayList<>();
@@ -86,5 +84,4 @@ public class MergedCalendar {
         }
         return calendarIds;
     }
-
 }
