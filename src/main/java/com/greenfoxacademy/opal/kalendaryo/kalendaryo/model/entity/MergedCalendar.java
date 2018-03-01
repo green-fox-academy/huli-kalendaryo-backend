@@ -13,7 +13,7 @@ public class MergedCalendar {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private UserModel userName;
     private String outputAccount;
     private String outputCalendarId;
