@@ -50,13 +50,5 @@ public class KalendaryoTestApplication implements CommandLineRunner {
         calendarIdService.save(calendarId2);
         calendarIdService.save(calendarId3);
         calendarIdService.save(calendarId4);
-
-        Flyway flyway = new Flyway();
-        String url = "jdbc:h2:tcp://localhost:9092/kal";
-        String username = "sa";
-        String password = "sa";
-
-        flyway.setDataSource(url, username, password);
-        flyway.migrate();
     }
 }
