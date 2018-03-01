@@ -52,7 +52,7 @@ public class KalendaryoTestApplication implements CommandLineRunner {
         calendarIdService.save(calendarId4);
 
         Flyway flyway = new Flyway();
-        String url = "jdbc:mysql:mem:db";
+        String url = "jdbc:h2:tcp://localhost:9092/kal";
         String username = "sa";
         String password = "sa";
 
