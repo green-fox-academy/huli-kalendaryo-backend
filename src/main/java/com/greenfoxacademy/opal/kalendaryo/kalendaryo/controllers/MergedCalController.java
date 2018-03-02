@@ -11,6 +11,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelReposi
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarIdService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.MergedCalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,13 +37,17 @@ public class MergedCalController {
     @Autowired
     MergedCalendarService mergedCalendarService;
 
+    @Autowired
+    CalendarIdService calendarIdService;
+
     @PostMapping(value = "/calendar")
     public ResponseEntity postMergedCal(@RequestHeader("X-Client-Token") String clientToken,
         @RequestBody MergedCalendarFromAndroid mergedCalendarFromAndroid) throws IOException {
         if (clientToken == null) {
-            return ResponseEntity.status(401).body("Client token is missing or invalid");
+            return new ResponseEntity("Client token is missing or invalid", HttpStatus.UNAUTHORIZED);
         }
         MergedCalendar mergedCalendar = new MergedCalendar();
+        CalendarId calendarId = new CalendarId();
         mergedCalendar.setOutputCalendarId(mergedCalendarFromAndroid.getOutputCalendarId());
         String[] inputStrings = mergedCalendarFromAndroid.getInputCalendarIds();
         mergedCalendar.setCalendarIds(mergedCalendar.getCalendarsIds(inputStrings));
@@ -51,7 +56,9 @@ public class MergedCalController {
         mergedCalendar
                 .setOutputAccount(userModelRepository.findByClientToken(clientToken).getUserEmail());
         mergedCalendarRepository.save(mergedCalendar);
-        return new ResponseEntity(HttpStatus.OK);
+        calendarId.setMergedCalendar(mergedCalendar);
+        calendarIdService.save(calendarId);
+        return new ResponseEntity(mergedCalendar.getId(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/calendar")
