@@ -31,7 +31,7 @@ public class MergedCalendar {
     }
 
     public MergedCalendar(long id, UserModel user, String outputAccount,
-        String outputCalendarId, List<CalendarId> CalendarIds) {
+                          String outputCalendarId, List<CalendarId> CalendarIds) {
         this.id = id;
         this.user = user;
         this.outputAccount = outputAccount;
