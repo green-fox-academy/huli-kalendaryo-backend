@@ -22,6 +22,11 @@ public class UserModel {
     public UserModel() {
     }
 
+    public UserModel(String clientToken, String userEmail) {
+        this.clientToken = clientToken;
+        this.userEmail = userEmail;
+    }
+
     public UserModel(String clientToken, String userEmail, List<AuthModel> authModelList) {
         this.clientToken = clientToken;
         this.userEmail = userEmail;
