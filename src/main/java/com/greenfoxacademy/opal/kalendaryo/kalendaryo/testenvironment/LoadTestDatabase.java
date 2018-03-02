@@ -33,19 +33,21 @@ public class LoadTestDatabase implements CommandLineRunner {
         flyway.setDataSource(url, username, password);
         flyway.migrate();
 
-        UserModel userModel1 = new UserModel("clienttoken1", "dummy@jourrapide.com");
+        UserModel userModel1 = new UserModel("clienttoken1", "haldirster@gamil.com");
         UserModel userModel2 = new UserModel("clienttoken2", "test@gustr.com");
 
-        AuthModel authModel1 = new AuthModel("dummy@jourrapide.com", "authCode1","Minta Marci", userModel1, "1/fFAGRNJru1FTz70BzhT3Zg");
-        AuthModel authModel2 = new AuthModel("email@cuvox.de", "authCode2","Minta Marci", userModel1, "accessToken2");
-        AuthModel authModel3 = new AuthModel("redriot@einrot.com", "authCode3","Valaki Vanda", userModel2, "accessToken3");
-        AuthModel authModel4 = new AuthModel("test@gustr.com", "authCode4","Valaki Vanda", userModel2, "accessToken4");
+        AuthModel authModel1 = new AuthModel("haldirster@gamil.com",
+                "4/AACRDU1aDj_giBnvAgQs9sGT1vwPksTeZ2XP8G0f60hi3-DynzjXjFDjIVQ_WAHikJcFS6_L3Luv6gDzJ2njxac",
+                "Balazs Salfay", userModel1,
+                "ya29.GlxyBXIgfIdwt2YzAUd2cd4F3Wn-vDylZhTMwkOnKncG8LxSbEAyOt_q5_PdskgNCa0tx-B9zeJ5Mm4ibH4py4YabSB3uMtqsVI3n-u1C0OdZXEOXWaP1-370RmxiQ");
+        AuthModel authModel2 = new AuthModel("balazs.salfay@gmail.com",
+                "4/AAAACKZwRRju9hs0fdmU5WaXzJFkFfikz2I6MgkCb1P9R5t_ppFTJFG-hkR7dh_7-FY8hbS1-Uyc6v9kh1jO8zs",
+                "Balazs Salfay", userModel1,
+                "ya29.GlxyBTE6xGxra7mTRkI_Xz45UVN3Xe54sT09BESnM1sZczsqjERpSE7o2TZ0gHRD3tDiGfEBXME7Gi3vfxuVe2zNhoyvCv68AowXi8UHFwcgL1cvLrmT7tpLL9slwg");
         authAndUserService.saveAuthModel(authModel1);
         authAndUserService.saveAuthModel(authModel2);
-        authAndUserService.saveAuthModel(authModel3);
-        authAndUserService.saveAuthModel(authModel4);
 
-        MergedCalendar mergedCalendar1 = new MergedCalendar(userModel1, "email@cuvox.de", "outputcalid1");
+        MergedCalendar mergedCalendar1 = new MergedCalendar(userModel1, "haldirster@gamil.com", "outputcalid1");
         MergedCalendar mergedCalendar2 = new MergedCalendar(userModel2, "test@gustr.com", "outputcalid2");
 
         CalendarId calendarId1 = new CalendarId("id1", authModel1, mergedCalendar1);
