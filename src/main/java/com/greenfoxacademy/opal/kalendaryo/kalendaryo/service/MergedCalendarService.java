@@ -11,7 +11,7 @@ public class MergedCalendarService {
     MergedCalendarRepository mergedCalendarRepository;
 
     public UserModel findMergedCalendars(UserModel user) {
-        user.setMergedCalendarList(mergedCalendarRepository.findMergedCalendarsByUserName(user));
+        user.setMergedCalendarList(mergedCalendarRepository.findMergedCalendarsByUser(user));
         return user;
     }
 
