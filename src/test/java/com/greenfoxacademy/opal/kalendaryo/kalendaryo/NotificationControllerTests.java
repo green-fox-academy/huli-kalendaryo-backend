@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.nio.charset.Charset;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = KalendaryoTestApplication.class)
+//@SpringBootTest(classes = KalendaryoTestApplication.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
 @EnableWebMvc

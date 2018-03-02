@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Profile("test")
-@SpringBootApplication
+//@SpringBootApplication
 public class KalendaryoTestApplication implements CommandLineRunner {
 
     @Autowired
