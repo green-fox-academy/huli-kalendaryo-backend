@@ -51,10 +51,13 @@ public class AuthController {
     public AuthResponse postAuth(@RequestBody AuthModel authModel, @RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
         UserModel userModel;
         if (!request.getHeader("X-Client-Token").equals("")) {
-                userModel = authAndUserService.findUserByClientToken(clientToken);
-        } else if (authModelRepository.findByEmail(authModel.getEmail()) != null) {
+            //userModel = authAndUserService.findUserByClientToken(clientToken);
             authModel = authModelRepository.findByEmail(authModel.getEmail());
-            userModel= authModel.getUser();
+            userModel = authAndUserService.findUserByAuth(authModel);
+        } else if (authModelRepository.findByEmail(authModel.getEmail()) != null) {
+            //userModel = authAndUserService.findUserByClientToken(clientToken);
+            authModel = authModelRepository.findByEmail(authModel.getEmail());
+            userModel= authAndUserService.findUserByAuth(authModel);
         } else {
             userModel = new UserModel(authAndUserService.getRandomClientToken());
             userModel.setUserEmail(authModel.getEmail());
