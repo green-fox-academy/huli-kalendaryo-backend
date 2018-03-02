@@ -1,6 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.EventResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.EventResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
