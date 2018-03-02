@@ -1,4 +1,4 @@
-package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
+package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
