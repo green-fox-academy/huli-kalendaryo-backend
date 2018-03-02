@@ -21,16 +21,22 @@ public class MergedCalendar {
     @OneToMany(mappedBy = "mergedCalendar")
     List<CalendarId> CalendarIds;
 
+    public MergedCalendar() {
+    }
+
+    public MergedCalendar(UserModel user, String outputAccount, String outputCalendarId) {
+        this.user = user;
+        this.outputAccount = outputAccount;
+        this.outputCalendarId = outputCalendarId;
+    }
+
     public MergedCalendar(long id, UserModel user, String outputAccount,
-        String outputCalendarId, List<CalendarId> CalendarIds) {
+                          String outputCalendarId, List<CalendarId> CalendarIds) {
         this.id = id;
         this.user = user;
         this.outputAccount = outputAccount;
         this.outputCalendarId = outputCalendarId;
         this.CalendarIds = CalendarIds;
-    }
-
-    public MergedCalendar() {
     }
 
     public long getId() {
