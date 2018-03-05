@@ -11,6 +11,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelReposi
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarIdService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.MergedCalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,27 +37,22 @@ public class MergedCalController {
     @Autowired
     MergedCalendarService mergedCalendarService;
 
+    @Autowired
+    CalendarIdService calendarIdService;
+
     @PostMapping(value = "/calendar")
     public ResponseEntity postMergedCal(@RequestHeader("X-Client-Token") String clientToken,
         @RequestBody MergedCalendarFromAndroid mergedCalendarFromAndroid) throws IOException {
         if (clientToken == null) {
             return ResponseEntity.status(401).body("Client token is missing or invalid");
         }
-        MergedCalendar mergedCalendar = new MergedCalendar();
-        mergedCalendar.setOutputCalendarId(mergedCalendarFromAndroid.getOutputCalendarId());
-        String[] inputStrings = mergedCalendarFromAndroid.getInputCalendarIds();
-        mergedCalendar.setCalendarIds(mergedCalendar.getCalendarsIds(inputStrings));
-        mergedCalendar
-                .setUser(userModelRepository.findByClientToken(clientToken));
-        mergedCalendar
-                .setOutputAccount(userModelRepository.findByClientToken(clientToken).getUserEmail());
-        mergedCalendarRepository.save(mergedCalendar);
+        calendarIdService.getCalendarsIds(mergedCalendarFromAndroid,mergedCalendarService.settingNewMergedCalendar(mergedCalendarFromAndroid,clientToken));
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(value = "/calendar")
     public ResponseEntity getMergedCalList(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
-        if (!request.getHeader("X-Client-Token").equals(null)) {
+        if (!request.getHeader("X-Client-Token").equals("")) {
             MergedCalendarListResponse mergedCalendarListResponse = new MergedCalendarListResponse();
             UserModel user = userModelRepository.findByClientToken(clientToken);
             mergedCalendarService.findMergedCalendars(user);
