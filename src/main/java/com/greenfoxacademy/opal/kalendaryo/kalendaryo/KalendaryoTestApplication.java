@@ -1,31 +1,31 @@
-package com.greenfoxacademy.opal.kalendaryo.kalendaryo.testEnvironment;
+package com.greenfoxacademy.opal.kalendaryo.kalendaryo;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.CalendarId;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.MergedCalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarIdService;
-import org.flywaydb.core.Flyway;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.testEnvironment.TestAuthAndUserService;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.testEnvironment.TestCalendarIdService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@Component
-@Profile("test")
-public class LoadTestDatabase implements ApplicationRunner {
-
-    @Autowired
-    AuthAndUserService authAndUserService;
+@SpringBootApplication
+public class KalendaryoTestApplication implements CommandLineRunner {
 
     @Autowired
-    CalendarIdService calendarIdService;
+    TestAuthAndUserService authAndUserService;
+
+    @Autowired
+    TestCalendarIdService calendarIdService;
+
+    public static void main(String[] args) {
+        SpringApplication.run(KalendaryoTestApplication.class, args);
+    }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(String... args) throws Exception {
         UserModel userModel1 = new UserModel("clienttoken1", "haldirster@gamil.com");
         UserModel userModel2 = new UserModel("clienttoken2", "test@gustr.com");
 
@@ -47,9 +47,9 @@ public class LoadTestDatabase implements ApplicationRunner {
         CalendarId calendarId2 = new CalendarId("id2", authModel1, mergedCalendar2);
         CalendarId calendarId3 = new CalendarId("id3", authModel2, mergedCalendar1);
         CalendarId calendarId4 = new CalendarId("id4", authModel2, mergedCalendar2);
-        calendarIdService.save(calendarId1);
-        calendarIdService.save(calendarId2);
-        calendarIdService.save(calendarId3);
-        calendarIdService.save(calendarId4);
+        calendarIdService.saveCalendarId(calendarId1);
+        calendarIdService.saveCalendarId(calendarId2);
+        calendarIdService.saveCalendarId(calendarId3);
+        calendarIdService.saveCalendarId(calendarId4);
     }
 }
