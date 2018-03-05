@@ -1,11 +1,13 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo;
 
 import com.google.api.client.http.HttpResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.testEnvironment.LoadTestDatabase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
