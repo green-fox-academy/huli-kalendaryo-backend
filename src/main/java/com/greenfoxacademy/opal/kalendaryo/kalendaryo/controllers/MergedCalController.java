@@ -46,7 +46,8 @@ public class MergedCalController {
         if (clientToken == null) {
             return ResponseEntity.status(401).body("Client token is missing or invalid");
         }
-        calendarIdService.getCalendarsIds(mergedCalendarFromAndroid,mergedCalendarService.settingNewMergedCalendar(mergedCalendarFromAndroid,clientToken));
+        MergedCalendar mergedCalendar = new MergedCalendar();
+        calendarIdService.saveCalendarId(mergedCalendar, mergedCalendarFromAndroid, clientToken);
         return new ResponseEntity(HttpStatus.OK);
     }
 
