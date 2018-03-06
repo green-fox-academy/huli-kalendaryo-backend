@@ -36,8 +36,6 @@ public class AuthModel {
         this.accessToken = accessToken;
     }
 
-
-
     public String getDisplayName() {
         return displayName;
     }

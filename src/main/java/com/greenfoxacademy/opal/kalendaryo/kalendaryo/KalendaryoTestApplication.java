@@ -5,7 +5,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.CalendarId;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.MergedCalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarIdService;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.SaveAuthModelImpl;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.SaveAuthModelImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class KalendaryoTestApplication implements CommandLineRunner {
 
     @Autowired
-    SaveAuthModelImpl saveAuthModel;
+    SaveAuthModelImp saveAuthModel;
 
     @Autowired
     CalendarIdService calendarIdService;
