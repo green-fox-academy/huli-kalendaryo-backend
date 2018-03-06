@@ -8,6 +8,9 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelReposi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 @Service
 public class MergedCalendarService {
     @Autowired
@@ -23,12 +26,19 @@ public class MergedCalendarService {
 
     public MergedCalendar settingNewMergedCalendar(MergedCalendarFromAndroid mergedCalendarFromAndroid, String clientToken) {
         MergedCalendar mergedCalendar = new MergedCalendar();
-        for (int i = 0; i < mergedCalendarFromAndroid.getInputCalendarIds().length; i++) {
-            mergedCalendar.setOutputAccount(mergedCalendarFromAndroid.getOutputCalendarId());
-            mergedCalendar.setOutputCalendarId(mergedCalendarFromAndroid.getInputCalendarIds()[i]);
-            mergedCalendar.setUser(userModelRepository.findByClientToken(clientToken));
-        }
+        String idList = fieldInputcalendarSetter(mergedCalendarFromAndroid.getInputCalendarIds());
+        mergedCalendar.setOutputCalendarId(idList);
+        mergedCalendar.setOutputAccount(mergedCalendarFromAndroid.getOutputCalendarId());
+        mergedCalendar.setUser(userModelRepository.findByClientToken(clientToken));
         return mergedCalendar;
+    }
+
+    private String fieldInputcalendarSetter(String[] lists) {
+        String string = "";
+        for (int i = 0; i < lists.length; i++) {
+            string += lists[i];
+        }
+        return string;
     }
 
 }
