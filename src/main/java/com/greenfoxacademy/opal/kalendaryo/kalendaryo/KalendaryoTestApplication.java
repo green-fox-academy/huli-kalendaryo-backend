@@ -29,14 +29,8 @@ public class KalendaryoTestApplication implements CommandLineRunner {
         UserModel userModel1 = new UserModel("clienttoken1", "haldirster@gamil.com");
         UserModel userModel2 = new UserModel("clienttoken2", "test@gustr.com");
 
-        AuthModel authModel1 = new AuthModel("haldirster@gamil.com",
-                "4/AACRDU1aDj_giBnvAgQs9sGT1vwPksTeZ2XP8G0f60hi3-DynzjXjFDjIVQ_WAHikJcFS6_L3Luv6gDzJ2njxac",
-                "Balazs Salfay", userModel1,
-                "ya29.GlxyBXIgfIdwt2YzAUd2cd4F3Wn-vDylZhTMwkOnKncG8LxSbEAyOt_q5_PdskgNCa0tx-B9zeJ5Mm4ibH4py4YabSB3uMtqsVI3n-u1C0OdZXEOXWaP1-370RmxiQ");
-        AuthModel authModel2 = new AuthModel("balazs.salfay@gmail.com",
-                "4/AAAACKZwRRju9hs0fdmU5WaXzJFkFfikz2I6MgkCb1P9R5t_ppFTJFG-hkR7dh_7-FY8hbS1-Uyc6v9kh1jO8zs",
-                "Balazs Salfay", userModel1,
-                "ya29.GlxyBTE6xGxra7mTRkI_Xz45UVN3Xe54sT09BESnM1sZczsqjERpSE7o2TZ0gHRD3tDiGfEBXME7Gi3vfxuVe2zNhoyvCv68AowXi8UHFwcgL1cvLrmT7tpLL9slwg");
+        AuthModel authModel1 = new AuthModel("haldirster@gamil.com", "Balazs Salfay", userModel1);
+        AuthModel authModel2 = new AuthModel("balazs.salfay@gmail.com", "Balazs Salfay", userModel1);
         saveAuthModel.saveAuthModel(authModel1);
         saveAuthModel.saveAuthModel(authModel2);
 
