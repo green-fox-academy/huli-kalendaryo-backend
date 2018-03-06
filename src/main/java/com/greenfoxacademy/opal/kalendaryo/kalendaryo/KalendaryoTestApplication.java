@@ -4,8 +4,8 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.CalendarId;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.MergedCalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.testEnvironment.TestAuthAndUserService;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.testEnvironment.TestCalendarIdService;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarIdService;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.SaveAuthModelImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,10 +15,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class KalendaryoTestApplication implements CommandLineRunner {
 
     @Autowired
-    TestAuthAndUserService authAndUserService;
+    SaveAuthModelImpl saveAuthModel;
 
     @Autowired
-    TestCalendarIdService calendarIdService;
+    CalendarIdService calendarIdService;
 
     public static void main(String[] args) {
         SpringApplication.run(KalendaryoTestApplication.class, args);
@@ -37,8 +37,8 @@ public class KalendaryoTestApplication implements CommandLineRunner {
                 "4/AAAACKZwRRju9hs0fdmU5WaXzJFkFfikz2I6MgkCb1P9R5t_ppFTJFG-hkR7dh_7-FY8hbS1-Uyc6v9kh1jO8zs",
                 "Balazs Salfay", userModel1,
                 "ya29.GlxyBTE6xGxra7mTRkI_Xz45UVN3Xe54sT09BESnM1sZczsqjERpSE7o2TZ0gHRD3tDiGfEBXME7Gi3vfxuVe2zNhoyvCv68AowXi8UHFwcgL1cvLrmT7tpLL9slwg");
-        authAndUserService.saveAuthModel(authModel1);
-        authAndUserService.saveAuthModel(authModel2);
+        saveAuthModel.saveAuthModel(authModel1);
+        saveAuthModel.saveAuthModel(authModel2);
 
         MergedCalendar mergedCalendar1 = new MergedCalendar(userModel1, "haldirster@gamil.com", "outputcalid1");
         MergedCalendar mergedCalendar2 = new MergedCalendar(userModel2, "test@gustr.com", "outputcalid2");
@@ -47,9 +47,9 @@ public class KalendaryoTestApplication implements CommandLineRunner {
         CalendarId calendarId2 = new CalendarId("id2", authModel1, mergedCalendar2);
         CalendarId calendarId3 = new CalendarId("id3", authModel2, mergedCalendar1);
         CalendarId calendarId4 = new CalendarId("id4", authModel2, mergedCalendar2);
-        calendarIdService.saveCalendarId(calendarId1);
-        calendarIdService.saveCalendarId(calendarId2);
-        calendarIdService.saveCalendarId(calendarId3);
-        calendarIdService.saveCalendarId(calendarId4);
+        calendarIdService.save(calendarId1);
+        calendarIdService.save(calendarId2);
+        calendarIdService.save(calendarId3);
+        calendarIdService.save(calendarId4);
     }
 }
