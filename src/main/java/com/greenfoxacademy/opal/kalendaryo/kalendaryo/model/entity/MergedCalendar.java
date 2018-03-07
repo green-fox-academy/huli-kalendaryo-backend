@@ -79,15 +79,4 @@ public class MergedCalendar {
         this.CalendarIds = CalendarIds;
     }
 
-    public List<CalendarId> getCalendarsIds(String[] arrayOfStrings) {
-        List<CalendarId> calendarIds = new ArrayList<>();
-        for (int i = 0; i < arrayOfStrings.length; i++) {
-            CalendarId calendarId = new CalendarId();
-            calendarId.setId(arrayOfStrings[i]);
-            calendarId.setAuthModel(null);
-            calendarId.setMergedCalendar(null);
-            calendarIds.add(calendarId);
-        }
-        return calendarIds;
-    }
 }

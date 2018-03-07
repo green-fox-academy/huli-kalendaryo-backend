@@ -1,6 +1,11 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo;
 
 import com.google.api.client.http.HttpResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.MergedCalendar;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.MergedCalendarService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,10 +31,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.nio.charset.Charset;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+//@SpringBootTest(classes = KalendaryoTestApplication.class)
 @WebAppConfiguration
+@ActiveProfiles("test")
 @EnableWebMvc
-public class NotificationControllerTests {
+public class NotificationControllerTests  {
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
@@ -44,6 +51,7 @@ public class NotificationControllerTests {
     public void setUp() throws Exception {
         mock = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
+
 
     @Test
     public void notificationEndPointExists() throws Exception {
@@ -171,4 +179,5 @@ public class NotificationControllerTests {
                 .headers(headers)).andDo(print())
                 .andExpect(status().isOk());
     }
+
 }
