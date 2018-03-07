@@ -53,7 +53,6 @@ public class AuthController {
         if (!request.getHeader("X-Client-Token").equals("")) {
             userModel = authAndUserService.findUserByClientToken(clientToken);
         } else if (authModelRepository.findByEmail(authModel.getEmail()) != null) {
-            authModel = authModelRepository.findByEmail(authModel.getEmail());
             userModel= authAndUserService.findUserByAuth(authModel);
         } else {
             userModel = new UserModel(authAndUserService.getRandomClientToken());
