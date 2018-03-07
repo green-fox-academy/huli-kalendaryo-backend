@@ -2,6 +2,7 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Random;
 
 @Entity
 public class AuthModel {
@@ -18,15 +19,21 @@ public class AuthModel {
     @JoinColumn(name = "user_id")
     UserModel user;
 
+    public AuthModel() {
+    }
+
+    public AuthModel(String email, String displayName, UserModel user) {
+        this.email = email;
+        this.displayName = displayName;
+        this.user = user;
+    }
+
     public AuthModel(String email, String authCode, String displayName, UserModel user, String accessToken) {
         this.email = email;
         this.authCode = authCode;
         this.displayName = displayName;
         this.user = user;
         this.accessToken = accessToken;
-    }
-
-    public AuthModel() {
     }
 
     public String getDisplayName() {
@@ -83,5 +90,21 @@ public class AuthModel {
 
     public void setCalendarId(List<CalendarId> calendarId) {
         this.calendarId = calendarId;
+    }
+
+    public void setMockAccessToken(char[] chars,  Random randomNumber) {
+        accessToken = "";
+        for (int i = 0; i < 12 ; i++) {
+            int  n = randomNumber.nextInt(62);
+            accessToken+= chars[n];
+        }
+    }
+
+    public void setMockAuthCode(char[] chars, Random randomNumber) {
+        authCode = "";
+        for (int i = 0; i < 20 ; i++) {
+            int  n = randomNumber.nextInt(62);
+            authCode+= chars[n];
+        }
     }
 }

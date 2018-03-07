@@ -6,40 +6,38 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.MergedCalenda
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarIdService;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.SaveAuthModelImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@Component
-// vagy ez @Component vagy a felette lévő
-@Profile("test")
-public class KalendaryoTestApplication implements CommandLineRunner {
+@SpringBootApplication
+public class CommandLineRunnerFillDatabase implements CommandLineRunner {
 
     @Autowired
     AuthAndUserService authAndUserService;
+
+    @Autowired
+    SaveAuthModelImp saveAuthModel;
 
     @Autowired
     CalendarIdService calendarIdService;
 
     @Override
     public void run(String... args) throws Exception {
+        UserModel userModel1 = new UserModel("clienttoken3", "haldirster@gamil.com");
+        UserModel userModel2 = new UserModel("clienttoken5", "test@gustr.com");
 
-        UserModel userModel1 = new UserModel();
-        UserModel userModel2 = new UserModel();
+        authAndUserService.saveUserModel(userModel1);
+        authAndUserService.saveUserModel(userModel2);
 
-        AuthModel authModel1 = new AuthModel("authEmail1", "authCode1","displayName1", userModel1, "accessToken1");
-        AuthModel authModel2 = new AuthModel("authEmail2", "authCode2","displayName2", userModel1, "accessToken2");
-        AuthModel authModel3 = new AuthModel("authEmail3", "authCode3","displayName3", userModel2, "accessToken3");
-        AuthModel authModel4 = new AuthModel("authEmail4", "authCode4","displayName4", userModel2, "accessToken4");
-        authAndUserService.saveAuthModel(authModel1);
-        authAndUserService.saveAuthModel(authModel2);
-        authAndUserService.saveAuthModel(authModel3);
-        authAndUserService.saveAuthModel(authModel4);
+        AuthModel authModel1 = new AuthModel("haldirster@gamil.com", "Teszt Tamás", userModel1);
+        AuthModel authModel2 = new AuthModel("balazs.salfay@gmail.com", "Teszt Tamás", userModel1);
+        saveAuthModel.saveAuthModel(authModel1);
+        saveAuthModel.saveAuthModel(authModel2);
 
-        MergedCalendar mergedCalendar1 = new MergedCalendar();
-        MergedCalendar mergedCalendar2 = new MergedCalendar();
+        MergedCalendar mergedCalendar1 = new MergedCalendar(userModel1, "haldirster@gamil.com", "outputcalid1");
+        MergedCalendar mergedCalendar2 = new MergedCalendar(userModel2, "test@gustr.com", "outputcalid2");
 
         CalendarId calendarId1 = new CalendarId("id1", authModel1, mergedCalendar1);
         CalendarId calendarId2 = new CalendarId("id2", authModel1, mergedCalendar2);

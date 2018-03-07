@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface MergedCalendarRepository extends CrudRepository<MergedCalendar,Long> {
 
     List<MergedCalendar> findMergedCalendarsByUser(UserModel userModel);

@@ -1,29 +1,20 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo;
 
-import com.google.api.client.http.HttpResponse;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.MergedCalendar;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.MergedCalendarService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,9 +22,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.nio.charset.Charset;
 
 @RunWith(SpringRunner.class)
-//@SpringBootTest(classes = KalendaryoTestApplication.class)
-@WebAppConfiguration
+@SpringBootTest(classes = CommandLineRunnerFillDatabase.class)
 @ActiveProfiles("test")
+@WebAppConfiguration
 @EnableWebMvc
 public class NotificationControllerTests  {
 
