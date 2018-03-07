@@ -1,9 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class CalendarId {
@@ -11,8 +8,10 @@ public class CalendarId {
     @Id
     private String id;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="auth_model_email")
     AuthModel authModel;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="merged_calendar_id")
     MergedCalendar mergedCalendar;
 
     public CalendarId(String id, AuthModel authModel, MergedCalendar mergedCalendar) {
@@ -29,7 +28,6 @@ public class CalendarId {
     }
 
     public void setId(String id) {
-
         this.id = id;
     }
 
@@ -45,8 +43,7 @@ public class CalendarId {
         return mergedCalendar;
     }
 
-    public void setMergedCalendar(
-        MergedCalendar mergedCalendar) {
+    public void setMergedCalendar(MergedCalendar mergedCalendar) {
         this.mergedCalendar = mergedCalendar;
     }
 }

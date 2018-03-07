@@ -5,6 +5,8 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.AuthResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.UserResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,12 @@ public class AuthController {
 
     @Autowired
     AuthAndUserService authAndUserService;
+
+    @Autowired
+    UserModelRepository userModelRepository;
+
+    @Autowired
+    AuthModelRepository authModelRepository;
 
     @GetMapping("/auth")
     public ResponseEntity getAuth(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
@@ -44,14 +52,14 @@ public class AuthController {
         UserModel userModel;
         if (!request.getHeader("X-Client-Token").equals("")) {
             userModel = authAndUserService.findUserByClientToken(clientToken);
-        }
-        else {
+        } else if (authModelRepository.findByEmail(authModel.getEmail()) != null) {
+            userModel= authAndUserService.findUserByAuth(authModel);
+        } else {
             userModel = new UserModel(authAndUserService.getRandomClientToken());
             userModel.setUserEmail(authModel.getEmail());
         }
         authModel.setUser(userModel);
         authAndUserService.saveAuthModel(authModel);
-
         return new AuthResponse(userModel.getId(), userModel.getClientToken(), authModel.getEmail(), authModel.getAccessToken());
     }
 }

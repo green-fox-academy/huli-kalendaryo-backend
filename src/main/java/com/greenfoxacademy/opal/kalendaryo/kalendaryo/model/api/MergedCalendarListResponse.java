@@ -11,13 +11,12 @@ public class MergedCalendarListResponse {
   public MergedCalendarListResponse() {
   }
 
-  public List<MergedCalendarResponse> getCalendarResponseList() {
+  public List<MergedCalendarResponse> getMergedCalendars() {
     return mergedCalendars;
   }
 
-  public void setCalendarResponseList(
-      List<MergedCalendarResponse> calendarResponseList) {
-    this.mergedCalendars = calendarResponseList;
+  public void setMergedCalendars(List<MergedCalendarResponse> mergedCalendars) {
+    this.mergedCalendars = mergedCalendars;
   }
 
   public void setMergedCalendarResponse(List<MergedCalendar> mergedCalendars) {
