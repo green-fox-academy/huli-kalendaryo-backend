@@ -26,6 +26,7 @@ public class MergedCalendarService {
         mergedCalendar.setOutputCalendarId(idList);
         mergedCalendar.setOutputAccount(mergedCalendarFromAndroid.getOutputCalendarId());
         mergedCalendar.setUser(userModelRepository.findByClientToken(clientToken));
+        mergedCalendarRepository.save(mergedCalendar);
         return mergedCalendar;
     }
 

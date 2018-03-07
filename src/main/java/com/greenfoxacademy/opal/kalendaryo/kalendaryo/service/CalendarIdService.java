@@ -34,12 +34,12 @@ public class CalendarIdService {
             CalendarId calendarId = new CalendarId();
             calendarId.setId(fromAndroid.getInputCalendarIds()[i]);
             calendarId.setAuthModel(authModelRepository.findByEmail(fromAndroid.getOutputCalendarId()));
-            setUniqueMergedCalendar(calendarId, mergedCalendar);
+            calendarId.setMergedCalendar(mergedCalendar);
             calendarIdRepository.save(calendarId);
         }
     }
 
-    public void setUniqueMergedCalendar(CalendarId calendarId, MergedCalendar mergedCalendar) {
+    /**public void setUniqueMergedCalendar(CalendarId calendarId, MergedCalendar mergedCalendar) {
         if (isMergedCalExist(mergedCalendar) == true) {
         mergedCalendar = mergedCalendarRepository.findByOutputCalendarId(mergedCalendar.getOutputCalendarId());
         }
@@ -48,5 +48,5 @@ public class CalendarIdService {
 
     public boolean isMergedCalExist(MergedCalendar mergedCalendar) {
         return mergedCalendarRepository.findByOutputCalendarId(mergedCalendar.getOutputCalendarId()) != null;
-    }
+    }*/
 }
