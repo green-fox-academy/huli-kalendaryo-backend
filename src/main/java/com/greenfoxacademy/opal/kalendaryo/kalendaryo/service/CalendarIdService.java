@@ -29,7 +29,7 @@ public class CalendarIdService {
     }
 
     public void saveCalendarId(MergedCalendar mergedCalendar, MergedCalendarFromAndroid fromAndroid, String clientToken) {
-        mergedCalendarService.settingNewMergedCalendar(mergedCalendar, fromAndroid, clientToken);
+        mergedCalendarService.saveMergedCalendar(mergedCalendar, fromAndroid, clientToken);
         for (int i = 0; i < fromAndroid.getInputCalendarIds().length; i++) {
             CalendarId calendarId = new CalendarId();
             calendarId.setId(fromAndroid.getInputCalendarIds()[i]);

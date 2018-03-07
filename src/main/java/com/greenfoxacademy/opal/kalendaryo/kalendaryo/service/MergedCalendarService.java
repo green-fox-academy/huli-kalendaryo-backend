@@ -21,7 +21,7 @@ public class MergedCalendarService {
         return user;
     }
 
-    public void settingNewMergedCalendar(MergedCalendar mergedCalendar, MergedCalendarFromAndroid mergedCalendarFromAndroid, String clientToken) {
+    public void saveMergedCalendar(MergedCalendar mergedCalendar, MergedCalendarFromAndroid mergedCalendarFromAndroid, String clientToken) {
         String idList = inputCalendarSetter(mergedCalendarFromAndroid.getInputCalendarIds());
         mergedCalendar.setOutputCalendarId(idList);
         mergedCalendar.setOutputAccount(mergedCalendarFromAndroid.getOutputCalendarId());
