@@ -14,7 +14,7 @@ public class MergedCalendar {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user")
     private UserModel user;
     private String outputAccount;
     private String outputCalendarId;
