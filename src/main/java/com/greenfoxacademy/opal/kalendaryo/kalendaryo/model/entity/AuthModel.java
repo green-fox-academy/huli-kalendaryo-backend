@@ -102,7 +102,7 @@ public class AuthModel {
 
     /**public void setMockAccessToken(char[] chars,  Random randomNumber) {
         accessToken = "";
-        for (int i = 0; i < 12 ; i++) {
+        for (int i = 0; i < 20 ; i++) {
             int  n = randomNumber.nextInt(62);
             accessToken+= chars[n];
         }
@@ -114,19 +114,13 @@ public class AuthModel {
             int  n = randomNumber.nextInt(62);
             authCode+= chars[n];
         }
+    }
+
+    public void setMockRefreshToken(char[] chars, Random randomNumber) {
+        refreshToken = "";
+        for (int i = 0; i < 20 ; i++) {
+            int  n = randomNumber.nextInt(62);
+            refreshToken+= chars[n];
+        }
     }*/
-
-    public void setMockAccessToken() {
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] random = new byte[20];
-        secureRandom.nextBytes(random);
-        setAccessToken(Base64.encodeBase64String(random));
-    }
-
-    public void setMockAuthCode() {
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] random = new byte[20];
-        secureRandom.nextBytes(random);
-        setAuthCode(Base64.encodeBase64String(random));
-    }
 }

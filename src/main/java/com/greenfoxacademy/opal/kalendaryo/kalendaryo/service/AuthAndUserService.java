@@ -6,10 +6,12 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.Random;
 
 import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.AuthorizeKal.authorize;
 
@@ -22,6 +24,9 @@ public class AuthAndUserService {
     @Autowired
     UserModelRepository userModelRepository;
 
+    @Autowired
+    MockTokenGenerator mockTokenGenerator;
+
     public void saveAuthModel(AuthModel authModel) throws IOException{
         String accessToken = authorize(authModel.getAuthCode());
         authModel.setAccessToken(accessToken);
@@ -31,8 +36,9 @@ public class AuthAndUserService {
     public void saveMockAuthModel(AuthModel authModel) {
         if (authModelRepository.findAuthModelByEmail(authModel.getEmail()) == null) {
             saveUserModel(authModel.getUser());
-            authModel.setMockAuthCode();
-            authModel.setMockAccessToken();
+            authModel.setAuthCode(mockTokenGenerator.generateMockToken());
+            authModel.setAccessToken(mockTokenGenerator.generateMockToken());
+            authModel.setRefreshToken(mockTokenGenerator.generateMockToken());
             setMockUser(authModel);
             authModelRepository.save(authModel);
         }
