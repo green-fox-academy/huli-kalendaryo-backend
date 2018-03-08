@@ -3,12 +3,15 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarListResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.*;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.MergedCalendarRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarIdService;
@@ -56,8 +59,8 @@ public class MergedCalController {
         if (!request.getHeader("X-Client-Token").equals("")) {
             MergedCalendarListResponse mergedCalendarListResponse = new MergedCalendarListResponse();
             UserModel user = userModelRepository.findByClientToken(clientToken);
-            mergedCalendarService.findMergedCalendars(user);
-            mergedCalendarListResponse.setMergedCalendarResponse(user.getMergedCalendarList());
+            List<MergedCalendar> list = mergedCalendarService.findMergedCalendars(user);
+            mergedCalendarListResponse.setMergedCalendars(mergedCalendarService.setMergedCalendarResponse(list));
             return new ResponseEntity<>(mergedCalendarListResponse, HttpStatus.OK);
         }
         return new ResponseEntity<String>("Client token is missing or invalid", HttpStatus.UNAUTHORIZED);
