@@ -28,12 +28,32 @@ public class AuthAndUserService {
         authModelRepository.save(authModel);
     }
 
+    public void saveMockAuthModel(AuthModel authModel) {
+        if (authModelRepository.findAuthModelByEmail(authModel.getEmail()) == null) {
+            saveUserModel(authModel.getUser());
+            authModel.setMockAuthCode();
+            authModel.setMockAccessToken();
+            setMockUser(authModel);
+            authModelRepository.save(authModel);
+        }
+    }
+
+    public void saveUserModel(UserModel userModel) {
+        if (userModelRepository.findByClientToken(userModel.getClientToken()) == null) {
+            userModelRepository.save(userModel);
+        }
+    }
+
     public UserModel findUserByClientToken(String clientToken) {
         return userModelRepository.findByClientToken(clientToken);
     }
 
-    public void saveUserModel(UserModel userModel) {
-        userModelRepository.save(userModel);
+
+    public void setMockUser(AuthModel authModel) {
+        if (userModelRepository.findByClientToken(authModel.getUser().getClientToken()) != null) {
+            UserModel user = userModelRepository.findByClientToken(authModel.getUser().getClientToken());
+            authModel.setUser(user);
+        }
     }
 
     public String getRandomClientToken() {

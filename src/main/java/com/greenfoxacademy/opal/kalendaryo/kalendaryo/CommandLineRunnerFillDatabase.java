@@ -6,38 +6,39 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.MergedCalenda
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarIdService;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.SaveAuthModelImp;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.MergedCalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
-@SpringBootApplication
+@Component
+@Profile("test")
 public class CommandLineRunnerFillDatabase implements CommandLineRunner {
 
     @Autowired
     AuthAndUserService authAndUserService;
 
     @Autowired
-    SaveAuthModelImp saveAuthModel;
+    CalendarIdService calendarIdService;
 
     @Autowired
-    CalendarIdService calendarIdService;
+    MergedCalendarService mergedCalendarService;
 
     @Override
     public void run(String... args) throws Exception {
         UserModel userModel1 = new UserModel("clienttoken3", "haldirster@gamil.com");
         UserModel userModel2 = new UserModel("clienttoken5", "test@gustr.com");
 
-        authAndUserService.saveUserModel(userModel1);
-        authAndUserService.saveUserModel(userModel2);
-
         AuthModel authModel1 = new AuthModel("haldirster@gamil.com", "Teszt Tamás", userModel1);
         AuthModel authModel2 = new AuthModel("balazs.salfay@gmail.com", "Teszt Tamás", userModel1);
-        saveAuthModel.saveAuthModel(authModel1);
-        saveAuthModel.saveAuthModel(authModel2);
+        authAndUserService.saveMockAuthModel(authModel1);
+        authAndUserService.saveMockAuthModel(authModel2);
 
         MergedCalendar mergedCalendar1 = new MergedCalendar(userModel1, "haldirster@gamil.com", "outputcalid1");
         MergedCalendar mergedCalendar2 = new MergedCalendar(userModel2, "test@gustr.com", "outputcalid2");
+        mergedCalendarService.saveMockMergedCalendar(mergedCalendar1);
+        mergedCalendarService.saveMockMergedCalendar(mergedCalendar2);
 
         CalendarId calendarId1 = new CalendarId("id1", authModel1, mergedCalendar1);
         CalendarId calendarId2 = new CalendarId("id2", authModel1, mergedCalendar2);

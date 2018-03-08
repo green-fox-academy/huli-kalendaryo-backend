@@ -14,10 +14,10 @@ public class MergedCalendar {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user")
     private UserModel user;
     private String outputAccount;
     private String outputCalendarId;
-  
     @OneToMany(mappedBy = "mergedCalendar")
     List<CalendarId> CalendarIds;
 

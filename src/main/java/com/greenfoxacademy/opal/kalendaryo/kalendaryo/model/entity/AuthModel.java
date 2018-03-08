@@ -1,6 +1,9 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 
+import com.google.api.client.util.Base64;
+
 import javax.persistence.*;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
 
@@ -20,6 +23,11 @@ public class AuthModel {
     UserModel user;
 
     public AuthModel() {
+    }
+
+    public AuthModel(String email, String displayName) {
+        this.email = email;
+        this.displayName = displayName;
     }
 
     public AuthModel(String email, String displayName, UserModel user) {
@@ -92,7 +100,7 @@ public class AuthModel {
         this.calendarId = calendarId;
     }
 
-    public void setMockAccessToken(char[] chars,  Random randomNumber) {
+    /**public void setMockAccessToken(char[] chars,  Random randomNumber) {
         accessToken = "";
         for (int i = 0; i < 12 ; i++) {
             int  n = randomNumber.nextInt(62);
@@ -106,5 +114,19 @@ public class AuthModel {
             int  n = randomNumber.nextInt(62);
             authCode+= chars[n];
         }
+    }*/
+
+    public void setMockAccessToken() {
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] random = new byte[20];
+        secureRandom.nextBytes(random);
+        setAccessToken(Base64.encodeBase64String(random));
+    }
+
+    public void setMockAuthCode() {
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] random = new byte[20];
+        secureRandom.nextBytes(random);
+        setAuthCode(Base64.encodeBase64String(random));
     }
 }
