@@ -2,15 +2,15 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api;
 
 import java.util.List;
 
-public class MergedCalendarFromAndroid {
+public class KalendarFromAndroid {
 
   private String outputCalendarId;
   private String[] inputCalendarIds;
 
-  public MergedCalendarFromAndroid() {
+  public KalendarFromAndroid() {
   }
 
-  public MergedCalendarFromAndroid(String outputCalendarId, String[] inputCalendarIds) {
+  public KalendarFromAndroid(String outputCalendarId, String[] inputCalendarIds) {
     this.outputCalendarId = outputCalendarId;
     this.inputCalendarIds = inputCalendarIds;
   }

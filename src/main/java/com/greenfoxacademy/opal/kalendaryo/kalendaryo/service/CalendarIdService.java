@@ -1,6 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarFromAndroid;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.CalendarId;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
@@ -28,7 +28,7 @@ public class CalendarIdService {
         calendarIdRepository.save(calendarId);
     }
 
-    public void saveCalendarId(Kalendar kalendar, MergedCalendarFromAndroid fromAndroid, String clientToken) {
+    public void saveCalendarId(Kalendar kalendar, KalendarFromAndroid fromAndroid, String clientToken) {
         kalendarService.saveKalendar(kalendar, fromAndroid, clientToken);
         for (int i = 0; i < fromAndroid.getInputCalendarIds().length; i++) {
             CalendarId calendarId = new CalendarId();

@@ -1,7 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarFromAndroid;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.CalendarId;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
@@ -29,10 +29,10 @@ public class KalendarService {
         return kalendarRepository.findKalendarsByUser(user);
     }
 
-    public void saveKalendar(Kalendar kalendar, MergedCalendarFromAndroid mergedCalendarFromAndroid, String clientToken) {
-        String idList = inputCalendarSetter(mergedCalendarFromAndroid.getInputCalendarIds());
+    public void saveKalendar(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) {
+        String idList = inputCalendarSetter(kalendarFromAndroid.getInputCalendarIds());
         kalendar.setOutputCalendarId(idList);
-        kalendar.setOutputAccount(mergedCalendarFromAndroid.getOutputCalendarId());
+        kalendar.setOutputAccount(kalendarFromAndroid.getOutputCalendarId());
         kalendar.setUser(userModelRepository.findByClientToken(clientToken));
         kalendarRepository.save(kalendar);
     }
@@ -45,16 +45,16 @@ public class KalendarService {
         return string;
     }
 
-    public List<MergedCalendarResponse> setMergedCalendarResponse(List<Kalendar> kalendars) {
-        List<MergedCalendarResponse> mergedCalendarResponses = new ArrayList<>();
+    public List<KalendarResponse> setKalendarResponse(List<Kalendar> kalendars) {
+        List<KalendarResponse> kalendarResponses = new ArrayList<>();
         for (int i = 0; i < kalendars.size(); i++) {
-            MergedCalendarResponse mergedCalendarResponse = new MergedCalendarResponse();
-            mergedCalendarResponse.setOutputAccountId(kalendars.get(i).getOutputAccount());
-            mergedCalendarResponse.setOutputCalendarId(kalendars.get(i).getOutputCalendarId());
-            mergedCalendarResponse.setInputCalendarIds((setToStringCalendarIds(calendarIdRepository.findCalendarIdsByKalendar(kalendars.get(i)))));
-            mergedCalendarResponses.add(mergedCalendarResponse);
+            KalendarResponse kalendarResponse = new KalendarResponse();
+            kalendarResponse.setOutputAccountId(kalendars.get(i).getOutputAccount());
+            kalendarResponse.setOutputCalendarId(kalendars.get(i).getOutputCalendarId());
+            kalendarResponse.setInputCalendarIds((setToStringCalendarIds(calendarIdRepository.findCalendarIdsByKalendar(kalendars.get(i)))));
+            kalendarResponses.add(kalendarResponse);
         }
-        return mergedCalendarResponses;
+        return kalendarResponses;
     }
 
     public List<String> setToStringCalendarIds(List<CalendarId> calendarIds) {

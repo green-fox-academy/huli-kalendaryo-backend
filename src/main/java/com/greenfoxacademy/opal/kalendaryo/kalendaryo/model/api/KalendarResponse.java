@@ -2,12 +2,12 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api;
 
 import java.util.List;
 
-public class MergedCalendarResponse {
+public class KalendarResponse {
     private String outputAccountId;
     private String outputCalendarId;
     private List<String> inputCalendarIds;
 
-    public MergedCalendarResponse() {
+    public KalendarResponse() {
     }
 
     public String getOutputAccountId() {

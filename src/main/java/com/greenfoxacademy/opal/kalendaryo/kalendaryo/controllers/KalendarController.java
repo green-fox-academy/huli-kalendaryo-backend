@@ -1,8 +1,8 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarFromAndroid;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarListResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarListResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.*;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalendarRepository;
@@ -43,26 +43,25 @@ public class KalendarController {
 
     @PostMapping(value = "/calendar")
     public ResponseEntity postKalendar(@RequestHeader("X-Client-Token") String clientToken,
-        @RequestBody MergedCalendarFromAndroid mergedCalendarFromAndroid) throws IOException {
+        @RequestBody KalendarFromAndroid kalendarFromAndroid) throws IOException {
         if (clientToken == null) {
             return ResponseEntity.status(401).body("Client token is missing or invalid");
         }
         Kalendar kalendar = new Kalendar();
-        calendarIdService.saveCalendarId(kalendar, mergedCalendarFromAndroid, clientToken);
+        calendarIdService.saveCalendarId(kalendar, kalendarFromAndroid, clientToken);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(value = "/calendar")
     public ResponseEntity getKalendarList(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
         if (!request.getHeader("X-Client-Token").equals("")) {
-            MergedCalendarListResponse mergedCalendarListResponse = new MergedCalendarListResponse();
+            KalendarListResponse kalendarListResponse = new KalendarListResponse();
             UserModel user = userModelRepository.findByClientToken(clientToken);
             List<Kalendar> list = kalendarService.findKalendars(user);
-            mergedCalendarListResponse.setMergedCalendars(kalendarService.setMergedCalendarResponse(list));
-            return new ResponseEntity<>(mergedCalendarListResponse, HttpStatus.OK);
+            kalendarListResponse.setKalendars(kalendarService.setKalendarResponse(list));
+            return new ResponseEntity<>(kalendarListResponse, HttpStatus.OK);
         }
         return new ResponseEntity<String>("Client token is missing or invalid", HttpStatus.UNAUTHORIZED);
 
     }
-
 }
