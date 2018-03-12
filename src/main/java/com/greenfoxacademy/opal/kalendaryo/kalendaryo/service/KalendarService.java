@@ -6,7 +6,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.CalendarId;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.CalendarIdRepository;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.MergedCalendarRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalendarRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MergedCalendarService {
+public class KalendarService {
     @Autowired
-    MergedCalendarRepository mergedCalendarRepository;
+    KalendarRepository kalendarRepository;
 
     @Autowired
     UserModelRepository userModelRepository;
@@ -25,16 +25,16 @@ public class MergedCalendarService {
     @Autowired
     CalendarIdRepository calendarIdRepository;
 
-    public List<Kalendar> findMergedCalendars(UserModel user) {
-        return mergedCalendarRepository.findMergedCalendarsByUser(user);
+    public List<Kalendar> findKalendars(UserModel user) {
+        return kalendarRepository.findKalendarsByUser(user);
     }
 
-    public void saveMergedCalendar(Kalendar kalendar, MergedCalendarFromAndroid mergedCalendarFromAndroid, String clientToken) {
+    public void saveKalendar(Kalendar kalendar, MergedCalendarFromAndroid mergedCalendarFromAndroid, String clientToken) {
         String idList = inputCalendarSetter(mergedCalendarFromAndroid.getInputCalendarIds());
         kalendar.setOutputCalendarId(idList);
         kalendar.setOutputAccount(mergedCalendarFromAndroid.getOutputCalendarId());
         kalendar.setUser(userModelRepository.findByClientToken(clientToken));
-        mergedCalendarRepository.save(kalendar);
+        kalendarRepository.save(kalendar);
     }
 
     private String inputCalendarSetter(String[] lists) {
@@ -51,7 +51,7 @@ public class MergedCalendarService {
             MergedCalendarResponse mergedCalendarResponse = new MergedCalendarResponse();
             mergedCalendarResponse.setOutputAccountId(kalendars.get(i).getOutputAccount());
             mergedCalendarResponse.setOutputCalendarId(kalendars.get(i).getOutputCalendarId());
-            mergedCalendarResponse.setInputCalendarIds((setToStringCalendarIds(calendarIdRepository.findCalendarIdsByMergedCalendar(kalendars.get(i)))));
+            mergedCalendarResponse.setInputCalendarIds((setToStringCalendarIds(calendarIdRepository.findCalendarIdsByKalendar(kalendars.get(i)))));
             mergedCalendarResponses.add(mergedCalendarResponse);
         }
         return mergedCalendarResponses;

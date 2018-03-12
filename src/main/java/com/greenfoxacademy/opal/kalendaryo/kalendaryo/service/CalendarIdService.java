@@ -5,7 +5,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.CalendarId;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.CalendarIdRepository;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.MergedCalendarRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalendarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +19,17 @@ public class CalendarIdService {
     AuthModelRepository authModelRepository;
 
     @Autowired
-    MergedCalendarRepository mergedCalendarRepository;
+    KalendarRepository kalendarRepository;
 
     @Autowired
-    MergedCalendarService mergedCalendarService;
+    KalendarService kalendarService;
 
     public void save(CalendarId calendarId) {
         calendarIdRepository.save(calendarId);
     }
 
     public void saveCalendarId(Kalendar kalendar, MergedCalendarFromAndroid fromAndroid, String clientToken) {
-        mergedCalendarService.saveMergedCalendar(kalendar, fromAndroid, clientToken);
+        kalendarService.saveKalendar(kalendar, fromAndroid, clientToken);
         for (int i = 0; i < fromAndroid.getInputCalendarIds().length; i++) {
             CalendarId calendarId = new CalendarId();
             calendarId.setId(fromAndroid.getInputCalendarIds()[i]);
