@@ -7,6 +7,9 @@ public class AuthResponse {
     private String userEmail;
     private String accessToken;
 
+    public AuthResponse() {
+    }
+
     public AuthResponse(long userId, String clientToken, String userEmail, String accessToken) {
         this.userId = userId;
         this.clientToken = clientToken;

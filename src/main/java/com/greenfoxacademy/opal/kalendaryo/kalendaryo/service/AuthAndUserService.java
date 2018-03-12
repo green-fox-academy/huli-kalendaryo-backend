@@ -43,4 +43,8 @@ public class AuthAndUserService {
         secureRandom.nextBytes(random);
         return Base64.encodeBase64String(random);
     }
+
+    public UserModel findUserByAuth(AuthModel authModel) {
+        return userModelRepository.findUserModelByAuthModelListIsContaining(authModel);
+    }
 }

@@ -13,24 +13,31 @@ public class MergedCalendar {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @ManyToOne
-    private UserModel userName;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user")
+    private UserModel user;
     private String outputAccount;
     private String outputCalendarId;
   
     @OneToMany(mappedBy = "mergedCalendar")
     List<CalendarId> CalendarIds;
 
-    public MergedCalendar(long id, UserModel userName, String outputAccount,
+    public MergedCalendar() {
+    }
+
+    public MergedCalendar(UserModel user, String outputAccount, String outputCalendarId) {
+        this.user = user;
+        this.outputAccount = outputAccount;
+        this.outputCalendarId = outputCalendarId;
+    }
+
+    public MergedCalendar(long id, UserModel user, String outputAccount,
         String outputCalendarId, List<CalendarId> CalendarIds) {
         this.id = id;
-        this.userName = userName;
+        this.user = user;
         this.outputAccount = outputAccount;
         this.outputCalendarId = outputCalendarId;
         this.CalendarIds = CalendarIds;
-    }
-
-    public MergedCalendar() {
     }
 
     public long getId() {
@@ -41,12 +48,12 @@ public class MergedCalendar {
         this.id = id;
     }
 
-    public UserModel getUserName() {
-        return userName;
+    public UserModel getUser() {
+        return user;
     }
 
-    public void setUserName(UserModel userName) {
-        this.userName = userName;
+    public void setUser(UserModel user) {
+        this.user = user;
     }
 
     public String getOutputAccount() {
@@ -69,11 +76,9 @@ public class MergedCalendar {
         return CalendarIds;
     }
 
-    public void setCalendarIds(
-        List<CalendarId> calendarIds) {
+    public void setCalendarIds(List<CalendarId> CalendarIds) {
         this.CalendarIds = CalendarIds;
     }
-
 
     public List<CalendarId> getCalendarsIds(String[] arrayOfStrings) {
         List<CalendarId> calendarIds = new ArrayList<>();
@@ -86,5 +91,4 @@ public class MergedCalendar {
         }
         return calendarIds;
     }
-
 }
