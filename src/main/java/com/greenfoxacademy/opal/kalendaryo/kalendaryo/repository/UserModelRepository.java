@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserModelRepository extends CrudRepository<UserModel, Long> {
 
-    UserModel findById(Long id);
+    UserModel findByUserEmail(String email);
     UserModel findByClientToken(String clientToken);
 }

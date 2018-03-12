@@ -16,23 +16,31 @@ public class MergedCalendarService {
     @Autowired
     UserModelRepository userModelRepository;
 
+    @Autowired
+    SavingMethods savingMethods;
+
     public UserModel findMergedCalendars(UserModel user) {
         user.setMergedCalendarList(mergedCalendarRepository.findMergedCalendarsByUser(user));
         return user;
     }
 
-    public void saveMergedCalendar(MergedCalendar mergedCalendar, MergedCalendarFromAndroid mergedCalendarFromAndroid, String clientToken) {
+    public void setMergedCalendar(MergedCalendar mergedCalendar, MergedCalendarFromAndroid mergedCalendarFromAndroid, String clientToken) {
         String idList = inputCalendarSetter(mergedCalendarFromAndroid.getInputCalendarIds());
         mergedCalendar.setOutputCalendarId(idList);
         mergedCalendar.setOutputAccount(mergedCalendarFromAndroid.getOutputCalendarId());
         mergedCalendar.setUser(userModelRepository.findByClientToken(clientToken));
-        mergedCalendarRepository.save(mergedCalendar);
+        saveMergedCalendar(mergedCalendar);
     }
 
-    public void saveMockMergedCalendar(MergedCalendar mergedCalendar) {
-        if (mergedCalendarRepository.findByOutputCalendarId(mergedCalendar.getOutputCalendarId()) == null) {
-            mergedCalendarRepository.save(mergedCalendar);
-        }
+    public void saveMergedCalendar(MergedCalendar mergedCalendar) {
+        savingMethods.saveMergedCalendar(mergedCalendar);
+    }
+
+    public void addUserToMergedCal(MergedCalendar mergedCalendar, UserModel userModel) {
+        userModel = userModelRepository.findByUserEmail(userModel.getUserEmail());
+        mergedCalendar.setUser(userModel);
+        saveMergedCalendar(mergedCalendar);
+        //userModel.getMergedCalendarList().add(mergedCalendar);
     }
 
     private String inputCalendarSetter(String[] lists) {

@@ -1,11 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 
-import com.google.api.client.util.Base64;
-
 import javax.persistence.*;
-import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 
 @Entity
 public class AuthModel {
@@ -100,27 +96,14 @@ public class AuthModel {
         this.calendarId = calendarId;
     }
 
-    /**public void setMockAccessToken(char[] chars,  Random randomNumber) {
-        accessToken = "";
-        for (int i = 0; i < 20 ; i++) {
-            int  n = randomNumber.nextInt(62);
-            accessToken+= chars[n];
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AuthModel authModel = (AuthModel) o;
+
+        return this.getEmail().equals(authModel.getEmail());
     }
 
-    public void setMockAuthCode(char[] chars, Random randomNumber) {
-        authCode = "";
-        for (int i = 0; i < 20 ; i++) {
-            int  n = randomNumber.nextInt(62);
-            authCode+= chars[n];
-        }
-    }
-
-    public void setMockRefreshToken(char[] chars, Random randomNumber) {
-        refreshToken = "";
-        for (int i = 0; i < 20 ; i++) {
-            int  n = randomNumber.nextInt(62);
-            refreshToken+= chars[n];
-        }
-    }*/
 }

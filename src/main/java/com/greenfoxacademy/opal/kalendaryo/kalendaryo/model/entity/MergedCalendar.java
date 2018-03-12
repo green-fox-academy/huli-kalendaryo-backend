@@ -13,7 +13,7 @@ public class MergedCalendar {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name="user")
     private UserModel user;
     private String outputAccount;
@@ -24,6 +24,11 @@ public class MergedCalendar {
     public MergedCalendar() {
     }
 
+    public MergedCalendar(String outputAccount, String outputCalendarId) {
+        this.outputAccount = outputAccount;
+        this.outputCalendarId = outputCalendarId;
+    }
+
     public MergedCalendar(UserModel user, String outputAccount, String outputCalendarId) {
         this.user = user;
         this.outputAccount = outputAccount;
@@ -31,7 +36,7 @@ public class MergedCalendar {
     }
 
     public MergedCalendar(long id, UserModel user, String outputAccount,
-        String outputCalendarId, List<CalendarId> CalendarIds) {
+                          String outputCalendarId, List<CalendarId> CalendarIds) {
         this.id = id;
         this.user = user;
         this.outputAccount = outputAccount;
@@ -90,4 +95,15 @@ public class MergedCalendar {
         }
         return calendarIds;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MergedCalendar mergedCalendar = (MergedCalendar) o;
+
+        return this.getOutputCalendarId().equals(mergedCalendar.getOutputCalendarId());
+    }
+
 }

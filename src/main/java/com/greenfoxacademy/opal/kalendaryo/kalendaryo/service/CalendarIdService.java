@@ -24,18 +24,18 @@ public class CalendarIdService {
     @Autowired
     MergedCalendarService mergedCalendarService;
 
-    public void save(CalendarId calendarId) {
+    public void saveCalendarId(CalendarId calendarId) {
         calendarIdRepository.save(calendarId);
     }
 
-    public void saveCalendarId(MergedCalendar mergedCalendar, MergedCalendarFromAndroid fromAndroid, String clientToken) {
-        mergedCalendarService.saveMergedCalendar(mergedCalendar, fromAndroid, clientToken);
+    public void setCalendarId(MergedCalendar mergedCalendar, MergedCalendarFromAndroid fromAndroid, String clientToken) {
+        mergedCalendarService.setMergedCalendar(mergedCalendar, fromAndroid, clientToken);
         for (int i = 0; i < fromAndroid.getInputCalendarIds().length; i++) {
             CalendarId calendarId = new CalendarId();
             calendarId.setId(fromAndroid.getInputCalendarIds()[i]);
             calendarId.setAuthModel(authModelRepository.findByEmail(fromAndroid.getOutputCalendarId()));
             calendarId.setMergedCalendar(mergedCalendar);
-            calendarIdRepository.save(calendarId);
+            saveCalendarId(calendarId);
         }
     }
 }
