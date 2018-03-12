@@ -33,7 +33,6 @@ public class AuthAndUserService{
     public void addUserToAuthModel(AuthModel authModel, UserModel userModel) throws IOException {
         authModel.setUser(userModel);
         saveAuthModel(authModel);
-        //userModel.getAuthModelList().add(authModel);
     }
 
     public UserModel findUserByClientToken(String clientToken) {
@@ -49,5 +48,9 @@ public class AuthAndUserService{
 
     public void saveAuthModel(AuthModel authModel) throws IOException {
         savingMethods.saveAuthModel(authModel);
+    }
+
+    public UserModel findUserByAuth(AuthModel authModel) {
+        return userModelRepository.findUserModelByAuthModelListIsContaining(authModel);
     }
 }
