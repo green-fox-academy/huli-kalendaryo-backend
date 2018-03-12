@@ -6,7 +6,6 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
