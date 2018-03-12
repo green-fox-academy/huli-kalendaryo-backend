@@ -40,15 +40,6 @@ public class CommandLineRunnerFillDatabase implements CommandLineRunner {
         MergedCalendar mergedCalendar2 = new MergedCalendar(authModel2.getEmail(), "outputcalid2");
         mergedCalendarService.addUserToMergedCal(mergedCalendar1, userModel1);
         mergedCalendarService.addUserToMergedCal(mergedCalendar2, userModel1);
-
-     /**   CalendarId calendarId1 = new CalendarId("Huli", authModel1, mergedCalendar1);
-        CalendarId calendarId2 = new CalendarId("Opal", authModel2, mergedCalendar2);
-        CalendarId calendarId3 = new CalendarId("Contacts", authModel1, mergedCalendar1);
-        CalendarId calendarId4 = new CalendarId("Work", authModel2, mergedCalendar2);
-        calendarIdService.saveCalendarId(calendarId1);
-        calendarIdService.saveCalendarId(calendarId2);
-        calendarIdService.saveCalendarId(calendarId3);
-        calendarIdService.saveCalendarId(calendarId4);*/
     }
 
 }
