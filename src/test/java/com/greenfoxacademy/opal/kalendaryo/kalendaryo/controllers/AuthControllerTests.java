@@ -10,17 +10,17 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.nio.charset.Charset;
 
-import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.head;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.core.Is.is;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -52,17 +52,51 @@ public class AuthControllerTests {
 
     @Test
     public void shouldReturnHTTPStatusOK() throws Exception {
-        header.add("X-Client-Token", "+WAYp3gYByH5WYud86BrVl1barM=");
-
-        String expectedResult = "{\"id\": 1,\"email\":\"hieuci88@gmail.com\",\"authModels\":\"email\":\"hieuci88@gmail.com\"," +
-                "\"accesToken\": \"ya29.GlxwBVyTzCxAydgyjWIT49dk6ZuyAnB4psBmDesR-Kq0o5GpB-HO1QaCAZEJ9PzBYAlsK4FGQZdijDG_AJVRprIQs2v0X1wocw56Ojpp1Y17QBNOATZ4DIdt4XYBSw\"}";
+        header.add("X-Client-Token", "SXkTebWw0cInKXb0U6/Nn66KbKo=");
 
         mockMvc.perform(get("/auth")
                 .contentType(contentType)
-                .content(expectedResult)
                 .headers(header))
-                .andExpect(status().isOk())
-                .andExpect((ResultMatcher) jsonPath("$.email", is("hieuci88@gmail.com")));
+                .andExpect(status().isOk());
     }
 
+    @Test
+    public void emailShouldReturnString() throws Exception {
+        header.add("X-Client-Token", "SXkTebWw0cInKXb0U6/Nn66KbKo=");
+
+        mockMvc.perform(get("/auth")
+                .contentType(contentType)
+                .headers(header))
+                .andExpect(jsonPath("$.email", is(String.class)));
+    }
+
+    @Test
+    public void accessTokenShouldReturnString() throws Exception {
+        header.add("X-Client-Token", "SXkTebWw0cInKXb0U6/Nn66KbKo=");
+
+        mockMvc.perform(get("/auth")
+                .contentType(contentType)
+                .headers(header))
+                .andExpect(jsonPath("$.authModels[0].accessToken", is(String.class)));
+    }
+
+    @Test
+    public void authModelEmailShouldReturnString() throws Exception {
+        header.add("X-Client-Token", "SXkTebWw0cInKXb0U6/Nn66KbKo=");
+
+        mockMvc.perform(get("/auth")
+                .contentType(contentType)
+                .headers(header))
+                .andExpect(jsonPath("$.authModels[0].email", is(String.class)));
+    }
+
+    @Test
+    public void authModelEmailShouldReturnUserModelEmail() throws Exception {
+        header.add("X-Client-Token", "SXkTebWw0cInKXb0U6/Nn66KbKo=");
+
+        mockMvc.perform(get("/auth")
+                .contentType(contentType)
+                .headers(header))
+                .andExpect(jsonPath("$.authModels[0].email", is("hieuci88@gmail.com")));
+    }
 }
