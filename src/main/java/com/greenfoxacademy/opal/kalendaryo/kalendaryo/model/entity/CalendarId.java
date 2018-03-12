@@ -12,12 +12,12 @@ public class CalendarId {
     AuthModel authModel;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="merged_calendar_id")
-    MergedCalendar mergedCalendar;
+    Kalendar kalendar;
 
-    public CalendarId(String id, AuthModel authModel, MergedCalendar mergedCalendar) {
+    public CalendarId(String id, AuthModel authModel, Kalendar kalendar) {
         this.id = id;
         this.authModel = authModel;
-        this.mergedCalendar = mergedCalendar;
+        this.kalendar = kalendar;
     }
 
     public CalendarId() {
@@ -39,11 +39,11 @@ public class CalendarId {
         this.authModel = authModel;
     }
 
-    public MergedCalendar getMergedCalendar() {
-        return mergedCalendar;
+    public Kalendar getKalendar() {
+        return kalendar;
     }
 
-    public void setMergedCalendar(MergedCalendar mergedCalendar) {
-        this.mergedCalendar = mergedCalendar;
+    public void setKalendar(Kalendar kalendar) {
+        this.kalendar = kalendar;
     }
 }

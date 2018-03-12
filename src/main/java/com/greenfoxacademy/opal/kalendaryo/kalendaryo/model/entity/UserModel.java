@@ -14,7 +14,7 @@ public class UserModel {
     private String userEmail;
   
     @OneToMany(mappedBy = "user")
-    List<MergedCalendar> mergedCalendarList;
+    List<Kalendar> kalendarList;
 
     @OneToMany(mappedBy = "user")
     List<AuthModel> authModelList;
@@ -61,12 +61,12 @@ public class UserModel {
         this.userEmail = userEmail;
     }
 
-    public List<MergedCalendar> getMergedCalendarList() {
-        return mergedCalendarList;
+    public List<Kalendar> getKalendarList() {
+        return kalendarList;
     }
 
-    public void setMergedCalendarList(List<MergedCalendar> mergedCalendarList) {
-        this.mergedCalendarList = mergedCalendarList;
+    public void setKalendarList(List<Kalendar> kalendarList) {
+        this.kalendarList = kalendarList;
     }
 
     public List<AuthModel> getAuthModelList() {

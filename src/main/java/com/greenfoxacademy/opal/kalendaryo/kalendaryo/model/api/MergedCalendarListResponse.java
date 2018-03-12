@@ -1,7 +1,5 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api;
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.MergedCalendar;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MergedCalendarListResponse {

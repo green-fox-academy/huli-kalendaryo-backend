@@ -2,7 +2,7 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.CalendarId;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.MergedCalendar;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.CalendarIdRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.MergedCalendarRepository;
@@ -28,13 +28,13 @@ public class CalendarIdService {
         calendarIdRepository.save(calendarId);
     }
 
-    public void saveCalendarId(MergedCalendar mergedCalendar, MergedCalendarFromAndroid fromAndroid, String clientToken) {
-        mergedCalendarService.saveMergedCalendar(mergedCalendar, fromAndroid, clientToken);
+    public void saveCalendarId(Kalendar kalendar, MergedCalendarFromAndroid fromAndroid, String clientToken) {
+        mergedCalendarService.saveMergedCalendar(kalendar, fromAndroid, clientToken);
         for (int i = 0; i < fromAndroid.getInputCalendarIds().length; i++) {
             CalendarId calendarId = new CalendarId();
             calendarId.setId(fromAndroid.getInputCalendarIds()[i]);
             calendarId.setAuthModel(authModelRepository.findByEmail(fromAndroid.getOutputCalendarId()));
-            calendarId.setMergedCalendar(mergedCalendar);
+            calendarId.setKalendar(kalendar);
             calendarIdRepository.save(calendarId);
         }
     }

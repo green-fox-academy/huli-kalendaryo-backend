@@ -3,14 +3,12 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarListResponse;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.*;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.MergedCalendarRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,8 +47,8 @@ public class MergedCalController {
         if (clientToken == null) {
             return ResponseEntity.status(401).body("Client token is missing or invalid");
         }
-        MergedCalendar mergedCalendar = new MergedCalendar();
-        calendarIdService.saveCalendarId(mergedCalendar, mergedCalendarFromAndroid, clientToken);
+        Kalendar kalendar = new Kalendar();
+        calendarIdService.saveCalendarId(kalendar, mergedCalendarFromAndroid, clientToken);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -59,7 +57,7 @@ public class MergedCalController {
         if (!request.getHeader("X-Client-Token").equals("")) {
             MergedCalendarListResponse mergedCalendarListResponse = new MergedCalendarListResponse();
             UserModel user = userModelRepository.findByClientToken(clientToken);
-            List<MergedCalendar> list = mergedCalendarService.findMergedCalendars(user);
+            List<Kalendar> list = mergedCalendarService.findMergedCalendars(user);
             mergedCalendarListResponse.setMergedCalendars(mergedCalendarService.setMergedCalendarResponse(list));
             return new ResponseEntity<>(mergedCalendarListResponse, HttpStatus.OK);
         }
