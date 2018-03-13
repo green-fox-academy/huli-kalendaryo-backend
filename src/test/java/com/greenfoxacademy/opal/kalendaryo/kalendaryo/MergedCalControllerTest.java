@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -20,9 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.core.Is.is;
 
@@ -56,7 +53,7 @@ public class MergedCalControllerTest {
 
     @Test
     public void statusShouldBeOkWithClientToken() throws Exception {
-        headers.add("X-Client-Token", "B83Kvjtld0h7lmdru8ekMyd6VnY=");
+        headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
 
         mock.perform(get("/calendar")
                 .contentType(contentType)
@@ -66,7 +63,7 @@ public class MergedCalControllerTest {
 
     @Test
     public void outputAccountIdShouldReturnString() throws Exception {
-        headers.add("X-Client-Token", "B83Kvjtld0h7lmdru8ekMyd6VnY=");
+        headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
 
         mock.perform(get("/calendar")
                 .contentType(contentType)
@@ -77,18 +74,18 @@ public class MergedCalControllerTest {
 
     @Test
     public void outputAccountIdShouldReturnEmail() throws Exception {
-        headers.add("X-Client-Token", "B83Kvjtld0h7lmdru8ekMyd6VnY=");
+        headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
 
         mock.perform(get("/calendar")
                 .contentType(contentType)
                 .headers(headers))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.mergedCalendars[0].outputAccountId", is("navracsics.adel@gmail.com")));
+                .andExpect(jsonPath("$.mergedCalendars[0].outputAccountId", is("test@email.com")));
     }
 
     @Test
     public void inputCalendarIdsShouldReturnList() throws Exception {
-        headers.add("X-Client-Token", "B83Kvjtld0h7lmdru8ekMyd6VnY=");
+        headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
 
         List<String> testList = new ArrayList<>();
 
@@ -101,9 +98,9 @@ public class MergedCalControllerTest {
 
     @Test
     public void inputCalendarIdsShouldReturnListOfMergedCals() throws Exception {
-        headers.add("X-Client-Token", "B83Kvjtld0h7lmdru8ekMyd6VnY=");
+        headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
 
-        List<String> testList = new ArrayList<>(Arrays.asList("Contacts", "Huli-Opal"));
+        List<String> testList = new ArrayList<>(Arrays.asList("mergedCalendar1", "mergedCalendar2"));
 
         mock.perform(get("/calendar")
                 .contentType(contentType)
