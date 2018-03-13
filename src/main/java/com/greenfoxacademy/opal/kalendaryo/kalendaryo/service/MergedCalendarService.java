@@ -25,6 +25,7 @@ public class MergedCalendarService {
     @Autowired
     SavingMethods savingMethods;
 
+    @Autowired
     CalendarIdRepository calendarIdRepository;
 
     public List<MergedCalendar> findMergedCalendars(UserModel user) {
