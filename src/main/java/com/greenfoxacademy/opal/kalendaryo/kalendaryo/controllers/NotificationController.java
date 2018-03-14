@@ -2,7 +2,7 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleCalendarUpdate;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.GoogleCalendarUpdateService;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 public class NotificationController {
 
     @Autowired
-    EventResponseService eventResponseService;
+    GoogleCalendarUpdateService googleCalendarUpdateService;
 
     @Autowired
     AuthAndUserService authAndUserService;
@@ -26,7 +26,7 @@ public class NotificationController {
         GoogleCalendarUpdate googleCalendarUpdate = new GoogleCalendarUpdate(request);
 
         if (!googleCalendarUpdate.validate()) {
-            eventResponseService.saveEventResponse(googleCalendarUpdate);
+            googleCalendarUpdateService.saveEventResponse(googleCalendarUpdate);
             logger.info("Event Response saved.");
             return new ResponseEntity(HttpStatus.OK);
         } else {

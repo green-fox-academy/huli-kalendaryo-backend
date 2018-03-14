@@ -1,7 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleCalendarUpdate;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.GoogleCalendarUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,7 @@ import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.Autho
 public class DevController {
 
     @Autowired
-    EventResponseService eventResponseService;
+    GoogleCalendarUpdateService googleCalendarUpdateService;
 
     @GetMapping("/accesstoken")
     public String getAccessToken(@RequestParam String authCode) throws IOException {
@@ -26,7 +26,7 @@ public class DevController {
 
     @GetMapping(value = "/notification")
     public Iterable<GoogleCalendarUpdate> showAllEventResponse() {
-        Iterable<GoogleCalendarUpdate> responses = eventResponseService.findAllEventResponse();
+        Iterable<GoogleCalendarUpdate> responses = googleCalendarUpdateService.findAllEventResponse();
         System.out.println(responses);
         return responses;
     }
