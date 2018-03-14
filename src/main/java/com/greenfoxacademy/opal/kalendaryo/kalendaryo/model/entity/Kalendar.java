@@ -11,16 +11,21 @@ public class Kalendar {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name="user")
     private KalUser user;
     private String outputAccount;
     private String outputCalendarId;
-  
+
     @OneToMany(mappedBy = "kalendar")
     List<GoogleCalendar> googleCalendars;
 
     public Kalendar() {
+    }
+
+    public Kalendar(String outputAccount, String outputCalendarId) {
+        this.outputAccount = outputAccount;
+        this.outputCalendarId = outputCalendarId;
     }
 
     public Kalendar(KalUser user, String outputAccount, String outputCalendarId) {
@@ -29,8 +34,7 @@ public class Kalendar {
         this.outputCalendarId = outputCalendarId;
     }
 
-    public Kalendar(long id, KalUser user, String outputAccount,
-                    String outputCalendarId, List<GoogleCalendar> googleCalendars) {
+    public Kalendar(long id, KalUser user, String outputAccount, String outputCalendarId, List<GoogleCalendar> googleCalendars) {
         this.id = id;
         this.user = user;
         this.outputAccount = outputAccount;
@@ -88,5 +92,15 @@ public class Kalendar {
             googleCalendars.add(googleCalendar);
         }
         return googleCalendars;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Kalendar mergedCalendar = (Kalendar) o;
+
+        return this.getOutputCalendarId().equals(mergedCalendar.getOutputCalendarId());
     }
 }

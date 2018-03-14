@@ -24,18 +24,18 @@ public class GoogleCalendarService {
     @Autowired
     KalendarService kalendarService;
 
-    public void save(GoogleCalendar googleCalendar) {
+    public void saveGoogleCalendar(GoogleCalendar googleCalendar) {
         googleCalendarRepository.save(googleCalendar);
     }
 
-    public void saveGoogleCalendar(Kalendar kalendar, KalendarFromAndroid fromAndroid, String clientToken) {
-        kalendarService.saveKalendar(kalendar, fromAndroid, clientToken);
+    public void setGoogleCalendar(Kalendar kalendar, KalendarFromAndroid fromAndroid, String clientToken) {
+        kalendarService.setKalendar(kalendar, fromAndroid, clientToken);
         for (int i = 0; i < fromAndroid.getInputCalendarIds().length; i++) {
             GoogleCalendar googleCalendar = new GoogleCalendar();
             googleCalendar.setId(fromAndroid.getInputCalendarIds()[i]);
             googleCalendar.setGoogleAuth(googleAuthRepository.findByEmail(fromAndroid.getOutputCalendarId()));
             googleCalendar.setKalendar(kalendar);
-            googleCalendarRepository.save(googleCalendar);
+            saveGoogleCalendar(googleCalendar);
         }
     }
 }

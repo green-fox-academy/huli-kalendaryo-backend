@@ -1,6 +1,5 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
-
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarListResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.*;
@@ -48,7 +47,7 @@ public class KalendarController {
             return ResponseEntity.status(401).body("Client token is missing or invalid");
         }
         Kalendar kalendar = new Kalendar();
-        googleCalendarService.saveGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
+        googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -62,6 +61,5 @@ public class KalendarController {
             return new ResponseEntity<>(kalendarListResponse, HttpStatus.OK);
         }
         return new ResponseEntity<String>("Client token is missing or invalid", HttpStatus.UNAUTHORIZED);
-
     }
 }

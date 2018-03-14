@@ -11,10 +11,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.security.SecureRandom;
 
-import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.AuthorizeKal.authorize;
-
 @Service
-public class AuthAndUserService {
+public class AuthAndUserService{
 
     @Autowired
     GoogleAuthRepository googleAuthRepository;
@@ -22,18 +20,23 @@ public class AuthAndUserService {
     @Autowired
     KalUserRepository kalUserRepository;
 
-    public void saveGoogleAuth(GoogleAuth googleAuth) throws IOException{
-        String accessToken = authorize(googleAuth.getAuthCode());
-        googleAuth.setAccessToken(accessToken);
-        googleAuthRepository.save(googleAuth);
+    @Autowired
+    SavingMethods savingMethods;
+
+    public void saveKalUser(KalUser kalUser) {
+        if (kalUserRepository.findByUserEmail(kalUser.getUserEmail()) != null) {
+            kalUser = kalUserRepository.findByUserEmail(kalUser.getUserEmail());
+        }
+        kalUserRepository.save(kalUser);
+    }
+
+    public void addUserToGoogleAuth(GoogleAuth googleAuth, KalUser kalUser) throws IOException {
+        googleAuth.setUser(kalUser);
+        saveGoogleAuth(googleAuth);
     }
 
     public KalUser findUserByClientToken(String clientToken) {
         return kalUserRepository.findByClientToken(clientToken);
-    }
-
-    public void saveKalUser(KalUser kalUser) {
-        kalUserRepository.save(kalUser);
     }
 
     public String getRandomClientToken() {
@@ -41,6 +44,10 @@ public class AuthAndUserService {
         byte[] random = new byte[20];
         secureRandom.nextBytes(random);
         return Base64.encodeBase64String(random);
+    }
+
+    public void saveGoogleAuth(GoogleAuth googleAuth) throws IOException {
+        savingMethods.saveGoogleAuth(googleAuth);
     }
 
     public KalUser findUserByAuth(GoogleAuth googleAuth) {

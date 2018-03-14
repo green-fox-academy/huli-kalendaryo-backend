@@ -23,18 +23,31 @@ public class KalendarService {
     KalUserRepository kalUserRepository;
 
     @Autowired
+    SavingMethods savingMethods;
+
+    @Autowired
     GoogleCalendarRepository googleCalendarRepository;
 
     public List<Kalendar> findKalendars(KalUser user) {
         return kalendarRepository.findKalendarsByUser(user);
     }
 
-    public void saveKalendar(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) {
+    public void setKalendar(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) {
         String idList = inputCalendarSetter(kalendarFromAndroid.getInputCalendarIds());
         kalendar.setOutputCalendarId(idList);
         kalendar.setOutputAccount(kalendarFromAndroid.getOutputCalendarId());
         kalendar.setUser(kalUserRepository.findByClientToken(clientToken));
-        kalendarRepository.save(kalendar);
+        saveKalendar(kalendar);
+    }
+
+    public void saveKalendar(Kalendar kalendar) {
+        savingMethods.saveKalendar(kalendar);
+    }
+
+    public void addUserToKalendar(Kalendar kalendar, KalUser kalUser) {
+        kalUser = kalUserRepository.findByUserEmail(kalUser.getUserEmail());
+        kalendar.setUser(kalUser);
+        saveKalendar(kalendar);
     }
 
     private String inputCalendarSetter(String[] lists) {

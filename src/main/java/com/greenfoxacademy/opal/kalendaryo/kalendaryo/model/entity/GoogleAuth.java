@@ -18,15 +18,26 @@ public class GoogleAuth {
     @JoinColumn(name = "user_id")
     KalUser user;
 
+    public GoogleAuth() {
+    }
+
+    public GoogleAuth(String email, String displayName) {
+        this.email = email;
+        this.displayName = displayName;
+    }
+
+    public GoogleAuth(String email, String displayName, KalUser user) {
+        this.email = email;
+        this.displayName = displayName;
+        this.user = user;
+    }
+
     public GoogleAuth(String email, String authCode, String displayName, KalUser user, String accessToken) {
         this.email = email;
         this.authCode = authCode;
         this.displayName = displayName;
         this.user = user;
         this.accessToken = accessToken;
-    }
-
-    public GoogleAuth() {
     }
 
     public String getDisplayName() {
@@ -83,5 +94,15 @@ public class GoogleAuth {
 
     public void setGoogleCalendars(List<GoogleCalendar> googleCalendars) {
         this.googleCalendars = googleCalendars;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GoogleAuth googleAuth = (GoogleAuth) o;
+
+        return this.getEmail().equals(googleAuth.getEmail());
     }
 }

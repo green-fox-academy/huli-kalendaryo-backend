@@ -12,7 +12,6 @@ public class KalUser {
     @Column(unique = true, nullable = false)
     private String clientToken;
     private String userEmail;
-  
     @OneToMany(mappedBy = "user")
     List<Kalendar> kalendarList;
 
@@ -69,11 +68,26 @@ public class KalUser {
         this.kalendarList = kalendarList;
     }
 
+    public void addKalendarToUser(Kalendar kalendar) {
+        kalendar.setUser(this);
+        kalendarList.add(kalendar);
+    }
+
     public List<GoogleAuth> getGoogleAuthList() {
         return googleAuthList;
     }
 
     public void setGoogleAuthList(List<GoogleAuth> googleAuthList) {
         this.googleAuthList = googleAuthList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        KalUser kalUser = (KalUser) o;
+
+        return this.getUserEmail().equals(kalUser.getUserEmail());
     }
 }
