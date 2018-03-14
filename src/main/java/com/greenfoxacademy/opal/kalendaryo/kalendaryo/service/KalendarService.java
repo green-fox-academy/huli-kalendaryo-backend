@@ -64,18 +64,18 @@ public class KalendarService {
             KalendarResponse kalendarResponse = new KalendarResponse();
             kalendarResponse.setOutputAccount(kalendars.get(i).getOutputAccount());
             kalendarResponse.setOutputCalendarId(kalendars.get(i).getOutputCalendarId());
-            kalendarResponse.setInputCalendarIds((setToStringCalendarIds(googleCalendarRepository.findGoogleCalendarsByKalendar(kalendars.get(i)))));
+            kalendarResponse.setInputCalendarIds((setToStringGoogleCalendars(googleCalendarRepository.findGoogleCalendarsByKalendar(kalendars.get(i)))));
             kalendarResponses.add(kalendarResponse);
         }
         return kalendarResponses;
     }
 
-    public List<String> setToStringCalendarIds(List<GoogleCalendar> googleCalendars) {
-        List<String> CalendarIDsToString = new ArrayList<>();
+    public List<String> setToStringGoogleCalendars(List<GoogleCalendar> googleCalendars) {
+        List<String> GoogleCalendarIDsToString = new ArrayList<>();
         for (int i = 0; i < googleCalendars.size(); i++) {
-            CalendarIDsToString.add(googleCalendars.get(i).getId());
+            GoogleCalendarIDsToString.add(googleCalendars.get(i).getId());
         }
-        return CalendarIDsToString;
+        return GoogleCalendarIDsToString;
     }
 }
 
