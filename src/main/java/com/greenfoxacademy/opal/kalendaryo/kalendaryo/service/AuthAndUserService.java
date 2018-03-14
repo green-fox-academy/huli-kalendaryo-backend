@@ -24,7 +24,9 @@ public class AuthAndUserService {
     UserModelRepository userModelRepository;
 
     public void saveAuthModel(AuthModel authModel) throws IOException{
+        System.out.println("AUTH MODEL AND CODE: " + authModel.getAuthCode());
         String accessToken = authorize(authModel.getAuthCode());
+        System.out.println("VERY AUTH MODEL");
         authModel.setAccessToken(accessToken);
         authModelRepository.save(authModel);
     }
@@ -41,6 +43,7 @@ public class AuthAndUserService {
         SecureRandom secureRandom = new SecureRandom();
         byte[] random = new byte[20];
         secureRandom.nextBytes(random);
+        System.out.println("RANDOM TOKEN" + Base64.encodeBase64String(random));
         return Base64.encodeBase64String(random);
     }
 

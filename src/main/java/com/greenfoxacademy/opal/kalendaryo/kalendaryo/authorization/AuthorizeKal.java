@@ -45,8 +45,11 @@ public class AuthorizeKal {
     }
 
     public static String authorize(String authCode) throws IOException {
+        System.out.println("IN AUTHORIZE");
         String clientId = System.getenv("CLIENT_ID");
+        System.out.println("CLIENT ID: " + clientId);
         String clientSecret = System.getenv("CLIENT_SECRET");
+        System.out.println("CLIENT SECRET: " + clientSecret);
         GoogleTokenResponse tokenResponse =
                 new GoogleAuthorizationCodeTokenRequest(
                         new NetHttpTransport(),
@@ -58,6 +61,7 @@ public class AuthorizeKal {
                         "https://huli-kalendaryo-android.firebaseapp.com/__/auth/handler")
                         .execute();
 
+        System.out.println("TOKEN RESPONSE: " + tokenResponse);
         return tokenResponse.getAccessToken();
     }
 }
