@@ -13,12 +13,12 @@ public class AuthModel {
     private String accessToken;
     private String refreshToken;
     @OneToMany(mappedBy = "authModel")
-    List<CalendarId> calendarId;
+    List<GoogleCalendar> googleCalendars;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    UserModel user;
+    KalUser user;
 
-    public AuthModel(String email, String authCode, String displayName, UserModel user, String accessToken) {
+    public AuthModel(String email, String authCode, String displayName, KalUser user, String accessToken) {
         this.email = email;
         this.authCode = authCode;
         this.displayName = displayName;
@@ -45,11 +45,11 @@ public class AuthModel {
         this.email = email;
     }
 
-    public UserModel getUser() {
+    public KalUser getUser() {
         return user;
     }
 
-    public void setUser(UserModel user) {
+    public void setUser(KalUser user) {
         this.user = user;
     }
 
@@ -77,11 +77,11 @@ public class AuthModel {
         this.refreshToken = refreshToken;
     }
 
-    public List<CalendarId> getCalendarId() {
-        return calendarId;
+    public List<GoogleCalendar> getGoogleCalendars() {
+        return googleCalendars;
     }
 
-    public void setCalendarId(List<CalendarId> calendarId) {
-        this.calendarId = calendarId;
+    public void setGoogleCalendars(List<GoogleCalendar> googleCalendars) {
+        this.googleCalendars = googleCalendars;
     }
 }

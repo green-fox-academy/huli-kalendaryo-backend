@@ -2,11 +2,10 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
 import com.google.api.client.util.Base64;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.KalUser;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -21,7 +20,7 @@ public class AuthAndUserService {
     AuthModelRepository authModelRepository;
 
     @Autowired
-    UserModelRepository userModelRepository;
+    KalUserRepository kalUserRepository;
 
     public void saveAuthModel(AuthModel authModel) throws IOException{
         String accessToken = authorize(authModel.getAuthCode());
@@ -29,12 +28,12 @@ public class AuthAndUserService {
         authModelRepository.save(authModel);
     }
 
-    public UserModel findUserByClientToken(String clientToken) {
-        return userModelRepository.findByClientToken(clientToken);
+    public KalUser findUserByClientToken(String clientToken) {
+        return kalUserRepository.findByClientToken(clientToken);
     }
 
-    public void saveUserModel(UserModel userModel) {
-        userModelRepository.save(userModel);
+    public void saveKalUser(KalUser kalUser) {
+        kalUserRepository.save(kalUser);
     }
 
     public String getRandomClientToken() {
@@ -44,7 +43,7 @@ public class AuthAndUserService {
         return Base64.encodeBase64String(random);
     }
 
-    public UserModel findUserByAuth(AuthModel authModel) {
-        return userModelRepository.findUserModelByAuthModelListIsContaining(authModel);
+    public KalUser findUserByAuth(AuthModel authModel) {
+        return kalUserRepository.findKalUserByAuthModelListIsContaining(authModel);
     }
 }

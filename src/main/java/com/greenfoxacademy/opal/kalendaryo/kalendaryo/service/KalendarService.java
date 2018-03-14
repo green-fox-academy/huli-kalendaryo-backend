@@ -2,12 +2,12 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarResponse;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.CalendarId;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleCalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.Kalendar;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.CalendarIdRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.KalUser;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleCalendarRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalendarRepository;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +20,12 @@ public class KalendarService {
     KalendarRepository kalendarRepository;
 
     @Autowired
-    UserModelRepository userModelRepository;
+    KalUserRepository kalUserRepository;
 
     @Autowired
-    CalendarIdRepository calendarIdRepository;
+    GoogleCalendarRepository googleCalendarRepository;
 
-    public List<Kalendar> findKalendars(UserModel user) {
+    public List<Kalendar> findKalendars(KalUser user) {
         return kalendarRepository.findKalendarsByUser(user);
     }
 
@@ -33,7 +33,7 @@ public class KalendarService {
         String idList = inputCalendarSetter(kalendarFromAndroid.getInputCalendarIds());
         kalendar.setOutputCalendarId(idList);
         kalendar.setOutputAccount(kalendarFromAndroid.getOutputCalendarId());
-        kalendar.setUser(userModelRepository.findByClientToken(clientToken));
+        kalendar.setUser(kalUserRepository.findByClientToken(clientToken));
         kalendarRepository.save(kalendar);
     }
 
@@ -51,16 +51,16 @@ public class KalendarService {
             KalendarResponse kalendarResponse = new KalendarResponse();
             kalendarResponse.setOutputAccountId(kalendars.get(i).getOutputAccount());
             kalendarResponse.setOutputCalendarId(kalendars.get(i).getOutputCalendarId());
-            kalendarResponse.setInputCalendarIds((setToStringCalendarIds(calendarIdRepository.findCalendarIdsByKalendar(kalendars.get(i)))));
+            kalendarResponse.setInputCalendarIds((setToStringCalendarIds(googleCalendarRepository.findGoogleCalendarsByKalendar(kalendars.get(i)))));
             kalendarResponses.add(kalendarResponse);
         }
         return kalendarResponses;
     }
 
-    public List<String> setToStringCalendarIds(List<CalendarId> calendarIds) {
+    public List<String> setToStringCalendarIds(List<GoogleCalendar> googleCalendars) {
         List<String> CalendarIDsToString = new ArrayList<>();
-        for (int i = 0; i < calendarIds.size(); i++) {
-            CalendarIDsToString.add(calendarIds.get(i).getId());
+        for (int i = 0; i < googleCalendars.size(); i++) {
+            CalendarIDsToString.add(googleCalendars.get(i).getId());
         }
         return CalendarIDsToString;
     }

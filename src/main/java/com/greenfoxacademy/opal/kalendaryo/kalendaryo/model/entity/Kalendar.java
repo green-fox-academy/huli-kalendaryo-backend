@@ -13,29 +13,29 @@ public class Kalendar {
     private long id;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="user")
-    private UserModel user;
+    private KalUser user;
     private String outputAccount;
     private String outputCalendarId;
   
     @OneToMany(mappedBy = "kalendar")
-    List<CalendarId> CalendarIds;
+    List<GoogleCalendar> googleCalendars;
 
     public Kalendar() {
     }
 
-    public Kalendar(UserModel user, String outputAccount, String outputCalendarId) {
+    public Kalendar(KalUser user, String outputAccount, String outputCalendarId) {
         this.user = user;
         this.outputAccount = outputAccount;
         this.outputCalendarId = outputCalendarId;
     }
 
-    public Kalendar(long id, UserModel user, String outputAccount,
-                    String outputCalendarId, List<CalendarId> CalendarIds) {
+    public Kalendar(long id, KalUser user, String outputAccount,
+                    String outputCalendarId, List<GoogleCalendar> googleCalendars) {
         this.id = id;
         this.user = user;
         this.outputAccount = outputAccount;
         this.outputCalendarId = outputCalendarId;
-        this.CalendarIds = CalendarIds;
+        this.googleCalendars = googleCalendars;
     }
 
     public long getId() {
@@ -46,11 +46,11 @@ public class Kalendar {
         this.id = id;
     }
 
-    public UserModel getUser() {
+    public KalUser getUser() {
         return user;
     }
 
-    public void setUser(UserModel user) {
+    public void setUser(KalUser user) {
         this.user = user;
     }
 
@@ -70,23 +70,23 @@ public class Kalendar {
         this.outputCalendarId = outputCalendarId;
     }
 
-    public List<CalendarId> getCalendarIds() {
-        return CalendarIds;
+    public List<GoogleCalendar> getGoogleCalendars() {
+        return googleCalendars;
     }
 
-    public void setCalendarIds(List<CalendarId> CalendarIds) {
-        this.CalendarIds = CalendarIds;
+    public void setGoogleCalendars(List<GoogleCalendar> googleCalendars) {
+        this.googleCalendars = googleCalendars;
     }
 
-    public List<CalendarId> getCalendarsIds(String[] arrayOfStrings) {
-        List<CalendarId> calendarIds = new ArrayList<>();
+    public List<GoogleCalendar> getGoogleCalendarList(String[] arrayOfStrings) {
+        List<GoogleCalendar> googleCalendars = new ArrayList<>();
         for (int i = 0; i < arrayOfStrings.length; i++) {
-            CalendarId calendarId = new CalendarId();
-            calendarId.setId(arrayOfStrings[i]);
-            calendarId.setAuthModel(null);
-            calendarId.setKalendar(null);
-            calendarIds.add(calendarId);
+            GoogleCalendar googleCalendar = new GoogleCalendar();
+            googleCalendar.setId(arrayOfStrings[i]);
+            googleCalendar.setAuthModel(null);
+            googleCalendar.setKalendar(null);
+            googleCalendars.add(googleCalendar);
         }
-        return calendarIds;
+        return googleCalendars;
     }
 }

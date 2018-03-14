@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class UserModel {
+public class KalUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,21 +19,21 @@ public class UserModel {
     @OneToMany(mappedBy = "user")
     List<AuthModel> authModelList;
 
-    public UserModel() {
+    public KalUser() {
     }
 
-    public UserModel(String clientToken, String userEmail) {
+    public KalUser(String clientToken, String userEmail) {
         this.clientToken = clientToken;
         this.userEmail = userEmail;
     }
 
-    public UserModel(String clientToken, String userEmail, List<AuthModel> authModelList) {
+    public KalUser(String clientToken, String userEmail, List<AuthModel> authModelList) {
         this.clientToken = clientToken;
         this.userEmail = userEmail;
         this.authModelList = authModelList;
     }
 
-    public UserModel(String clientToken) {
+    public KalUser(String clientToken) {
         setClientToken(clientToken);
     }
 

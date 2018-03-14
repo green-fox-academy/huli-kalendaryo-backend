@@ -6,13 +6,13 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarListResp
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.*;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalendarRepository;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserRepository;
 
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.CalendarIdService;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.GoogleCalendarService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.KalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class KalendarController {
     KalendarRepository kalendarRepository;
 
     @Autowired
-    UserModelRepository userModelRepository;
+    KalUserRepository kalUserRepository;
 
     @Autowired
     AuthModelRepository authModelRepository;
@@ -39,7 +39,7 @@ public class KalendarController {
     KalendarService kalendarService;
 
     @Autowired
-    CalendarIdService calendarIdService;
+    GoogleCalendarService googleCalendarService;
 
     @PostMapping(value = "/calendar")
     public ResponseEntity postKalendar(@RequestHeader("X-Client-Token") String clientToken,
@@ -48,7 +48,7 @@ public class KalendarController {
             return ResponseEntity.status(401).body("Client token is missing or invalid");
         }
         Kalendar kalendar = new Kalendar();
-        calendarIdService.saveCalendarId(kalendar, kalendarFromAndroid, clientToken);
+        googleCalendarService.saveGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -56,7 +56,7 @@ public class KalendarController {
     public ResponseEntity getKalendarList(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
         if (!request.getHeader("X-Client-Token").equals("")) {
             KalendarListResponse kalendarListResponse = new KalendarListResponse();
-            UserModel user = userModelRepository.findByClientToken(clientToken);
+            KalUser user = kalUserRepository.findByClientToken(clientToken);
             List<Kalendar> list = kalendarService.findKalendars(user);
             kalendarListResponse.setKalendars(kalendarService.setKalendarResponse(list));
             return new ResponseEntity<>(kalendarListResponse, HttpStatus.OK);

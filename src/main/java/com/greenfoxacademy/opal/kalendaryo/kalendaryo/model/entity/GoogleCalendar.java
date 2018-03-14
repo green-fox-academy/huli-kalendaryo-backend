@@ -3,7 +3,7 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 import javax.persistence.*;
 
 @Entity
-public class CalendarId {
+public class GoogleCalendar {
 
     @Id
     private String id;
@@ -14,13 +14,13 @@ public class CalendarId {
     @JoinColumn(name="merged_calendar_id")
     Kalendar kalendar;
 
-    public CalendarId(String id, AuthModel authModel, Kalendar kalendar) {
+    public GoogleCalendar(String id, AuthModel authModel, Kalendar kalendar) {
         this.id = id;
         this.authModel = authModel;
         this.kalendar = kalendar;
     }
 
-    public CalendarId() {
+    public GoogleCalendar() {
     }
 
     public String getId() {
