@@ -1,7 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.GetAuthResponse;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.PostAuthResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.authresponses.GetAuthResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.authresponses.PostAuthResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.UserResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleAuth;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.KalUser;

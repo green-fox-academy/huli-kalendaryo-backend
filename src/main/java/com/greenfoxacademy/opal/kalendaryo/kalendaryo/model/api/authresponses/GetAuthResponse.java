@@ -1,4 +1,4 @@
-package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api;
+package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.authresponses;
 
 public class GetAuthResponse {
 

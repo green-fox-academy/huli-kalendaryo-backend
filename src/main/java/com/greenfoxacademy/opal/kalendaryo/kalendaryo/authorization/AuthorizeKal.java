@@ -55,7 +55,7 @@ public class AuthorizeKal {
                         clientId,
                         clientSecret,
                         authCode,
-                        "https://huli-kalendaryo-android.firebaseapp.com/__/auth/handler")
+                        "https://huli-kalendaryo-android.firebaseapp.com/__/authresponses/handler")
                         .execute();
 
         return tokenResponse.getAccessToken();

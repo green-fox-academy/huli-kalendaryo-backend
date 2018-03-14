@@ -1,5 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api;
 
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.authresponses.GetAuthResponse;
+
 import java.util.List;
 
 public class UserResponse {
