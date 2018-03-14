@@ -3,19 +3,19 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api;
 import java.util.List;
 
 public class KalendarResponse {
-    private String outputAccountId;
+    private String outputAccount;
     private String outputCalendarId;
     private List<String> inputCalendarIds;
 
     public KalendarResponse() {
     }
 
-    public String getOutputAccountId() {
-        return outputAccountId;
+    public String getOutputAccount() {
+        return outputAccount;
     }
 
-    public void setOutputAccountId(String outputAccountId) {
-        this.outputAccountId = outputAccountId;
+    public void setOutputAccount(String outputAccount) {
+        this.outputAccount = outputAccount;
     }
 
     public String getOutputCalendarId() {

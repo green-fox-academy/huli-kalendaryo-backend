@@ -49,7 +49,7 @@ public class KalendarService {
         List<KalendarResponse> kalendarResponses = new ArrayList<>();
         for (int i = 0; i < kalendars.size(); i++) {
             KalendarResponse kalendarResponse = new KalendarResponse();
-            kalendarResponse.setOutputAccountId(kalendars.get(i).getOutputAccount());
+            kalendarResponse.setOutputAccount(kalendars.get(i).getOutputAccount());
             kalendarResponse.setOutputCalendarId(kalendars.get(i).getOutputCalendarId());
             kalendarResponse.setInputCalendarIds((setToStringCalendarIds(googleCalendarRepository.findGoogleCalendarsByKalendar(kalendars.get(i)))));
             kalendarResponses.add(kalendarResponse);
