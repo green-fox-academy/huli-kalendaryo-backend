@@ -12,10 +12,8 @@ public class UserModel {
     @Column(unique = true, nullable = false)
     private String clientToken;
     private String userEmail;
-  
     @OneToMany(mappedBy = "user")
     List<MergedCalendar> mergedCalendarList;
-
     @OneToMany(mappedBy = "user")
     List<AuthModel> authModelList;
 
@@ -69,6 +67,11 @@ public class UserModel {
         this.mergedCalendarList = mergedCalendarList;
     }
 
+    public void addMergedCalToUser(MergedCalendar mergedCalendar) {
+        mergedCalendar.setUser(this);
+        mergedCalendarList.add(mergedCalendar);
+    }
+
     public List<AuthModel> getAuthModelList() {
         return authModelList;
     }
@@ -76,4 +79,15 @@ public class UserModel {
     public void setAuthModelList(List<AuthModel> authModelList) {
         this.authModelList = authModelList;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserModel userModel = (UserModel) o;
+
+        return this.getUserEmail().equals(userModel.getUserEmail());
+    }
+
 }

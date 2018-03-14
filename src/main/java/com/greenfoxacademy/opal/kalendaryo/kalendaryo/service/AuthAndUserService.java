@@ -6,16 +6,13 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.SecureRandom;
 
-import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.AuthorizeKal.authorize;
-
 @Service
-public class AuthAndUserService {
+public class AuthAndUserService{
 
     @Autowired
     AuthModelRepository authModelRepository;
@@ -23,18 +20,23 @@ public class AuthAndUserService {
     @Autowired
     UserModelRepository userModelRepository;
 
-    public void saveAuthModel(AuthModel authModel) throws IOException{
-        String accessToken = authorize(authModel.getAuthCode());
-        authModel.setAccessToken(accessToken);
-        authModelRepository.save(authModel);
+    @Autowired
+    SavingMethods savingMethods;
+
+    public void saveUserModel(UserModel userModel) {
+        if (userModelRepository.findByUserEmail(userModel.getUserEmail()) != null) {
+            userModel = userModelRepository.findByUserEmail(userModel.getUserEmail());
+        }
+        userModelRepository.save(userModel);
+    }
+
+    public void addUserToAuthModel(AuthModel authModel, UserModel userModel) throws IOException {
+        authModel.setUser(userModel);
+        saveAuthModel(authModel);
     }
 
     public UserModel findUserByClientToken(String clientToken) {
         return userModelRepository.findByClientToken(clientToken);
-    }
-
-    public void saveUserModel(UserModel userModel) {
-        userModelRepository.save(userModel);
     }
 
     public String getRandomClientToken() {
@@ -42,6 +44,10 @@ public class AuthAndUserService {
         byte[] random = new byte[20];
         secureRandom.nextBytes(random);
         return Base64.encodeBase64String(random);
+    }
+
+    public void saveAuthModel(AuthModel authModel) throws IOException {
+        savingMethods.saveAuthModel(authModel);
     }
 
     public UserModel findUserByAuth(AuthModel authModel) {
