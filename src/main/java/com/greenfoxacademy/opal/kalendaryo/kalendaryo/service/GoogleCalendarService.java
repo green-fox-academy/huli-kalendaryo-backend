@@ -3,7 +3,7 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleCalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.Kalendar;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleCalendarRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalendarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class GoogleCalendarService {
     GoogleCalendarRepository googleCalendarRepository;
 
     @Autowired
-    AuthModelRepository authModelRepository;
+    GoogleAuthRepository googleAuthRepository;
 
     @Autowired
     KalendarRepository kalendarRepository;
@@ -33,7 +33,7 @@ public class GoogleCalendarService {
         for (int i = 0; i < fromAndroid.getInputCalendarIds().length; i++) {
             GoogleCalendar googleCalendar = new GoogleCalendar();
             googleCalendar.setId(fromAndroid.getInputCalendarIds()[i]);
-            googleCalendar.setAuthModel(authModelRepository.findByEmail(fromAndroid.getOutputCalendarId()));
+            googleCalendar.setGoogleAuth(googleAuthRepository.findByEmail(fromAndroid.getOutputCalendarId()));
             googleCalendar.setKalendar(kalendar);
             googleCalendarRepository.save(googleCalendar);
         }

@@ -1,9 +1,9 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
 import com.google.api.client.util.Base64;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleAuth;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.KalUser;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,15 +17,15 @@ import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.Autho
 public class AuthAndUserService {
 
     @Autowired
-    AuthModelRepository authModelRepository;
+    GoogleAuthRepository googleAuthRepository;
 
     @Autowired
     KalUserRepository kalUserRepository;
 
-    public void saveAuthModel(AuthModel authModel) throws IOException{
-        String accessToken = authorize(authModel.getAuthCode());
-        authModel.setAccessToken(accessToken);
-        authModelRepository.save(authModel);
+    public void saveGoogleAuth(GoogleAuth googleAuth) throws IOException{
+        String accessToken = authorize(googleAuth.getAuthCode());
+        googleAuth.setAccessToken(accessToken);
+        googleAuthRepository.save(googleAuth);
     }
 
     public KalUser findUserByClientToken(String clientToken) {
@@ -43,7 +43,7 @@ public class AuthAndUserService {
         return Base64.encodeBase64String(random);
     }
 
-    public KalUser findUserByAuth(AuthModel authModel) {
-        return kalUserRepository.findKalUserByAuthModelListIsContaining(authModel);
+    public KalUser findUserByAuth(GoogleAuth googleAuth) {
+        return kalUserRepository.findKalUserByGoogleAuthListIsContaining(googleAuth);
     }
 }

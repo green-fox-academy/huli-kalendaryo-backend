@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class AuthModel {
+public class GoogleAuth {
 
     @Id
     private String email;
@@ -12,13 +12,13 @@ public class AuthModel {
     private String displayName;
     private String accessToken;
     private String refreshToken;
-    @OneToMany(mappedBy = "authModel")
+    @OneToMany(mappedBy = "googleAuth")
     List<GoogleCalendar> googleCalendars;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     KalUser user;
 
-    public AuthModel(String email, String authCode, String displayName, KalUser user, String accessToken) {
+    public GoogleAuth(String email, String authCode, String displayName, KalUser user, String accessToken) {
         this.email = email;
         this.authCode = authCode;
         this.displayName = displayName;
@@ -26,7 +26,7 @@ public class AuthModel {
         this.accessToken = accessToken;
     }
 
-    public AuthModel() {
+    public GoogleAuth() {
     }
 
     public String getDisplayName() {

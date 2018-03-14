@@ -6,15 +6,15 @@ public class UserResponse {
 
     private long id;
     private String userEmail;
-    List<GetAuthResponse> authModels;
+    List<GetAuthResponse> googleAuths;
 
     public UserResponse() {
     }
 
-    public UserResponse(long id, String userEmail, List<GetAuthResponse> authModels) {
+    public UserResponse(long id, String userEmail, List<GetAuthResponse> googleAuths) {
         this.id = id;
         this.userEmail = userEmail;
-        this.authModels = authModels;
+        this.googleAuths = googleAuths;
     }
 
     public long getId() {
@@ -33,11 +33,11 @@ public class UserResponse {
         this.userEmail = userEmail;
     }
 
-    public List<GetAuthResponse> getAuthModels() {
-        return authModels;
+    public List<GetAuthResponse> getGoogleAuths() {
+        return googleAuths;
     }
 
-    public void setAuthModels(List<GetAuthResponse> authModels) {
-        this.authModels = authModels;
+    public void setGoogleAuths(List<GetAuthResponse> googleAuths) {
+        this.googleAuths = googleAuths;
     }
 }

@@ -17,7 +17,7 @@ public class KalUser {
     List<Kalendar> kalendarList;
 
     @OneToMany(mappedBy = "user")
-    List<AuthModel> authModelList;
+    List<GoogleAuth> googleAuthList;
 
     public KalUser() {
     }
@@ -27,10 +27,10 @@ public class KalUser {
         this.userEmail = userEmail;
     }
 
-    public KalUser(String clientToken, String userEmail, List<AuthModel> authModelList) {
+    public KalUser(String clientToken, String userEmail, List<GoogleAuth> googleAuthList) {
         this.clientToken = clientToken;
         this.userEmail = userEmail;
-        this.authModelList = authModelList;
+        this.googleAuthList = googleAuthList;
     }
 
     public KalUser(String clientToken) {
@@ -69,11 +69,11 @@ public class KalUser {
         this.kalendarList = kalendarList;
     }
 
-    public List<AuthModel> getAuthModelList() {
-        return authModelList;
+    public List<GoogleAuth> getGoogleAuthList() {
+        return googleAuthList;
     }
 
-    public void setAuthModelList(List<AuthModel> authModelList) {
-        this.authModelList = authModelList;
+    public void setGoogleAuthList(List<GoogleAuth> googleAuthList) {
+        this.googleAuthList = googleAuthList;
     }
 }

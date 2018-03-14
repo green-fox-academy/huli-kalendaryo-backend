@@ -83,7 +83,7 @@ public class Kalendar {
         for (int i = 0; i < arrayOfStrings.length; i++) {
             GoogleCalendar googleCalendar = new GoogleCalendar();
             googleCalendar.setId(arrayOfStrings[i]);
-            googleCalendar.setAuthModel(null);
+            googleCalendar.setGoogleAuth(null);
             googleCalendar.setKalendar(null);
             googleCalendars.add(googleCalendar);
         }

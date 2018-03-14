@@ -9,14 +9,14 @@ public class GoogleCalendar {
     private String id;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="auth_model_email")
-    AuthModel authModel;
+    GoogleAuth googleAuth;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="merged_calendar_id")
     Kalendar kalendar;
 
-    public GoogleCalendar(String id, AuthModel authModel, Kalendar kalendar) {
+    public GoogleCalendar(String id, GoogleAuth googleAuth, Kalendar kalendar) {
         this.id = id;
-        this.authModel = authModel;
+        this.googleAuth = googleAuth;
         this.kalendar = kalendar;
     }
 
@@ -31,12 +31,12 @@ public class GoogleCalendar {
         this.id = id;
     }
 
-    public AuthModel getAuthModel() {
-        return authModel;
+    public GoogleAuth getGoogleAuth() {
+        return googleAuth;
     }
 
-    public void setAuthModel(AuthModel authModel) {
-        this.authModel = authModel;
+    public void setGoogleAuth(GoogleAuth googleAuth) {
+        this.googleAuth = googleAuth;
     }
 
     public Kalendar getKalendar() {
