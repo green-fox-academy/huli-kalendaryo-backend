@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface CalendarIdRepository extends CrudRepository<CalendarId, String> {
+
     List<CalendarId> findCalendarIdsByMergedCalendar(MergedCalendar mergedCalendarId);
 }

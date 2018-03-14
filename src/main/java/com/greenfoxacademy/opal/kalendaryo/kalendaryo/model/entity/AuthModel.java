@@ -18,15 +18,26 @@ public class AuthModel {
     @JoinColumn(name = "user_id")
     UserModel user;
 
+    public AuthModel() {
+    }
+
+    public AuthModel(String email, String displayName) {
+        this.email = email;
+        this.displayName = displayName;
+    }
+
+    public AuthModel(String email, String displayName, UserModel user) {
+        this.email = email;
+        this.displayName = displayName;
+        this.user = user;
+    }
+
     public AuthModel(String email, String authCode, String displayName, UserModel user, String accessToken) {
         this.email = email;
         this.authCode = authCode;
         this.displayName = displayName;
         this.user = user;
         this.accessToken = accessToken;
-    }
-
-    public AuthModel() {
     }
 
     public String getDisplayName() {
@@ -84,4 +95,15 @@ public class AuthModel {
     public void setCalendarId(List<CalendarId> calendarId) {
         this.calendarId = calendarId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AuthModel authModel = (AuthModel) o;
+
+        return this.getEmail().equals(authModel.getEmail());
+    }
+
 }
