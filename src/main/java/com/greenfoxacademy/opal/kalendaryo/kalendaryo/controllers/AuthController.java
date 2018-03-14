@@ -35,8 +35,8 @@ public class AuthController {
 
             for (int i = 0; i < kalUser.getGoogleAuthList().size() ; i++) {
                 GoogleAuth currentGoogleAuth = kalUser.getGoogleAuthList().get(i);
-                GetAuthResponse tempGetAuthResponse = new GetAuthResponse(currentGoogleAuth.getEmail(), currentGoogleAuth.getAccessToken());
-                userResponse.getGoogleAuths().add(tempGetAuthResponse);
+                GetAuthResponse currentGetAuthResponse = new GetAuthResponse(currentGoogleAuth.getEmail(), currentGoogleAuth.getAccessToken());
+                userResponse.getGoogleAuths().add(currentGetAuthResponse);
             }
 
             return ResponseEntity.status(200).body(new UserResponse(kalUser.getId(), kalUser.getUserEmail(), userResponse.getGoogleAuths()));
