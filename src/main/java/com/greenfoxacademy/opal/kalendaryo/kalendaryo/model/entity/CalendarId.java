@@ -14,10 +14,13 @@ public class CalendarId {
     @JoinColumn(name="merged_calendar_id")
     MergedCalendar mergedCalendar;
 
-    public CalendarId(String id, AuthModel authModel, MergedCalendar mergedCalendar) {
+    String[] sharingOptions;
+
+    public CalendarId(String id, AuthModel authModel, MergedCalendar mergedCalendar, String[] sharingOptions) {
         this.id = id;
         this.authModel = authModel;
         this.mergedCalendar = mergedCalendar;
+        this.sharingOptions = sharingOptions;
     }
 
     public CalendarId() {
@@ -45,5 +48,13 @@ public class CalendarId {
 
     public void setMergedCalendar(MergedCalendar mergedCalendar) {
         this.mergedCalendar = mergedCalendar;
+    }
+
+    public void setSharingOptions(String[] sharingOptions) {
+        this.sharingOptions = sharingOptions;
+    }
+
+    public String[] getSharingOptions() {
+        return sharingOptions;
     }
 }

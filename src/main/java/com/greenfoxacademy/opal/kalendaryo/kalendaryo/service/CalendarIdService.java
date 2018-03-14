@@ -35,6 +35,7 @@ public class CalendarIdService {
             calendarId.setId(fromAndroid.getInputCalendarIds()[i]);
             calendarId.setAuthModel(authModelRepository.findByEmail(fromAndroid.getOutputCalendarId()));
             calendarId.setMergedCalendar(mergedCalendar);
+            calendarId.setSharingOptions(fromAndroid.getSharingOptions());
             calendarIdRepository.save(calendarId);
         }
     }

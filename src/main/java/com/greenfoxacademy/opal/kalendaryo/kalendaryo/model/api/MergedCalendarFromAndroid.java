@@ -6,6 +6,7 @@ public class MergedCalendarFromAndroid {
 
   private String outputCalendarId;
   private String[] inputCalendarIds;
+  private String[] sharingOptions;
 
   public MergedCalendarFromAndroid() {
   }
@@ -29,5 +30,13 @@ public class MergedCalendarFromAndroid {
 
   public void setInputCalendarIds(String[] inputCalendarIds) {
     this.inputCalendarIds = inputCalendarIds;
+  }
+
+  public void setSharingOptions(String[] sharingOptions) {
+    this.sharingOptions = sharingOptions;
+  }
+
+  public String[] getSharingOptions() {
+    return sharingOptions;
   }
 }
