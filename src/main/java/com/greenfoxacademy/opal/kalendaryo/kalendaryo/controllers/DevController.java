@@ -1,6 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.EventResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleCalendarUpdate;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -25,8 +25,8 @@ public class DevController {
     }
 
     @GetMapping(value = "/notification")
-    public Iterable<EventResponse> showAllEventResponse() {
-        Iterable<EventResponse> responses = eventResponseService.findAllEventResponse();
+    public Iterable<GoogleCalendarUpdate> showAllEventResponse() {
+        Iterable<GoogleCalendarUpdate> responses = eventResponseService.findAllEventResponse();
         System.out.println(responses);
         return responses;
     }

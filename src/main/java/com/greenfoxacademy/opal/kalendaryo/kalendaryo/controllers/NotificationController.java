@@ -1,6 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.EventResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleCalendarUpdate;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.EventResponseService;
 import javax.servlet.http.HttpServletRequest;
@@ -23,15 +23,15 @@ public class NotificationController {
 
     @PostMapping(value = "/notification")
     public ResponseEntity eventNotification(HttpServletRequest request) {
-        EventResponse eventResponse = new EventResponse(request);
+        GoogleCalendarUpdate googleCalendarUpdate = new GoogleCalendarUpdate(request);
 
-        if (!eventResponse.validate()) {
-            eventResponseService.saveEventResponse(eventResponse);
+        if (!googleCalendarUpdate.validate()) {
+            eventResponseService.saveEventResponse(googleCalendarUpdate);
             logger.info("Event Response saved.");
             return new ResponseEntity(HttpStatus.OK);
         } else {
-            System.out.println("Missing: " + eventResponse.getMissingFields());
-            logger.info("Missing: " + eventResponse.getMissingFields());
+            System.out.println("Missing: " + googleCalendarUpdate.getMissingFields());
+            logger.info("Missing: " + googleCalendarUpdate.getMissingFields());
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
     }
