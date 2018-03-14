@@ -26,7 +26,7 @@ import java.nio.charset.Charset;
 @ActiveProfiles("test")
 @WebAppConfiguration
 @EnableWebMvc
-public class NotificationControllerTests  {
+public class NotificationControllerTest {
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
