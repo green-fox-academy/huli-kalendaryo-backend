@@ -47,7 +47,9 @@ public class AuthAndUserService{
     }
 
     public void saveAuthModel(AuthModel authModel) throws IOException {
-        authorization.saveAuthModel(authModel);
+        String accessToken = authorization.authorize(authModel.getAuthCode());
+        authModel.setAccessToken(accessToken);
+        authModelRepository.save(authModel);
     }
 
     public UserModel findUserByAuth(AuthModel authModel) {

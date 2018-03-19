@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface AuthModelRepository extends CrudRepository<AuthModel, String> {
 
     AuthModel findByEmail (String email);
+    AuthModel findByAuthCode (String authCode);
 }

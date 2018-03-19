@@ -13,10 +13,11 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-
+@Component
 public class AuthorizeKal {
 
     private static final String APPLICATION_NAME = "Kalendaryo";
@@ -24,6 +25,9 @@ public class AuthorizeKal {
     private static FileDataStoreFactory DATA_STORE_FACTORY;
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static HttpTransport HTTP_TRANSPORT;
+
+    public AuthorizeKal() {
+    }
 
     static {
         try {
