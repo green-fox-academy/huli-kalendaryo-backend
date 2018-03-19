@@ -8,10 +8,10 @@ public class GoogleCalendar {
     @Id
     private String id;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="auth_model_email")
+    @JoinColumn(name="google_auth_email")
     GoogleAuth googleAuth;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="merged_calendar_id") //need to be changed according to db migration modifications
+    @JoinColumn(name="kalendar_id") //need to be changed according to db migration modifications
     Kalendar kalendar;
 
     public GoogleCalendar() {
