@@ -5,10 +5,9 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.MergedCalenda
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.MergedCalendarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+
 
 import java.io.IOException;
 
@@ -16,7 +15,7 @@ import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.Autho
 
 @Component
 @Profile("dev")
-public class SavingMethodsDevEnvImp implements SavingMethods {
+public class SavingMethodsDevEnvImp implements Authorization {
 
     @Autowired
     AuthModelRepository authModelRepository;

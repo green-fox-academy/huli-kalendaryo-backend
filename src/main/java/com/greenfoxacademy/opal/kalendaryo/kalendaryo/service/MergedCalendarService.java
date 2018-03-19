@@ -23,9 +23,6 @@ public class MergedCalendarService {
     UserModelRepository userModelRepository;
 
     @Autowired
-    SavingMethods savingMethods;
-
-    @Autowired
     CalendarIdRepository calendarIdRepository;
 
     public List<MergedCalendar> findMergedCalendars(UserModel user) {
@@ -41,7 +38,7 @@ public class MergedCalendarService {
     }
 
     public void saveMergedCalendar(MergedCalendar mergedCalendar) {
-        savingMethods.saveMergedCalendar(mergedCalendar);
+        mergedCalendarRepository.save(mergedCalendar);
     }
 
     public void addUserToMergedCal(MergedCalendar mergedCalendar, UserModel userModel) {

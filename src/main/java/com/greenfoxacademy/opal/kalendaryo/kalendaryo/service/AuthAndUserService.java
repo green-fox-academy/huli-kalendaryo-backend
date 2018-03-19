@@ -21,7 +21,7 @@ public class AuthAndUserService{
     UserModelRepository userModelRepository;
 
     @Autowired
-    SavingMethods savingMethods;
+    Authorization authorization;
 
     public void saveUserModel(UserModel userModel) {
         if (userModelRepository.findByUserEmail(userModel.getUserEmail()) != null) {
@@ -47,7 +47,7 @@ public class AuthAndUserService{
     }
 
     public void saveAuthModel(AuthModel authModel) throws IOException {
-        savingMethods.saveAuthModel(authModel);
+        authorization.saveAuthModel(authModel);
     }
 
     public UserModel findUserByAuth(AuthModel authModel) {

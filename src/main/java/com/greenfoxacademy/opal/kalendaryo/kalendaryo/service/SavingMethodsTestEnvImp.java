@@ -14,7 +14,7 @@ import java.security.SecureRandom;
 
 @Component
 @Profile("test")
-public class SavingMethodsTestEnvImp implements SavingMethods {
+public class SavingMethodsTestEnvImp implements Authorization {
 
     @Autowired
     AuthModelRepository authModelRepository;

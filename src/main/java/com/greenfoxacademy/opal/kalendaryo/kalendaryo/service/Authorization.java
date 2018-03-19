@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-public interface SavingMethods {
+public interface Authorization {
 
     void saveAuthModel(AuthModel authModel) throws IOException;
 
