@@ -11,11 +11,11 @@ public class GoogleCalendarUpdateService {
     @Autowired
     GoogleCalendarUpdateRepository googleCalendarUpdateRepository;
 
-    public void saveEventResponse(GoogleCalendarUpdate googleCalendarUpdate) {
+    public void saveGoogleCalendarUpdate(GoogleCalendarUpdate googleCalendarUpdate) {
         googleCalendarUpdateRepository.save(googleCalendarUpdate);
     }
 
-    public Iterable<GoogleCalendarUpdate> findAllEventResponse() {
+    public Iterable<GoogleCalendarUpdate> findAllGoogleCalendarUpdate() {
         return googleCalendarUpdateRepository.findAll();
     }
 

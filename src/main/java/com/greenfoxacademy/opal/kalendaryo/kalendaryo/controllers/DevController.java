@@ -25,8 +25,8 @@ public class DevController {
     }
 
     @GetMapping(value = "/notification")
-    public Iterable<GoogleCalendarUpdate> showAllEventResponse() {
-        Iterable<GoogleCalendarUpdate> responses = googleCalendarUpdateService.findAllEventResponse();
+    public Iterable<GoogleCalendarUpdate> showAllGoogleCalendarUpdate() {
+        Iterable<GoogleCalendarUpdate> responses = googleCalendarUpdateService.findAllGoogleCalendarUpdate();
         System.out.println(responses);
         return responses;
     }

@@ -26,8 +26,8 @@ public class NotificationController {
         GoogleCalendarUpdate googleCalendarUpdate = new GoogleCalendarUpdate(request);
 
         if (!googleCalendarUpdate.validate()) {
-            googleCalendarUpdateService.saveEventResponse(googleCalendarUpdate);
-            logger.info("Event Response saved.");
+            googleCalendarUpdateService.saveGoogleCalendarUpdate(googleCalendarUpdate);
+            logger.info("Google Calendar Update saved.");
             return new ResponseEntity(HttpStatus.OK);
         } else {
             System.out.println("Missing: " + googleCalendarUpdate.getMissingFields());
