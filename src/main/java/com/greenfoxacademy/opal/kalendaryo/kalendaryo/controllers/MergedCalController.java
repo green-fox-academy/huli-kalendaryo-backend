@@ -1,6 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
 
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.AuthorizeKal;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarListResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarResponse;
@@ -43,12 +44,16 @@ public class MergedCalController {
     @Autowired
     CalendarIdService calendarIdService;
 
+    @Autowired
+    AuthorizeKal authorizeKal;
+
     @PostMapping(value = "/calendar")
     public ResponseEntity postMergedCal(@RequestHeader("X-Client-Token") String clientToken,
         @RequestBody MergedCalendarFromAndroid mergedCalendarFromAndroid) throws IOException {
         if (clientToken == null) {
             return ResponseEntity.status(401).body("Client token is missing or invalid");
         }
+        authorizeKal.createCalendar(mergedCalendarFromAndroid);
         MergedCalendar mergedCalendar = new MergedCalendar();
         calendarIdService.saveCalendarId(mergedCalendar, mergedCalendarFromAndroid, clientToken);
         return new ResponseEntity(HttpStatus.OK);
