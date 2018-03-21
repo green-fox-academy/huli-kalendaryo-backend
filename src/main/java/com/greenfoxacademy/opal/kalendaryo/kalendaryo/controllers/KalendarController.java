@@ -40,17 +40,6 @@ public class KalendarController {
     @Autowired
     GoogleCalendarService googleCalendarService;
 
-    @PostMapping(value = "/calendar")
-    public ResponseEntity postKalendar(@RequestHeader("X-Client-Token") String clientToken,
-        @RequestBody KalendarFromAndroid kalendarFromAndroid) throws IOException {
-        if (clientToken == null) {
-            return ResponseEntity.status(401).body("Client token is missing or invalid");
-        }
-        Kalendar kalendar = new Kalendar();
-        googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
     @GetMapping(value = "/calendar")
     public ResponseEntity getKalendarList(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
         if (!request.getHeader("X-Client-Token").equals("")) {
@@ -61,5 +50,16 @@ public class KalendarController {
             return new ResponseEntity<>(kalendarListResponse, HttpStatus.OK);
         }
         return new ResponseEntity<String>("Client token is missing or invalid", HttpStatus.UNAUTHORIZED);
+    }
+
+    @PostMapping(value = "/calendar")
+    public ResponseEntity postKalendar(@RequestHeader("X-Client-Token") String clientToken,
+        @RequestBody KalendarFromAndroid kalendarFromAndroid) throws IOException {
+        if (clientToken == null) {
+            return ResponseEntity.status(401).body("Client token is missing or invalid");
+        }
+        Kalendar kalendar = new Kalendar();
+        googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
