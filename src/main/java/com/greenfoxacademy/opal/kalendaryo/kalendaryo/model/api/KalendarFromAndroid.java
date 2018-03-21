@@ -1,33 +1,31 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api;
 
-import java.util.List;
-
 public class KalendarFromAndroid {
 
-  private String outputCalendarId;
-  private String[] inputCalendarIds;
+  private String outputGoogleAuthId;
+  private String[] inputGoogleCalendars;
 
   public KalendarFromAndroid() {
   }
 
-  public KalendarFromAndroid(String outputCalendarId, String[] inputCalendarIds) {
-    this.outputCalendarId = outputCalendarId;
-    this.inputCalendarIds = inputCalendarIds;
+  public KalendarFromAndroid(String outputGoogleAuthId, String[] inputGoogleCalendars) {
+    this.outputGoogleAuthId = outputGoogleAuthId;
+    this.inputGoogleCalendars = inputGoogleCalendars;
   }
 
-  public String getOutputCalendarId() {
-    return outputCalendarId;
+  public String getOutputGoogleAuthId() {
+    return outputGoogleAuthId;
   }
 
-  public void setOutputCalendarId(String outputCalendarId) {
-    this.outputCalendarId = outputCalendarId;
+  public void setOutputGoogleAuthId(String outputGoogleAuthId) {
+    this.outputGoogleAuthId = outputGoogleAuthId;
   }
 
-  public String[] getInputCalendarIds() {
-    return inputCalendarIds;
+  public String[] getInputGoogleCalendars() {
+    return inputGoogleCalendars;
   }
 
-  public void setInputCalendarIds(String[] inputCalendarIds) {
-    this.inputCalendarIds = inputCalendarIds;
+  public void setInputGoogleCalendars(String[] inputGoogleCalendars) {
+    this.inputGoogleCalendars = inputGoogleCalendars;
   }
 }

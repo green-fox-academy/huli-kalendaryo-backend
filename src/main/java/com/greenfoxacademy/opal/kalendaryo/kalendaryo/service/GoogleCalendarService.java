@@ -30,10 +30,10 @@ public class GoogleCalendarService {
 
     public void setGoogleCalendar(Kalendar kalendar, KalendarFromAndroid fromAndroid, String clientToken) {
         kalendarService.setKalendar(kalendar, fromAndroid, clientToken);
-        for (int i = 0; i < fromAndroid.getInputCalendarIds().length; i++) {
+        for (int i = 0; i < fromAndroid.getInputGoogleCalendars().length; i++) {
             GoogleCalendar googleCalendar = new GoogleCalendar();
-            googleCalendar.setId(fromAndroid.getInputCalendarIds()[i]);
-            googleCalendar.setGoogleAuth(googleAuthRepository.findByEmail(fromAndroid.getOutputCalendarId()));
+            googleCalendar.setId(fromAndroid.getInputGoogleCalendars()[i]);
+            googleCalendar.setGoogleAuth(googleAuthRepository.findByEmail(fromAndroid.getOutputGoogleAuthId()));
             googleCalendar.setKalendar(kalendar);
             saveGoogleCalendar(googleCalendar);
         }

@@ -34,9 +34,9 @@ public class KalendarService {
     }
 
     public void setKalendar(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) {
-        String idList = inputCalendarSetter(kalendarFromAndroid.getInputCalendarIds());
+        String idList = inputCalendarSetter(kalendarFromAndroid.getInputGoogleCalendars());
         kalendar.setOutputCalendarId(idList);
-        kalendar.setOutputGoogleAuthId(kalendarFromAndroid.getOutputCalendarId());
+        kalendar.setOutputGoogleAuthId(kalendarFromAndroid.getOutputGoogleAuthId());
         kalendar.setUser(kalUserRepository.findByClientToken(clientToken));
         saveKalendar(kalendar);
     }
