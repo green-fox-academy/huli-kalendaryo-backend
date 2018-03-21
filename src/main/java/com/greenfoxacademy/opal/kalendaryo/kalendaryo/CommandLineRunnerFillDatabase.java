@@ -4,7 +4,6 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleAuth;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.KalUser;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.GoogleCalendarService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.KalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,9 +16,6 @@ public class CommandLineRunnerFillDatabase implements CommandLineRunner {
 
     @Autowired
     AuthAndUserService authAndUserService;
-
-    @Autowired
-    GoogleCalendarService googleCalendarService;
 
     @Autowired
     KalendarService kalendarService;
