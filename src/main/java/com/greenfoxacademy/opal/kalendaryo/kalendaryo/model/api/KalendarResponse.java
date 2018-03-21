@@ -3,19 +3,19 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api;
 import java.util.List;
 
 public class KalendarResponse {
-    private String outputAccount;
+    private String outputGoogleAuthId;
     private String outputCalendarId;
-    private List<String> inputCalendarIds;
+    private List<String> inputGoogleCalendars;
 
     public KalendarResponse() {
     }
 
-    public String getOutputAccount() {
-        return outputAccount;
+    public String getOutputGoogleAuthId() {
+        return outputGoogleAuthId;
     }
 
-    public void setOutputAccount(String outputAccount) {
-        this.outputAccount = outputAccount;
+    public void setOutputGoogleAuthId(String outputGoogleAuthId) {
+        this.outputGoogleAuthId = outputGoogleAuthId;
     }
 
     public String getOutputCalendarId() {
@@ -26,11 +26,11 @@ public class KalendarResponse {
         this.outputCalendarId = outputCalendarId;
     }
 
-    public List<String> getInputCalendarIds() {
-        return inputCalendarIds;
+    public List<String> getInputGoogleCalendars() {
+        return inputGoogleCalendars;
     }
 
-    public void setInputCalendarIds(List<String> inputCalendarIds) {
-        this.inputCalendarIds = inputCalendarIds;
+    public void setInputGoogleCalendars(List<String> inputGoogleCalendars) {
+        this.inputGoogleCalendars = inputGoogleCalendars;
     }
 }

@@ -14,7 +14,7 @@ public class Kalendar {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name="user")
     private KalUser user;
-    private String outputAccount;
+    private String outputGoogleAuthId;
     private String outputCalendarId;
 
     @OneToMany(mappedBy = "kalendar")
@@ -23,21 +23,21 @@ public class Kalendar {
     public Kalendar() {
     }
 
-    public Kalendar(String outputAccount, String outputCalendarId) {
-        this.outputAccount = outputAccount;
+    public Kalendar(String outputGoogleAuthId, String outputCalendarId) {
+        this.outputGoogleAuthId = outputGoogleAuthId;
         this.outputCalendarId = outputCalendarId;
     }
 
-    public Kalendar(KalUser user, String outputAccount, String outputCalendarId) {
+    public Kalendar(KalUser user, String outputGoogleAuthId, String outputCalendarId) {
         this.user = user;
-        this.outputAccount = outputAccount;
+        this.outputGoogleAuthId = outputGoogleAuthId;
         this.outputCalendarId = outputCalendarId;
     }
 
-    public Kalendar(long id, KalUser user, String outputAccount, String outputCalendarId, List<GoogleCalendar> googleCalendars) {
+    public Kalendar(long id, KalUser user, String outputGoogleAuthId, String outputCalendarId, List<GoogleCalendar> googleCalendars) {
         this.id = id;
         this.user = user;
-        this.outputAccount = outputAccount;
+        this.outputGoogleAuthId = outputGoogleAuthId;
         this.outputCalendarId = outputCalendarId;
         this.googleCalendars = googleCalendars;
     }
@@ -58,12 +58,12 @@ public class Kalendar {
         this.user = user;
     }
 
-    public String getOutputAccount() {
-        return outputAccount;
+    public String getOutputGoogleAuthId() {
+        return outputGoogleAuthId;
     }
 
-    public void setOutputAccount(String outputAccount) {
-        this.outputAccount = outputAccount;
+    public void setOutputGoogleAuthId(String outputGoogleAuthId) {
+        this.outputGoogleAuthId = outputGoogleAuthId;
     }
 
     public String getOutputCalendarId() {
@@ -99,8 +99,8 @@ public class Kalendar {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Kalendar mergedCalendar = (Kalendar) o;
+        Kalendar kalendar = (Kalendar) o;
 
-        return this.getOutputCalendarId().equals(mergedCalendar.getOutputCalendarId());
+        return this.getOutputCalendarId().equals(kalendar.getOutputCalendarId());
     }
 }

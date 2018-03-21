@@ -16,6 +16,7 @@ import java.util.List;
 
 @Service
 public class KalendarService {
+
     @Autowired
     KalendarRepository kalendarRepository;
 
@@ -35,7 +36,7 @@ public class KalendarService {
     public void setKalendar(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) {
         String idList = inputCalendarSetter(kalendarFromAndroid.getInputCalendarIds());
         kalendar.setOutputCalendarId(idList);
-        kalendar.setOutputAccount(kalendarFromAndroid.getOutputCalendarId());
+        kalendar.setOutputGoogleAuthId(kalendarFromAndroid.getOutputCalendarId());
         kalendar.setUser(kalUserRepository.findByClientToken(clientToken));
         saveKalendar(kalendar);
     }
@@ -62,9 +63,9 @@ public class KalendarService {
         List<KalendarResponse> kalendarResponses = new ArrayList<>();
         for (int i = 0; i < kalendars.size(); i++) {
             KalendarResponse kalendarResponse = new KalendarResponse();
-            kalendarResponse.setOutputAccount(kalendars.get(i).getOutputAccount());
+            kalendarResponse.setOutputGoogleAuthId(kalendars.get(i).getOutputGoogleAuthId());
             kalendarResponse.setOutputCalendarId(kalendars.get(i).getOutputCalendarId());
-            kalendarResponse.setInputCalendarIds((setToStringGoogleCalendars(googleCalendarRepository.findGoogleCalendarsByKalendar(kalendars.get(i)))));
+            kalendarResponse.setInputGoogleCalendars((setToStringGoogleCalendars(googleCalendarRepository.findGoogleCalendarsByKalendar(kalendars.get(i)))));
             kalendarResponses.add(kalendarResponse);
         }
         return kalendarResponses;
@@ -78,4 +79,3 @@ public class KalendarService {
         return GoogleCalendarIDsToString;
     }
 }
-
