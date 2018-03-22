@@ -37,7 +37,7 @@ public class MergedCalendarService {
         mergedCalendarRepository.save(mergedCalendar);
     }
 
-    private String inputCalendarSetter(String[] lists) {
+    public String inputCalendarSetter(String[] lists) {
         String string = "";
         for (String list : lists) {
             string += list;
