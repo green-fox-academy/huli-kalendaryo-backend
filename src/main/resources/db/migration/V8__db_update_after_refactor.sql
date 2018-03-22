@@ -10,6 +10,7 @@ ALTER TABLE event_response
     RENAME TO google_calendar_update;
 
 ALTER TABLE merged_calendar
+    CHANGE output_account output_google_auth_id VARCHAR(255),
     RENAME TO kalendar;
 
 ALTER TABLE calendar_id
