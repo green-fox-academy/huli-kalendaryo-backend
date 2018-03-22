@@ -14,13 +14,30 @@ public class CalendarId {
     @JoinColumn(name="merged_calendar_id")
     MergedCalendar mergedCalendar;
 
-    String[] sharingOptions;
+    @Transient
+    SharingOptions sharingOptions;
 
-    public CalendarId(String id, AuthModel authModel, MergedCalendar mergedCalendar, String[] sharingOptions) {
+    @Column
+    Boolean sharing_title;
+    @Column
+    Boolean sharing_location;
+    @Column
+    Boolean sharing_description;
+    @Column
+    Boolean sharing_organizer;
+    @Column
+    Boolean sharing_attendants;
+
+    public CalendarId(String id, AuthModel authModel, MergedCalendar mergedCalendar, SharingOptions sharingOptions) {
         this.id = id;
         this.authModel = authModel;
         this.mergedCalendar = mergedCalendar;
-        this.sharingOptions = sharingOptions;
+    }
+
+    public CalendarId(String id, AuthModel authModel, MergedCalendar mergedCalendar) {
+        this.id = id;
+        this.authModel = authModel;
+        this.mergedCalendar = mergedCalendar;
     }
 
     public CalendarId() {
@@ -50,11 +67,17 @@ public class CalendarId {
         this.mergedCalendar = mergedCalendar;
     }
 
-    public void setSharingOptions(String[] sharingOptions) {
+    public void setSharingOptions(SharingOptions sharingOptions) {
+
         this.sharingOptions = sharingOptions;
+        this.sharing_attendants = sharingOptions.getAttendants();
+        this.sharing_description = sharingOptions.getDescription();
+        this.sharing_location = sharingOptions.getLocation();
+        this.sharing_organizer = sharingOptions.getOrganizer();
+        this.sharing_title = sharingOptions.getTitle();
     }
 
-    public String[] getSharingOptions() {
+    public SharingOptions getSharingOptions() {
         return sharingOptions;
     }
 }
