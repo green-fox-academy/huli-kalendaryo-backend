@@ -11,4 +11,6 @@ import java.util.List;
 public interface MergedCalendarRepository extends CrudRepository<MergedCalendar,Long> {
 
     List<MergedCalendar> findMergedCalendarsByUser(UserModel userModel);
+
+    MergedCalendar findByOutputCalendarId(String outputCalendarId);
 }
