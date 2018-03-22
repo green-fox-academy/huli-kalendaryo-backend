@@ -20,15 +20,10 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.common.collect.Lists;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.retrofit.RetrofitClient;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.GoogleApi;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.MergedCalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.google.api.services.calendar.model.Calendar;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -92,8 +87,10 @@ public class AuthorizeKal {
 
     public  void createCalendar(MergedCalendarFromAndroid android) {
         try {
-
-            Credential credential = auth(android);
+            String accessToken = authModelRepository.findByEmail(android.getOutputCalendarId()).getAccessToken();
+            Credential credential =
+                    new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
+           // Credential credential = auth(android);
             System.out.println("credential: " + credential.toString());
             calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
             String accesToken = "Bearer " + authModelRepository.findByEmail(android.getOutputCalendarId()).getAccessToken();
@@ -144,7 +141,7 @@ public class AuthorizeKal {
         };
 
         // Create 2 Calendar Entries to insert.
-        String name = mergedCalendarService.inputCalendarSetter(android.getInputCalendarIds());
+        String name= mergedCalendarService.inputCalendarSetter(android.getInputCalendarIds());
         Calendar entry1 = new Calendar().setSummary(name);
         calendarClient.calendars().insert(entry1).queue(batch, callback);
 
