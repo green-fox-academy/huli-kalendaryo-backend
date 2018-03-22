@@ -1,5 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
+import com.github.javafaker.Faker;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.CalendarId;
@@ -30,20 +31,14 @@ public class MergedCalendarService {
     }
 
     public void saveMergedCalendar(MergedCalendar mergedCalendar, MergedCalendarFromAndroid mergedCalendarFromAndroid, String clientToken) {
-        String idList = inputCalendarSetter(mergedCalendarFromAndroid.getInputCalendarIds());
-        mergedCalendar.setOutputCalendarId(idList);
+        Faker faker = new Faker();
+        mergedCalendar.setOutputCalendarId(faker.gameOfThrones().character());
         mergedCalendar.setOutputAccount(mergedCalendarFromAndroid.getOutputCalendarId());
         mergedCalendar.setUser(userModelRepository.findByClientToken(clientToken));
         mergedCalendarRepository.save(mergedCalendar);
     }
 
-    public String inputCalendarSetter(String[] lists) {
-        String string = "";
-        for (String list : lists) {
-            string += list;
-        }
-        return string;
-    }
+
 
     public List<MergedCalendarResponse> setMergedCalendarResponse(List<MergedCalendar> mergedCalendars) {
         List<MergedCalendarResponse> mergedCalendarResponses = new ArrayList<>();

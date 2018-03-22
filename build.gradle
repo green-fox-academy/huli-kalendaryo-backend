@@ -36,4 +36,5 @@ dependencies {
 	compile 'com.squareup.retrofit2:retrofit:2.3.0'
 	compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 	compile 'com.squareup.retrofit2:converter-jackson:2.3.0'
+	testCompile group: 'com.github.javafaker', name: 'javafaker', version: '0.12'
 }

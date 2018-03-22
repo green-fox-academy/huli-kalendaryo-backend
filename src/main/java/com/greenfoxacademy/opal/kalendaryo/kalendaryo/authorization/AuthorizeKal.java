@@ -1,5 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization;
 
+import com.github.javafaker.Faker;
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -19,6 +20,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.common.collect.Lists;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.MergedCalendarFromAndroid;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.MergedCalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.MergedCalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,33 +85,20 @@ public class AuthorizeKal {
         return tokenResponse.getAccessToken();
     }
 
-
-
-    public  void createCalendar(MergedCalendarFromAndroid android) {
+    public  void createCalendar(MergedCalendarFromAndroid android, MergedCalendar mergedCalendar) {
         try {
             String accessToken = authModelRepository.findByEmail(android.getOutputCalendarId()).getAccessToken();
             Credential credential =
                     new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
-           // Credential credential = auth(android);
             System.out.println("credential: " + credential.toString());
             calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
             String accesToken = "Bearer " + authModelRepository.findByEmail(android.getOutputCalendarId()).getAccessToken();
-            addCalendarsUsingBatch(android);
-           /* Calendar calendar = addCalendar(android);*/
-
-
+            addCalendarsUsingBatch(android, mergedCalendar);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-  /*  public  Calendar addCalendar(MergedCalendarFromAndroid android) throws IOException {//fromAndroid calendarlist as input param
-        Calendar calendar1 = new com.google.api.services.calendar.model.Calendar();
-        calendar1.setSummary(android.getOutputCalendarId()); // ezt ezzel setteled
-        Calendar calendarResult = calendarClient.calendars().insert(calendar1).execute();
-        return calendarResult;
-    }*/
 
     public  Credential auth(MergedCalendarFromAndroid android) throws IOException {
         String authCode = "Bearer " + authModelRepository.findByEmail(android.getOutputCalendarId()).getAccessToken();
@@ -122,7 +111,7 @@ public class AuthorizeKal {
         return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize(authCode);
     }
 
-    private void addCalendarsUsingBatch(MergedCalendarFromAndroid android) throws IOException {
+    private void addCalendarsUsingBatch(MergedCalendarFromAndroid android, MergedCalendar mergedCalendar) throws IOException {
 
         BatchRequest batch = calendarClient.batch();
 
@@ -140,11 +129,9 @@ public class AuthorizeKal {
             }
         };
 
-        // Create 2 Calendar Entries to insert.
-        String name= mergedCalendarService.inputCalendarSetter(android.getInputCalendarIds());
-        Calendar entry1 = new Calendar().setSummary(name);
-        calendarClient.calendars().insert(entry1).queue(batch, callback);
 
+        Calendar entry1 = new Calendar().setSummary(mergedCalendar.getOutputCalendarId());
+        calendarClient.calendars().insert(entry1).queue(batch, callback);
 
 
         batch.execute();
