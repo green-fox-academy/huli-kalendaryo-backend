@@ -110,6 +110,7 @@ public class AuthorizeKal {
         };
         Calendar createdGoogleCalendar = new Calendar().setSummary(kalendar.getOutputCalendarId());
         calendarClient.calendars().insert(createdGoogleCalendar).queue(batch, callback);
+        kalendar.setGoogleCalendarId(createdGoogleCalendar.getId());
         batch.execute();
     }
 
