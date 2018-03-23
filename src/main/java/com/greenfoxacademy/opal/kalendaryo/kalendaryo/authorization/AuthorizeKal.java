@@ -79,7 +79,7 @@ public class AuthorizeKal {
 
         return tokenResponse.getAccessToken();
     }
-    
+
     public void createGoogleCalendarUnderAccount(KalendarFromAndroid android, Kalendar kalendar) {
         try {
             String accessToken = googleAuthRepository.findByEmail(android.getOutputGoogleAuthId()).getAccessToken();
@@ -125,5 +125,5 @@ public class AuthorizeKal {
             }
             pageToken = calendarList.getNextPageToken();
         } while (pageToken != null);
-    }
+   }
 }
