@@ -20,9 +20,6 @@ import java.util.List;
 public class KalendarService {
 
     @Autowired
-    KalendarRepository kalendarRepository;
-
-    @Autowired
     KalUserRepository kalUserRepository;
 
     @Autowired
@@ -30,6 +27,9 @@ public class KalendarService {
 
     @Autowired
     GoogleCalendarRepository googleCalendarRepository;
+
+    @Autowired
+    KalendarRepository kalendarRepository;
 
     public List<Kalendar> findKalendars(KalUser user) {
         return kalendarRepository.findKalendarsByUser(user);
@@ -44,7 +44,7 @@ public class KalendarService {
     }
 
     public void saveKalendar(Kalendar kalendar) {
-        authorization.saveKalendar(kalendar);
+        kalendarRepository.save(kalendar);
     }
 
     public void addUserToKalendar(Kalendar kalendar, KalUser kalUser) {
