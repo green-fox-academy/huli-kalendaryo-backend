@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class AuthModel {
+public class GoogleAuth {
 
     @Id
     private String email;
@@ -12,21 +12,32 @@ public class AuthModel {
     private String displayName;
     private String accessToken;
     private String refreshToken;
-    @OneToMany(mappedBy = "authModel")
-    List<CalendarId> calendarId;
+    @OneToMany(mappedBy = "googleAuth")
+    List<GoogleCalendar> googleCalendars;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    UserModel user;
+    KalUser user;
 
-    public AuthModel(String email, String authCode, String displayName, UserModel user, String accessToken) {
+    public GoogleAuth() {
+    }
+
+    public GoogleAuth(String email, String displayName) {
+        this.email = email;
+        this.displayName = displayName;
+    }
+
+    public GoogleAuth(String email, String displayName, KalUser user) {
+        this.email = email;
+        this.displayName = displayName;
+        this.user = user;
+    }
+
+    public GoogleAuth(String email, String authCode, String displayName, KalUser user, String accessToken) {
         this.email = email;
         this.authCode = authCode;
         this.displayName = displayName;
         this.user = user;
         this.accessToken = accessToken;
-    }
-
-    public AuthModel() {
     }
 
     public String getDisplayName() {
@@ -45,11 +56,11 @@ public class AuthModel {
         this.email = email;
     }
 
-    public UserModel getUser() {
+    public KalUser getUser() {
         return user;
     }
 
-    public void setUser(UserModel user) {
+    public void setUser(KalUser user) {
         this.user = user;
     }
 
@@ -77,11 +88,21 @@ public class AuthModel {
         this.refreshToken = refreshToken;
     }
 
-    public List<CalendarId> getCalendarId() {
-        return calendarId;
+    public List<GoogleCalendar> getGoogleCalendars() {
+        return googleCalendars;
     }
 
-    public void setCalendarId(List<CalendarId> calendarId) {
-        this.calendarId = calendarId;
+    public void setGoogleCalendars(List<GoogleCalendar> googleCalendars) {
+        this.googleCalendars = googleCalendars;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GoogleAuth googleAuth = (GoogleAuth) o;
+
+        return this.getEmail().equals(googleAuth.getEmail());
     }
 }

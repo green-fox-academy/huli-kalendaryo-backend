@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 
 @Entity
-public class EventResponse {
+public class GoogleCalendarUpdate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,10 +27,10 @@ public class EventResponse {
     @JsonInclude(Include.NON_NULL)
     String channelToken;
 
-    public EventResponse() {
+    public GoogleCalendarUpdate() {
     }
 
-    public EventResponse(HttpServletRequest request) {
+    public GoogleCalendarUpdate(HttpServletRequest request) {
         this.channelId = request.getHeader("X-Goog-Channel-ID");
         this.resourceId = request.getHeader("X-Goog-Resource-ID");
         this.resourceUri = request.getHeader("X-Goog-Resource-URI");
