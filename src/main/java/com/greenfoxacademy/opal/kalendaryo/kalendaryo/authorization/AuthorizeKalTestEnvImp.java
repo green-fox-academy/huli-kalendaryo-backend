@@ -13,7 +13,7 @@ import java.security.SecureRandom;
 
 @Component
 @Profile("test")
-public class AuthorizeTestEnvImp implements Authorization {
+public class AuthorizeKalTestEnvImp implements Authorization {
 
     @Autowired
     AuthModelRepository authModelRepository;
