@@ -1,7 +1,7 @@
-package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
+package com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization;
 
 import com.google.api.client.util.Base64;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.Authorization;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import java.security.SecureRandom;
 
 @Component
 @Profile("test")
-public class SavingMethodsTestEnvImp implements Authorization {
+public class AuthorizeTestEnvImp implements Authorization {
 
     @Autowired
     AuthModelRepository authModelRepository;

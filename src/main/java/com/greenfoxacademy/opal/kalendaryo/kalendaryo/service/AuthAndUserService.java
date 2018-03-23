@@ -1,6 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
 import com.google.api.client.util.Base64;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.Authorization;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;

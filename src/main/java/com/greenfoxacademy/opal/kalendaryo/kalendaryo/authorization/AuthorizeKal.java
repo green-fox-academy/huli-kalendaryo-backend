@@ -13,12 +13,15 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@Component
-public class AuthorizeKal {
+@Service
+@Profile("dev") //(value = System.getenv("ACTIVE_PROFILE"))
+public class AuthorizeKal implements Authorization {
 
     private static final String APPLICATION_NAME = "Kalendaryo";
     private static final java.io.File DATA_STORE_DIR = new java.io.File(System.getProperty("user.home"), ".credentials/calendar-java-quickstart");
@@ -48,7 +51,7 @@ public class AuthorizeKal {
         return requestFactory.buildGetRequest(url).execute();
     }
 
-    public static String authorize(String authCode) throws IOException {
+    public String authorize(String authCode) throws IOException {
         String clientId = System.getenv("CLIENT_ID");
         String clientSecret = System.getenv("CLIENT_SECRET");
         GoogleTokenResponse tokenResponse =

@@ -9,7 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootApplication
 @Configuration
-@ActiveProfiles(value = System.getenv("ACTIVE_PROFILE"))
+@ActiveProfiles("dev") //(value = System.getenv("ACTIVE_PROFILE"))
 public class KalendaryoApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {

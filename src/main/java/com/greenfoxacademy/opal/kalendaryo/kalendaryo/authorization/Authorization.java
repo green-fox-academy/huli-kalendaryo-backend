@@ -1,4 +1,4 @@
-package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
+package com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization;
 
 
 import org.springframework.stereotype.Service;
