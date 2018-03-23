@@ -14,13 +14,13 @@ public class CalendarId {
     @JoinColumn(name="merged_calendar_id")
     MergedCalendar mergedCalendar;
 
+    public CalendarId() {
+    }
+
     public CalendarId(String id, AuthModel authModel, MergedCalendar mergedCalendar) {
         this.id = id;
         this.authModel = authModel;
         this.mergedCalendar = mergedCalendar;
-    }
-
-    public CalendarId() {
     }
 
     public String getId() {
