@@ -16,6 +16,7 @@ public class Kalendar {
     private KalUser user;
     private String outputGoogleAuthId;
     private String outputCalendarId;
+    private String googleCalendarId;
 
     @OneToMany(mappedBy = "kalendar")
     List<GoogleCalendar> googleCalendars;
@@ -80,6 +81,14 @@ public class Kalendar {
 
     public void setGoogleCalendars(List<GoogleCalendar> googleCalendars) {
         this.googleCalendars = googleCalendars;
+    }
+
+    public String getGoogleCalendarId() {
+        return googleCalendarId;
+    }
+
+    public void setGoogleCalendarId(String googleCalendarId) {
+        this.googleCalendarId = googleCalendarId;
     }
 
     public List<GoogleCalendar> getGoogleCalendarList(String[] arrayOfStrings) {
