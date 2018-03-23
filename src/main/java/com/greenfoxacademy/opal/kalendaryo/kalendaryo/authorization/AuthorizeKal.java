@@ -1,6 +1,5 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization;
 
-import com.github.javafaker.Faker;
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -48,8 +47,7 @@ public class AuthorizeKal {
 
     @Autowired
     MergedCalendarService mergedCalendarService;
-
-
+    
     static {
         try {
             HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -115,7 +113,6 @@ public class AuthorizeKal {
 
         BatchRequest batch = calendarClient.batch();
 
-        // Create the callback.
         JsonBatchCallback<Calendar> callback = new JsonBatchCallback<Calendar>() {
 
             @Override
@@ -129,16 +126,11 @@ public class AuthorizeKal {
             }
         };
 
-
         Calendar entry1 = new Calendar().setSummary(mergedCalendar.getOutputCalendarId());
         calendarClient.calendars().insert(entry1).queue(batch, callback);
 
-
         batch.execute();
     }
-
-
-
-
 }
+
 
