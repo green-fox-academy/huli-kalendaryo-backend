@@ -1,10 +1,10 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
 import com.google.api.client.util.Base64;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.UserModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.UserModelRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleAuth;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.KalUser;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,28 +15,28 @@ import java.security.SecureRandom;
 public class AuthAndUserService{
 
     @Autowired
-    AuthModelRepository authModelRepository;
+    GoogleAuthRepository googleAuthRepository;
 
     @Autowired
-    UserModelRepository userModelRepository;
+    KalUserRepository kalUserRepository;
 
     @Autowired
     SavingMethods savingMethods;
 
-    public void saveUserModel(UserModel userModel) {
-        if (userModelRepository.findByUserEmail(userModel.getUserEmail()) != null) {
-            userModel = userModelRepository.findByUserEmail(userModel.getUserEmail());
+    public void saveKalUser(KalUser kalUser) {
+        if (kalUserRepository.findByUserEmail(kalUser.getUserEmail()) != null) {
+            kalUser = kalUserRepository.findByUserEmail(kalUser.getUserEmail());
         }
-        userModelRepository.save(userModel);
+        kalUserRepository.save(kalUser);
     }
 
-    public void addUserToAuthModel(AuthModel authModel, UserModel userModel) throws IOException {
-        authModel.setUser(userModel);
-        saveAuthModel(authModel);
+    public void addUserToGoogleAuth(GoogleAuth googleAuth, KalUser kalUser) throws IOException {
+        googleAuth.setUser(kalUser);
+        saveGoogleAuth(googleAuth);
     }
 
-    public UserModel findUserByClientToken(String clientToken) {
-        return userModelRepository.findByClientToken(clientToken);
+    public KalUser findUserByClientToken(String clientToken) {
+        return kalUserRepository.findByClientToken(clientToken);
     }
 
     public String getRandomClientToken() {
@@ -46,11 +46,11 @@ public class AuthAndUserService{
         return Base64.encodeBase64String(random);
     }
 
-    public void saveAuthModel(AuthModel authModel) throws IOException {
-        savingMethods.saveAuthModel(authModel);
+    public void saveGoogleAuth(GoogleAuth googleAuth) throws IOException {
+        savingMethods.saveGoogleAuth(googleAuth);
     }
 
-    public UserModel findUserByAuth(AuthModel authModel) {
-        return userModelRepository.findUserModelByAuthModelListIsContaining(authModel);
+    public KalUser findUserByAuth(GoogleAuth googleAuth) {
+        return kalUserRepository.findKalUserByGoogleAuthListIsContaining(googleAuth);
     }
 }

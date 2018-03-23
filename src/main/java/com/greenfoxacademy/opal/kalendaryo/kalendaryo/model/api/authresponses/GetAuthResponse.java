@@ -1,14 +1,14 @@
-package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api;
+package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.authresponses;
 
-public class AuthGetResponse {
+public class GetAuthResponse {
 
     private String email;
     private String accessToken;
 
-    public AuthGetResponse() {
+    public GetAuthResponse() {
     }
 
-    public AuthGetResponse(String email, String accessToken) {
+    public GetAuthResponse(String email, String accessToken) {
         this.email = email;
         this.accessToken = accessToken;
     }

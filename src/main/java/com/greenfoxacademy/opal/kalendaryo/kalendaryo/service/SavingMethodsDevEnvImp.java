@@ -1,14 +1,12 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.AuthModel;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.MergedCalendar;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.AuthModelRepository;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.MergedCalendarRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleAuth;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.Kalendar;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalendarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
@@ -19,21 +17,20 @@ import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.Autho
 public class SavingMethodsDevEnvImp implements SavingMethods {
 
     @Autowired
-    AuthModelRepository authModelRepository;
+    GoogleAuthRepository googleAuthRepository;
 
     @Autowired
-    MergedCalendarRepository mergedCalendarRepository;
+    KalendarRepository kalendarRepository;
 
     @Override
-    public void saveAuthModel(AuthModel authModel) throws IOException {
-        String accessToken = authorize(authModel.getAuthCode());
-        authModel.setAccessToken(accessToken);
-        authModelRepository.save(authModel);
+    public void saveGoogleAuth(GoogleAuth googleAuth) throws IOException {
+        String accessToken = authorize(googleAuth.getAuthCode());
+        googleAuth.setAccessToken(accessToken);
+        googleAuthRepository.save(googleAuth);
     }
 
     @Override
-    public void saveMergedCalendar(MergedCalendar mergedCalendar) {
-        mergedCalendarRepository.save(mergedCalendar);
+    public void saveKalendar(Kalendar kalendar) {
+        kalendarRepository.save(kalendar);
     }
-
 }
