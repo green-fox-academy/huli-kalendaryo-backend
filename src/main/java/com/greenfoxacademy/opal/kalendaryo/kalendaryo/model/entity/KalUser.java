@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class UserModel {
+public class KalUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,25 +13,26 @@ public class UserModel {
     private String clientToken;
     private String userEmail;
     @OneToMany(mappedBy = "user")
-    List<MergedCalendar> mergedCalendarList;
+    List<Kalendar> kalendarList;
+
     @OneToMany(mappedBy = "user")
-    List<AuthModel> authModelList;
+    List<GoogleAuth> googleAuthList;
 
-    public UserModel() {
+    public KalUser() {
     }
 
-    public UserModel(String clientToken, String userEmail) {
+    public KalUser(String clientToken, String userEmail) {
         this.clientToken = clientToken;
         this.userEmail = userEmail;
     }
 
-    public UserModel(String clientToken, String userEmail, List<AuthModel> authModelList) {
+    public KalUser(String clientToken, String userEmail, List<GoogleAuth> googleAuthList) {
         this.clientToken = clientToken;
         this.userEmail = userEmail;
-        this.authModelList = authModelList;
+        this.googleAuthList = googleAuthList;
     }
 
-    public UserModel(String clientToken) {
+    public KalUser(String clientToken) {
         setClientToken(clientToken);
     }
 
@@ -59,25 +60,25 @@ public class UserModel {
         this.userEmail = userEmail;
     }
 
-    public List<MergedCalendar> getMergedCalendarList() {
-        return mergedCalendarList;
+    public List<Kalendar> getKalendarList() {
+        return kalendarList;
     }
 
-    public void setMergedCalendarList(List<MergedCalendar> mergedCalendarList) {
-        this.mergedCalendarList = mergedCalendarList;
+    public void setKalendarList(List<Kalendar> kalendarList) {
+        this.kalendarList = kalendarList;
     }
 
-    public void addMergedCalToUser(MergedCalendar mergedCalendar) {
-        mergedCalendar.setUser(this);
-        mergedCalendarList.add(mergedCalendar);
+    public void addKalendarToUser(Kalendar kalendar) {
+        kalendar.setUser(this);
+        kalendarList.add(kalendar);
     }
 
-    public List<AuthModel> getAuthModelList() {
-        return authModelList;
+    public List<GoogleAuth> getGoogleAuthList() {
+        return googleAuthList;
     }
 
-    public void setAuthModelList(List<AuthModel> authModelList) {
-        this.authModelList = authModelList;
+    public void setGoogleAuthList(List<GoogleAuth> googleAuthList) {
+        this.googleAuthList = googleAuthList;
     }
 
     @Override
@@ -85,9 +86,8 @@ public class UserModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserModel userModel = (UserModel) o;
+        KalUser kalUser = (KalUser) o;
 
-        return this.getUserEmail().equals(userModel.getUserEmail());
+        return this.getUserEmail().equals(kalUser.getUserEmail());
     }
-
 }
