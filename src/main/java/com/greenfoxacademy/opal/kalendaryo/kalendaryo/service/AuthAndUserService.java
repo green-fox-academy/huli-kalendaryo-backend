@@ -48,6 +48,8 @@ public class AuthAndUserService{
     }
 
     public void saveGoogleAuth(GoogleAuth googleAuth) throws IOException {
+        String accessToken = authorization.authorize(googleAuth.getAuthCode());
+        googleAuth.setAccessToken(accessToken);
         googleAuthRepository.save(googleAuth);
     }
 
