@@ -64,7 +64,7 @@ public class KalendarController {
         }
         Kalendar kalendar = new Kalendar();
         googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
-        authorizeKal.createCalendar(kalendarFromAndroid, kalendar);
+        authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
