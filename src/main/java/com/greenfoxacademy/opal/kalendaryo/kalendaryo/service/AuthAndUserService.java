@@ -48,7 +48,7 @@ public class AuthAndUserService{
     }
 
     public void saveGoogleAuth(GoogleAuth googleAuth) throws IOException {
-        authorization.saveGoogleAuth(googleAuth);
+        googleAuthRepository.save(googleAuth);
     }
 
     public KalUser findUserByAuth(GoogleAuth googleAuth) {
