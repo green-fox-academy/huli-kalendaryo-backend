@@ -1,5 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
+import com.github.javafaker.Faker;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleCalendar;
@@ -34,8 +35,8 @@ public class KalendarService {
     }
 
     public void setKalendar(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) {
-        String idList = inputCalendarSetter(kalendarFromAndroid.getInputGoogleCalendars());
-        kalendar.setOutputCalendarId(idList);
+        Faker faker = new Faker();
+        kalendar.setOutputCalendarId(faker.gameOfThrones().character());
         kalendar.setOutputGoogleAuthId(kalendarFromAndroid.getOutputGoogleAuthId());
         kalendar.setUser(kalUserRepository.findByClientToken(clientToken));
         saveKalendar(kalendar);
@@ -49,14 +50,6 @@ public class KalendarService {
         kalUser = kalUserRepository.findByUserEmail(kalUser.getUserEmail());
         kalendar.setUser(kalUser);
         saveKalendar(kalendar);
-    }
-
-    private String inputCalendarSetter(String[] lists) {
-        String string = "";
-        for (String list : lists) {
-            string += list;
-        }
-        return string;
     }
 
     public List<KalendarResponse> setKalendarResponse(List<Kalendar> kalendars) {

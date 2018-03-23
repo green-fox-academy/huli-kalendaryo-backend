@@ -1,5 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization.AuthorizeKal;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarListResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.*;
@@ -40,6 +41,9 @@ public class KalendarController {
     @Autowired
     GoogleCalendarService googleCalendarService;
 
+    @Autowired
+    AuthorizeKal authorizeKal;
+
     @GetMapping(value = "/calendar")
     public ResponseEntity getKalendarList(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
         if (!request.getHeader("X-Client-Token").equals("")) {
@@ -60,6 +64,7 @@ public class KalendarController {
         }
         Kalendar kalendar = new Kalendar();
         googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
+        authorizeKal.createCalendar(kalendarFromAndroid, kalendar);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
