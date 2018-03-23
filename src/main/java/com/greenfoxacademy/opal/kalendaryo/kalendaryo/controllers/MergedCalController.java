@@ -55,7 +55,7 @@ public class MergedCalController {
         }
         MergedCalendar mergedCalendar = new MergedCalendar();
         calendarIdService.setCalendarId(mergedCalendar, mergedCalendarFromAndroid, clientToken);
-        authorizeKal.createCalendar(mergedCalendarFromAndroid, mergedCalendar);
+        authorizeKal.createGoogleCalendarUnderAccount(mergedCalendarFromAndroid, mergedCalendar);
         return new ResponseEntity(HttpStatus.OK);
     }
 
