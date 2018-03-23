@@ -5,6 +5,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleAuth;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.KalUser;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class AuthAndUserService{
     KalUserRepository kalUserRepository;
 
     @Autowired
-    SavingMethods savingMethods;
+    Authorization authorization;
 
     public void saveKalUser(KalUser kalUser) {
         if (kalUserRepository.findByUserEmail(kalUser.getUserEmail()) != null) {
@@ -47,7 +48,9 @@ public class AuthAndUserService{
     }
 
     public void saveGoogleAuth(GoogleAuth googleAuth) throws IOException {
-        savingMethods.saveGoogleAuth(googleAuth);
+        String accessToken = authorization.authorize(googleAuth.getAuthCode());
+        googleAuth.setAccessToken(accessToken);
+        googleAuthRepository.save(googleAuth);
     }
 
     public KalUser findUserByAuth(GoogleAuth googleAuth) {

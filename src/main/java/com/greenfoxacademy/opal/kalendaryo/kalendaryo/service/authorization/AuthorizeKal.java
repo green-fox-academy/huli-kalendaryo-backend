@@ -1,4 +1,4 @@
-package com.greenfoxacademy.opal.kalendaryo.kalendaryo.authorization;
+package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization;
 
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-public class AuthorizeKal {
+public class AuthorizeKal implements Authorization{
 
     private static final String APPLICATION_NAME = "Kalendaryo";
     private static final java.io.File DATA_STORE_DIR = new java.io.File(System.getProperty("user.home"), ".credentials/calendar-java-quickstart");
@@ -63,7 +63,7 @@ public class AuthorizeKal {
         return requestFactory.buildGetRequest(url).execute();
     }
 
-    public static String authorize(String authCode) throws IOException {
+    public String authorize(String authCode) throws IOException {
         String clientId = System.getenv("CLIENT_ID");
         String clientSecret = System.getenv("CLIENT_SECRET");
         GoogleTokenResponse tokenResponse =

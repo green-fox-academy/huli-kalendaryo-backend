@@ -9,6 +9,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.KalUser;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleCalendarRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalendarRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +20,16 @@ import java.util.List;
 public class KalendarService {
 
     @Autowired
-    KalendarRepository kalendarRepository;
-
-    @Autowired
     KalUserRepository kalUserRepository;
 
     @Autowired
-    SavingMethods savingMethods;
+    Authorization authorization;
 
     @Autowired
     GoogleCalendarRepository googleCalendarRepository;
+
+    @Autowired
+    KalendarRepository kalendarRepository;
 
     public List<Kalendar> findKalendars(KalUser user) {
         return kalendarRepository.findKalendarsByUser(user);
@@ -43,7 +44,7 @@ public class KalendarService {
     }
 
     public void saveKalendar(Kalendar kalendar) {
-        savingMethods.saveKalendar(kalendar);
+        kalendarRepository.save(kalendar);
     }
 
     public void addUserToKalendar(Kalendar kalendar, KalUser kalUser) {
