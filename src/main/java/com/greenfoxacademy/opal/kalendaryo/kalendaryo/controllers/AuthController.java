@@ -56,13 +56,10 @@ public class AuthController {
             userModel= authAndUserService.findUserByAuth(authModel);
         } else {
             userModel = new UserModel(authAndUserService.getRandomClientToken());
-            System.out.println("USER EMAIL: " + authModel.getEmail());
             userModel.setUserEmail(authModel.getEmail());
         }
         authModel.setUser(userModel);
-        System.out.println("BEFOREEE");
         authAndUserService.saveAuthModel(authModel);
-        System.out.println("AFTEEEER");
         return new AuthResponse(userModel.getId(), userModel.getClientToken(), authModel.getEmail(), authModel.getAccessToken());
     }
 }
