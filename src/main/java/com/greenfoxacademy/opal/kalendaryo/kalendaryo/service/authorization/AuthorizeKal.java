@@ -21,6 +21,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.KalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import com.google.api.services.calendar.model.Calendar;
 
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@Profile("dev")
 public class AuthorizeKal implements Authorization{
 
     private static final String APPLICATION_NAME = "Kalendaryo";
