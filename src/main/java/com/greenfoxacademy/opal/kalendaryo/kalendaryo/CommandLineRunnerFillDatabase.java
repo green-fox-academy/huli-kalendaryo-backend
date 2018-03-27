@@ -32,8 +32,8 @@ public class CommandLineRunnerFillDatabase implements CommandLineRunner {
         authAndUserService.addUserToGoogleAuth(googleAuth1, kalUser1);
         authAndUserService.addUserToGoogleAuth(googleAuth2, kalUser1);
 
-        Kalendar kalendar1 = new Kalendar(googleAuth1.getEmail(), "outputcalid1");
-        Kalendar kalendar2 = new Kalendar(googleAuth2.getEmail(), "outputcalid2");
+        Kalendar kalendar1 = new Kalendar(googleAuth1.getEmail(), "Work");
+        Kalendar kalendar2 = new Kalendar(googleAuth2.getEmail(), "Birthday");
         kalendarService.addUserToKalendar(kalendar1, kalUser1);
         kalendarService.addUserToKalendar(kalendar2, kalUser1);
     }

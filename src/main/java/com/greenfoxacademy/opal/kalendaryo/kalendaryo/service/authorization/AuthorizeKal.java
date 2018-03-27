@@ -110,7 +110,7 @@ public class AuthorizeKal implements Authorization{
                 System.out.println("Error Message: " + e.getMessage());
             }
         };
-        Calendar createdGoogleCalendar = new Calendar().setSummary(kalendar.getOutputCalendarId());
+        Calendar createdGoogleCalendar = new Calendar().setSummary(kalendar.getName());
         calendarClient.calendars().insert(createdGoogleCalendar).queue(batch, callback);
         kalendar.setGoogleCalendarId(createdGoogleCalendar.getId());
         batch.execute();

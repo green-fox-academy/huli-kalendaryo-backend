@@ -15,7 +15,7 @@ public class Kalendar {
     @JoinColumn(name="user")
     private KalUser user;
     private String outputGoogleAuthId;
-    private String outputCalendarId;
+    private String name;
     private String googleCalendarId;
 
     @OneToMany(mappedBy = "kalendar")
@@ -24,22 +24,22 @@ public class Kalendar {
     public Kalendar() {
     }
 
-    public Kalendar(String outputGoogleAuthId, String outputCalendarId) {
+    public Kalendar(String outputGoogleAuthId, String name) {
         this.outputGoogleAuthId = outputGoogleAuthId;
-        this.outputCalendarId = outputCalendarId;
+        this.name = name;
     }
 
-    public Kalendar(KalUser user, String outputGoogleAuthId, String outputCalendarId) {
+    public Kalendar(KalUser user, String outputGoogleAuthId, String name) {
         this.user = user;
         this.outputGoogleAuthId = outputGoogleAuthId;
-        this.outputCalendarId = outputCalendarId;
+        this.name = name;
     }
 
-    public Kalendar(long id, KalUser user, String outputGoogleAuthId, String outputCalendarId, List<GoogleCalendar> googleCalendars) {
+    public Kalendar(long id, KalUser user, String outputGoogleAuthId, String name, List<GoogleCalendar> googleCalendars) {
         this.id = id;
         this.user = user;
         this.outputGoogleAuthId = outputGoogleAuthId;
-        this.outputCalendarId = outputCalendarId;
+        this.name = name;
         this.googleCalendars = googleCalendars;
     }
 
@@ -67,12 +67,12 @@ public class Kalendar {
         this.outputGoogleAuthId = outputGoogleAuthId;
     }
 
-    public String getOutputCalendarId() {
-        return outputCalendarId;
+    public String getName() {
+        return name;
     }
 
-    public void setOutputCalendarId(String outputCalendarId) {
-        this.outputCalendarId = outputCalendarId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<GoogleCalendar> getGoogleCalendars() {
@@ -110,6 +110,6 @@ public class Kalendar {
 
         Kalendar kalendar = (Kalendar) o;
 
-        return this.getOutputCalendarId().equals(kalendar.getOutputCalendarId());
+        return this.getName().equals(kalendar.getName());
     }
 }
