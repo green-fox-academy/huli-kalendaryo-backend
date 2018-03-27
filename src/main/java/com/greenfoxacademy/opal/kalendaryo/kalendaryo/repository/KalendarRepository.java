@@ -12,5 +12,4 @@ public interface KalendarRepository extends CrudRepository<Kalendar,Long> {
 
     List<Kalendar> findKalendarsByUser(KalUser kalUser);
 
-    Kalendar findByOutputCalendarId(String outputCalendarId);
 }

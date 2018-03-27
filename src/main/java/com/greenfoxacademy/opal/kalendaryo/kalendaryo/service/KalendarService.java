@@ -37,7 +37,7 @@ public class KalendarService {
 
     public void setKalendar(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) {
         Faker faker = new Faker();
-        kalendar.setOutputCalendarId(faker.gameOfThrones().character());
+        kalendar.setName(faker.gameOfThrones().character());
         kalendar.setOutputGoogleAuthId(kalendarFromAndroid.getOutputGoogleAuthId());
         kalendar.setUser(kalUserRepository.findByClientToken(clientToken));
         saveKalendar(kalendar);
@@ -58,7 +58,7 @@ public class KalendarService {
         for (int i = 0; i < kalendars.size(); i++) {
             KalendarResponse kalendarResponse = new KalendarResponse();
             kalendarResponse.setOutputGoogleAuthId(kalendars.get(i).getOutputGoogleAuthId());
-            kalendarResponse.setOutputCalendarId(kalendars.get(i).getOutputCalendarId());
+            kalendarResponse.setOutputCalendarId(kalendars.get(i).getName());
             kalendarResponse.setInputGoogleCalendars((setToStringGoogleCalendars(googleCalendarRepository.findGoogleCalendarsByKalendar(kalendars.get(i)))));
             kalendarResponses.add(kalendarResponse);
         }
