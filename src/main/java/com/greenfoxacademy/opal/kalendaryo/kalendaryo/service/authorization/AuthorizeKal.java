@@ -13,19 +13,19 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.calendar.model.CalendarList;
-import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.*;
 import com.google.common.collect.Lists;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalendarRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.KalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import com.google.api.services.calendar.model.Calendar;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -45,6 +45,9 @@ public class AuthorizeKal implements Authorization{
 
     @Autowired
     KalendarService kalendarService;
+
+    @Autowired
+    KalendarRepository kalendarRepository;
 
     static {
         try {
@@ -89,7 +92,8 @@ public class AuthorizeKal implements Authorization{
                     new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
             calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
             addCalendars(kalendar);
-            getInputCalendarsData(calendarClient);
+            List<String> calendarIds = getGoogleCalendarsId(android,calendarClient);
+            getInputCalendarsEvents(calendarIds ,calendarClient);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -103,6 +107,7 @@ public class AuthorizeKal implements Authorization{
             @Override
             public void onSuccess(Calendar calendar, HttpHeaders responseHeaders) {
                 addedCalendarUsingBatch.add(calendar);
+                updateKalendar(kalendar, calendar);
             }
 
             @Override
@@ -112,21 +117,47 @@ public class AuthorizeKal implements Authorization{
         };
         Calendar createdGoogleCalendar = new Calendar().setSummary(kalendar.getOutputCalendarId());
         calendarClient.calendars().insert(createdGoogleCalendar).queue(batch, callback);
-        kalendar.setGoogleCalendarId(createdGoogleCalendar.getId());
         batch.execute();
     }
 
-    public void getInputCalendarsData (com.google.api.services.calendar.Calendar client) throws IOException {
+    public void updateKalendar(Kalendar kalendar, Calendar calendar) {
+        Kalendar theUltimateKalendar = kalendarRepository.findById(kalendar.getId());
+        theUltimateKalendar.setGoogleCalendarId(calendar.getId());
+        kalendarService.saveKalendar(theUltimateKalendar);
+    }
 
+    public List<String> getGoogleCalendarsId(KalendarFromAndroid android, com.google.api.services.calendar.Calendar service) throws IOException {
+        List<String> googleCalendarIds = new ArrayList<>();
         String pageToken = null;
         do {
-            CalendarList calendarList = client.calendarList().list().setPageToken(pageToken).execute();
+            CalendarList calendarList = service.calendarList().list().setPageToken(pageToken).execute();
             List<CalendarListEntry> items = calendarList.getItems();
 
-            for (CalendarListEntry calendarListEntry : items) {
-                System.out.println(calendarListEntry.getId());
+            for (int i = 0; i < android.getInputGoogleCalendars().length; i++) {
+                for (int j = 0; j < items.size(); j++) {
+                    if (android.getInputGoogleCalendars()[i].equals(items.get(j).getSummary())) {
+                        googleCalendarIds.add(items.get(j).getId());
+                    }
+                }
             }
             pageToken = calendarList.getNextPageToken();
         } while (pageToken != null);
-   }
+
+        return googleCalendarIds;
+    }
+
+    public void getInputCalendarsEvents(List<String> calendarIds, com.google.api.services.calendar.Calendar service) throws IOException {
+
+        String pageToken = null;
+        do {
+            for (int i = 0; i <calendarIds.size() ; i++) {
+                Events events = service.events().list(calendarIds.get(i)).setPageToken(pageToken).execute();
+                List<Event> items = events.getItems();
+                for (Event event : items) {
+                    System.out.println(event.getSummary());
+                }
+                pageToken = events.getNextPageToken();
+            }
+        } while (pageToken != null);
+    }
 }
