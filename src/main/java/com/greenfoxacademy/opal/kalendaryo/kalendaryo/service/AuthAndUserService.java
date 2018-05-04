@@ -7,6 +7,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepos
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
