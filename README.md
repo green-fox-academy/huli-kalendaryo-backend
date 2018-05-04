@@ -10,11 +10,12 @@ To run the application's backend part you need to have the following things set 
 
 1. Create a database with the help of MySQL.
 
-2. You should set up the following environmental variables:
+2. Ask us for the `debug.keystore` file, which you need to use. 
 
+3. You should set up the following environmental variables:
 
-* CLIENT\_ID: this is created in the Google API Console to validate the application.
-* CLIENT\_SECRET: this is created in the Google API Console to validate the application.
+* CLIENT\_ID: ask us for the Client ID, that should be used for the backend part of the application.
+* CLIENT\_SECRET:ask us for the Client Secret, that should be used for the backend part of the application.
 * RDS\_HOSTNAME: your hostname in MySQL
 * RDS\_PORT your port in MySQL
 * RDS\_DB\_NAME: the name of the database
@@ -23,9 +24,13 @@ To run the application's backend part you need to have the following things set 
 * OPAL\_CAL\_PORT: your local port or the aws port
 
 
+
+
+
+
 ## Dependencies
 
-Compile the following dependencies in order to use the necessary google libraries:
+Compile the following dependencies in order to use the necessary google libraries (but you will get these, because they are in the `build.gradle` file):
 * 'com.google.apis:google-api-services-calendar:v3-rev271-1.23.0'
 * 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
 * 'com.google.api-client:google-api-client:1.23.0'
