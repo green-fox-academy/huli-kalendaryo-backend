@@ -8,7 +8,7 @@ The goal of this project is to provide a simple application where the user can c
 ## Setting up the environment
 To run the application's backend part you need to have the following things set up:
 
-1. Create a database with the help of MySQL.
+1. Create a a database schema with the help of MySQL.
 
 2. Ask us for the `debug.keystore` file, which you need to use (temporary method during development)
 
