@@ -19,13 +19,10 @@ public class KalendaryoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		String urlWithEnvVar = "jdbc:mysql://" + System.getenv("RDS_HOSTNAME") + ":" + System.getenv("RDS_PORT") + "/" + System.getenv("RDS_DB_NAME");
-		String urlWithoutEnvVar = "jdbc:mysql://localhost:3306/chatapp";
-
-		Flyway flyway = new Flyway();
-
 		String username = System.getenv("RDS_USERNAME");
 		String password = System.getenv("RDS_PASSWORD");
 
+		Flyway flyway = new Flyway();
 		flyway.setDataSource(urlWithEnvVar, username, password);
 		flyway.migrate();
 	}
