@@ -10,7 +10,7 @@ To run the application's backend part you need to have the following things set 
 
 1. Create a a database schema with the help of MySQL
 
-2. Ask us for the `debug.keystore` file, which you need to put in your users/"yourusername"/.android (in case of windows) folder(temporary method during development)
+2. Ask us for the `debug.keystore` file, which you need to put in your Users/"yourusername"/.android folder(in case of windows, temporary method during development)
 
 3. Use "dev" as an @ActiveProfiles annotation in the main class (import the library, if necessary)
 
@@ -26,23 +26,3 @@ To run the application's backend part you need to have the following things set 
 * RDS\_USERNAME: username for the database
 * RDS\_PASSWORD: password for the database
 * OPAL\_CAL\_PORT: your local port or the aws port
-
-
-
-
-
-
-## Dependencies
-
-Compile the following dependencies in order to use the necessary google libraries (but you will get these, because they are in the `build.gradle` file):
-* 'com.google.apis:google-api-services-calendar:v3-rev271-1.23.0'
-* 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
-* 'com.google.api-client:google-api-client:1.23.0'
-
-## Deploy instructions
-
-For deployment we use AWS Elastic Beanstalk and you need to follow these steps for successful deploy for updating:
-* Set the SNAPSHOT-version in `build.gradle`.
-* Build a `jar` file of the project.
-* Find this newly created file in build/libs/huli-kalendaryo-backend-version-number-SNAPSHOT.jar.
-* Upload & Deploy the `jar` file.
