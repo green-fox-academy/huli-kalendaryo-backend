@@ -25,15 +25,13 @@ repositories {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('com.google.apis:google-api-services-calendar:v3-rev271-1.23.0')
+	compile('com.google.apis:google-api-services-calendar:v3-rev275-1.23.0')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('mysql:mysql-connector-java')
-	compileOnly('org.projectlombok:lombok')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile('com.google.oauth-client:google-oauth-client-jetty:1.23.0')
 	compile('com.google.api-client:google-api-client:1.23.0')
-	compile('org.flywaydb:flyway-core:5.0.5')
-	testCompile group: 'com.github.javafaker', name: 'javafaker', version: '0.12'
-  testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile group: 'org.flywaydb', name: 'flyway-core', version: '5.0.7'
+    testCompile group: 'com.github.javafaker', name: 'javafaker', version: '0.15'
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 
 }
