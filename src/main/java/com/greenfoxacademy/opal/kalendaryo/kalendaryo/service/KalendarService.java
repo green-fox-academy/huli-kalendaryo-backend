@@ -36,8 +36,6 @@ public class KalendarService {
     }
 
     public void setKalendar(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) {
-        //Faker faker = new Faker();
-        //kalendar.setName(faker.gameOfThrones().character());
         kalendar.setName(kalendarFromAndroid.getCustomName());
         kalendar.setOutputGoogleAuthId(kalendarFromAndroid.getOutputGoogleAuthId());
         kalendar.setUser(kalUserRepository.findByClientToken(clientToken));
