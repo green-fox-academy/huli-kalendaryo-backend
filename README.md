@@ -10,7 +10,7 @@ To run the application's backend part you need to have the following things set 
 
 1. Create a a database schema with the help of MySQL
 
-2. Ask us for the `debug.keystore` file, which you need to put in your Users/"yourusername"/.android folder(in case of windows, temporary method during development)
+2. Ask us for the `debug.keystore` file (temporary method during development), which you need to put in your Users/"yourusername"/.android folder (in case of windows)
 
 3. Use "dev" as an @ActiveProfiles annotation in the main class (import the library, if necessary)
 
