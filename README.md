@@ -16,7 +16,7 @@ To run the application's backend part you need to have the following things set 
 
 4. Set the Active Profile to "dev" in your IDE (in IntelliJ Run/Edit Configurations)
 
-5. Set up the `application-dev.properties` file based on the `application.properties.example` file
+5. Create the `application-dev.properties` file based on the contents of the provided `application.properties.example` file
 
 6. You should set up the following environmental variables:
 * CLIENT\_ID: this is created in the Google API Console to validate the application (ask us for the exact CLIENT_ID for the time being)
