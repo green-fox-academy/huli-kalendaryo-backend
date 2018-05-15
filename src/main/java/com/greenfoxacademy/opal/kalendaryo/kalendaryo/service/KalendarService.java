@@ -74,4 +74,17 @@ public class KalendarService {
         }
         return GoogleCalendarIDsToString;
     }
+
+    public void deleteCalendarById(long id) {
+        kalendarRepository.deleteKalendarById(id);
+    }
+
+    public void deleteGoogleCalendarByKalendarId(long id) {
+        googleCalendarRepository.deleteAllByKalendar_Id(id);
+    }
+
+    public void deleteKalendarAndGoogleCalendarById(long id) {
+        deleteGoogleCalendarByKalendarId(id);
+        deleteCalendarById(id);
+    }
 }

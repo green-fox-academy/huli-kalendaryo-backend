@@ -11,6 +11,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserReposito
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.GoogleCalendarService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.KalendarService;
@@ -64,10 +65,12 @@ public class KalendarController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-//    @DeleteMapping(value = "/{id}/deletecalendar")
-//    public ResponseEntity deleteCalendar(@RequestHeader("X-Client-Token") String clientToken,
-//                                         @PathVariable(name = "id") long id,
-//                                         HttpServletRequest request) {
-//
-//    }
+    @Transactional
+    @DeleteMapping(value = "/{id}/deletecalendar")
+    public ResponseEntity deleteCalendar(@RequestHeader("X-Client-Token") String clientToken,
+                                         @PathVariable(name = "id") long id,
+                                         HttpServletRequest request) {
+        kalendarService.deleteKalendarAndGoogleCalendarById(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }
