@@ -17,11 +17,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.KalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class KalendarController {
@@ -67,4 +63,11 @@ public class KalendarController {
         authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+//    @DeleteMapping(value = "/{id}/deletecalendar")
+//    public ResponseEntity deleteCalendar(@RequestHeader("X-Client-Token") String clientToken,
+//                                         @PathVariable(name = "id") long id,
+//                                         HttpServletRequest request) {
+//
+//    }
 }

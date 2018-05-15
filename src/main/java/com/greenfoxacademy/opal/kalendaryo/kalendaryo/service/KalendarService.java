@@ -1,5 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
+
 import com.github.javafaker.Faker;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarResponse;
@@ -59,6 +60,7 @@ public class KalendarService {
             KalendarResponse kalendarResponse = new KalendarResponse();
             kalendarResponse.setOutputGoogleAuthId(kalendars.get(i).getOutputGoogleAuthId());
             kalendarResponse.setOutputCalendarId(kalendars.get(i).getName());
+            kalendarResponse.setId(kalendars.get(i).getId());
             kalendarResponse.setInputGoogleCalendars((setToStringGoogleCalendars(googleCalendarRepository.findGoogleCalendarsByKalendar(kalendars.get(i)))));
             kalendarResponses.add(kalendarResponse);
         }
