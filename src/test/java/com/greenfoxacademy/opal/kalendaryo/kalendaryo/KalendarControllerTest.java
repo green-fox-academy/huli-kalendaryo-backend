@@ -1,6 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers.KalendarController;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalendarRepository;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.Matchers.anyList;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.core.Is.is;
@@ -69,70 +72,39 @@ public class KalendarControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         mock = MockMvcBuilders.standaloneSetup(kalendarController).build();
+
+        headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
     }
 
     @Test
     public void getCalendarShouldReturnHttp401WithoutClientToken() throws Exception {
         mock.perform(get("/calendar")
                 .contentType(contentType))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
     public void statusShouldBeOkWithClientToken() throws Exception {
-        headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
-
         mock.perform(get("/calendar")
                 .contentType(contentType)
                 .headers(headers))
                 .andExpect(status().isOk());
     }
 
-    @Test
-    public void outputAccountIdShouldReturnString() throws Exception {
-        headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
-
-        mock.perform(get("/calendar")
-                .contentType(contentType)
-                .headers(headers))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.mergedCalendars[0].outputAccountId", is(String.class)));
-    }
 
     @Test
     public void outputAccountIdShouldReturnEmail() throws Exception {
-        headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
+        String expectedOutputAccountId = "test@email.com";
+
+        KalendarResponse expectedKalendarResponse = new KalendarResponse();
+        expectedKalendarResponse.setOutputCalendarId(expectedOutputAccountId);
+
+        when(kalendarService.setKalendarResponse(anyList())).thenReturn(Arrays.asList(expectedKalendarResponse));
 
         mock.perform(get("/calendar")
                 .contentType(contentType)
                 .headers(headers))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.mergedCalendars[0].outputAccountId", is("test@email.com")));
-    }
-
-    @Test
-    public void inputCalendarIdsShouldReturnList() throws Exception {
-        headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
-
-        List<String> testList = new ArrayList<>();
-
-        mock.perform(get("/calendar")
-                .contentType(contentType)
-                .headers(headers))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.mergedCalendars[0].inputCalendarIds", is(testList)));
-    }
-
-    @Test
-    public void inputCalendarIdsShouldReturnListOfMergedCals() throws Exception {
-        headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
-
-        List<String> testList = new ArrayList<>(Arrays.asList("mergedCalendar1", "mergedCalendar2"));
-
-        mock.perform(get("/calendar")
-                .contentType(contentType)
-                .headers(headers))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.mergedCalendars[0].inputCalendarIds", is(testList)));
+                .andExpect(jsonPath("$.kalendars[0].outputCalendarId", is(expectedOutputAccountId)));
     }
 }
