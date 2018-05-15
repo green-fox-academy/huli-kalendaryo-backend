@@ -56,4 +56,9 @@ public class AuthAndUserService{
     public KalUser findUserByAuth(GoogleAuth googleAuth) {
         return kalUserRepository.findKalUserByGoogleAuthListIsContaining(googleAuth);
     }
+
+    public void deleteGoogleAuth(String email, KalUser user) {
+        GoogleAuth googleAuth = googleAuthRepository.findByEmailAndUser(email, user);
+        googleAuthRepository.delete(googleAuth);
+    }
 }
