@@ -29,7 +29,9 @@ public class GoogleCalendarService {
     }
 
     public void setGoogleCalendar(Kalendar kalendar, KalendarFromAndroid fromAndroid, String clientToken) {
-        kalendarService.setKalendar(kalendar, fromAndroid, clientToken);
+        Kalendar newKalendar = kalendarService.setKalendarAttribute(kalendar, fromAndroid,
+                clientToken);
+        kalendarService.saveKalendar(newKalendar);
         for (int i = 0; i < fromAndroid.getInputGoogleCalendars().length; i++) {
             GoogleCalendar googleCalendar = new GoogleCalendar();
             googleCalendar.setId(fromAndroid.getInputGoogleCalendars()[i]);

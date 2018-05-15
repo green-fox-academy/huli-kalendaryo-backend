@@ -11,6 +11,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserReposito
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.github.javafaker.Faker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +35,25 @@ public class KalendarService {
         return kalendarRepository.findKalendarsByUser(user);
     }
 
-    public void setKalendar(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) {
+    /*public void setKalendar(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String
+            clientToken) {
         kalendar.setName(kalendarFromAndroid.getCustomName());
         kalendar.setOutputGoogleAuthId(kalendarFromAndroid.getOutputGoogleAuthId());
         kalendar.setUser(kalUserRepository.findByClientToken(clientToken));
         saveKalendar(kalendar);
+    }*/
+
+    public Kalendar setKalendarAttribute(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String
+            clientToken) {
+        if (kalendarFromAndroid.getCustomName().isEmpty()) {
+            Faker faker = new Faker();
+            kalendar.setName(faker.gameOfThrones().character());
+        } else {
+            kalendar.setName(kalendarFromAndroid.getCustomName());
+        }
+        kalendar.setOutputGoogleAuthId(kalendarFromAndroid.getOutputGoogleAuthId());
+        kalendar.setUser(kalUserRepository.findByClientToken(clientToken));
+        return kalendar;
     }
 
     public void saveKalendar(Kalendar kalendar) {
