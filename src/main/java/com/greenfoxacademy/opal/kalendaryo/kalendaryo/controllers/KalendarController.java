@@ -68,9 +68,12 @@ public class KalendarController {
     @Transactional
     @DeleteMapping(value = "/{id}/deletecalendar")
     public ResponseEntity deleteCalendar(@RequestHeader("X-Client-Token") String clientToken,
-                                         @PathVariable(name = "id") long id,
-                                         HttpServletRequest request) {
-        kalendarService.deleteKalendarAndGoogleCalendarById(id);
-        return new ResponseEntity(HttpStatus.OK);
+                                         @PathVariable(name = "id") long id) {
+        if (kalendarService.theKalendarBelongsToTheUser(clientToken, id)) {
+            kalendarService.deleteKalendarAndGoogleCalendarById(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<String>("This Kalendar doesn't belongs to the current user", HttpStatus.UNAUTHORIZED);
+        }
     }
 }

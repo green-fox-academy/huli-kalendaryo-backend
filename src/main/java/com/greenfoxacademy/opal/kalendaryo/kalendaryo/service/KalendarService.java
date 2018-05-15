@@ -87,4 +87,26 @@ public class KalendarService {
         deleteGoogleCalendarByKalendarId(id);
         deleteCalendarById(id);
     }
+
+    public long getKalUserIdByClientToken(String clientToken) {
+        KalUser userByToken = kalUserRepository.findByClientToken(clientToken);
+        Long kalUserId = userByToken.getId();
+
+        return kalUserId;
+    }
+
+    public long getUserIdOfTheKalendar(long kalendarId) {
+        Kalendar deletableKalendar = kalendarRepository.findKalendarById(kalendarId);
+        KalUser userOfTheKalendar = deletableKalendar.getUser();
+        Long userId = userOfTheKalendar.getId();
+
+        return userId;
+    }
+
+    public boolean theKalendarBelongsToTheUser(String clientToken, long kalendarId) {
+        Long kalUserId = getKalUserIdByClientToken(clientToken);
+        Long userId = getUserIdOfTheKalendar(kalendarId);
+
+        return kalUserId == userId;
+    }
 }
