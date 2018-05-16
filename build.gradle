@@ -35,5 +35,6 @@ dependencies {
 	compile('org.flywaydb:flyway-core:5.0.5')
 	compile group: 'com.github.javafaker', name: 'javafaker', version: '0.12'
   testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.mockito:mockito-core:2.7.22')
 
 }
