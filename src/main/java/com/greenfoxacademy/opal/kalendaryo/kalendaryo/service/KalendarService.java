@@ -76,31 +76,33 @@ public class KalendarService {
         return GoogleCalendarIDsToString;
     }
 
-    public void validateUserAndDeleteKalendar(String clientToken, long id) throws ValidationException {
-        if (theKalendarBelongsToTheUser(clientToken, id))
-            deleteKalendarAndGoogleCalendarById(id);
-        else throw new ValidationException("The validation process failed");
+    public void deleteKalendar(String clientToken, long id) throws ValidationException {
+        if (validateUser(clientToken, id)) {
+            deleteKalendarById(id);
+        } else {
+            throw new ValidationException("The validation process failed");
+        }
     }
 
-    public void deleteKalendarAndGoogleCalendarById(long id) {
+    private void deleteKalendarById(long id) {
         googleCalendarRepository.deleteAllByKalendar_Id(id);
     }
 
-    public boolean theKalendarBelongsToTheUser(String clientToken, long kalendarId) {
-        Long kalUserId = getKalUserIdByClientToken(clientToken);
-        Long userId = getUserIdOfTheKalendar(kalendarId);
+    private boolean validateUser(String clientToken, long kalendarId) {
+        Long kalUserId = getKalUserId(clientToken);
+        Long userId = getUserIdOfKalendar(kalendarId);
 
         return kalUserId == userId;
     }
 
-    public long getKalUserIdByClientToken(String clientToken) {
+    private long getKalUserId(String clientToken) {
         KalUser userByToken = kalUserRepository.findByClientToken(clientToken);
         Long kalUserId = userByToken.getId();
 
         return kalUserId;
     }
 
-    public long getUserIdOfTheKalendar(long kalendarId) {
+    private long getUserIdOfKalendar(long kalendarId) {
         Kalendar deletableKalendar = kalendarRepository.findKalendarById(kalendarId);
         KalUser userOfTheKalendar = deletableKalendar.getUser();
         Long userId = userOfTheKalendar.getId();
