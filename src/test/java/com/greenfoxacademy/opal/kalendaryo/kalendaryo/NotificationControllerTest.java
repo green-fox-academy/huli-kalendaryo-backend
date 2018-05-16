@@ -1,8 +1,14 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo;
 
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers.NotificationController;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.GoogleCalendarUpdateService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
@@ -21,11 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.nio.charset.Charset;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = KalendaryoApplication.class)
-@ActiveProfiles("test")
-@WebAppConfiguration
-@EnableWebMvc
+
 public class NotificationControllerTest {
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
@@ -35,12 +37,19 @@ public class NotificationControllerTest {
     private MockMvc mock;
     private HttpHeaders headers = new HttpHeaders();
 
-    @Autowired
-    WebApplicationContext webApplicationContext;
+    @Mock
+    GoogleCalendarUpdateService googleCalendarUpdateService;
+
+    @Mock
+    AuthAndUserService authAndUserService;
+
+    @InjectMocks
+    NotificationController notificationController;
 
     @Before
     public void setUp() throws Exception {
-        mock = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        MockitoAnnotations.initMocks(this);
+        mock = MockMvcBuilders.standaloneSetup(notificationController).build();
     }
 
 
