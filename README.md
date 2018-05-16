@@ -10,15 +10,13 @@ To run the application's backend part you need to have the following things set 
 
 1. Create a a database schema with the help of MySQL
 
-2. Ask us for the `debug.keystore` file (temporary method during development), which you need to put in your Users/"yourusername"/.android folder (in case of windows)
+2. Ask us for the `debug.keystore` file (temporary solution during development), which you need to put in your Users/"yourusername"/.android folder (in case of windows)
 
-3. Use "dev" as an @ActiveProfiles annotation in the main class (import the library, if necessary)
+3. Set the Active Profile to "dev" in your IDE (in IntelliJ Run/Edit Configurations)
 
-4. Set the Active Profile to "dev" in your IDE (in IntelliJ Run/Edit Configurations)
+4. Create the `application-dev.properties` file based on the contents of the provided `application.properties.example` file
 
-5. Create the `application-dev.properties` file based on the contents of the provided `application.properties.example` file
-
-6. You should set up the following environmental variables:
+5. You should set up the following environmental variables:
 * CLIENT\_ID: this is created in the Google API Console to validate the application (ask us for the exact CLIENT_ID for the time being)
  * CLIENT\_SECRET: this is created in the Google API Console to validate the application (ask us for the exact CLIENT_SECRET for the time being)
 * RDS\_HOSTNAME: your hostname in MySQL
