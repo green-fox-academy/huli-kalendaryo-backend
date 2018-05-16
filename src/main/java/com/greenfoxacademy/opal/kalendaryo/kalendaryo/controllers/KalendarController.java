@@ -1,5 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.exception.ValidationException;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization.AuthorizeKal;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarListResponse;
@@ -66,14 +67,14 @@ public class KalendarController {
     }
 
     @Transactional
-    @DeleteMapping(value = "/{id}/deletecalendar")
+    @DeleteMapping(value = "/calendar/{id}")
     public ResponseEntity deleteCalendar(@RequestHeader("X-Client-Token") String clientToken,
                                          @PathVariable(name = "id") long id) {
-        if (kalendarService.theKalendarBelongsToTheUser(clientToken, id)) {
-            kalendarService.deleteKalendarAndGoogleCalendarById(id);
+        try {
+            kalendarService.validateUserAndDeleteKalendar(clientToken, id);
             return new ResponseEntity(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<String>("This Kalendar doesn't belongs to the current user", HttpStatus.UNAUTHORIZED);
+        } catch (ValidationException val) {
+            return new ResponseEntity<String>(val.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

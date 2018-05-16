@@ -2,6 +2,7 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
 
 import com.github.javafaker.Faker;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.exception.ValidationException;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleCalendar;
@@ -75,11 +76,13 @@ public class KalendarService {
         return GoogleCalendarIDsToString;
     }
 
-    public void deleteKalendarAndGoogleCalendarById(long id) {
-        deleteGoogleCalendarByKalendarId(id);
+    public void validateUserAndDeleteKalendar(String clientToken, long id) throws ValidationException {
+        if (theKalendarBelongsToTheUser(clientToken, id))
+            deleteKalendarAndGoogleCalendarById(id);
+        else throw new ValidationException("The validation process failed");
     }
 
-    public void deleteGoogleCalendarByKalendarId(long id) {
+    public void deleteKalendarAndGoogleCalendarById(long id) {
         googleCalendarRepository.deleteAllByKalendar_Id(id);
     }
 
