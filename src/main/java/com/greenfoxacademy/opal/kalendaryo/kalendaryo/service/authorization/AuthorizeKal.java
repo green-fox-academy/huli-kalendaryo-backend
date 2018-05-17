@@ -17,8 +17,10 @@ import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.common.collect.Lists;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.KalUser;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.KalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -45,6 +47,9 @@ public class AuthorizeKal implements Authorization{
 
     @Autowired
     KalendarService kalendarService;
+
+    @Autowired
+    AuthAndUserService authAndUserService;
 
     static {
         try {
@@ -128,5 +133,23 @@ public class AuthorizeKal implements Authorization{
             }
             pageToken = calendarList.getNextPageToken();
         } while (pageToken != null);
+   }
+
+   public void deleteCalendar(String clientToken, long kalendarId) {
+       try {
+           String id = String.valueOf(kalendarId);
+
+           KalUser user = authAndUserService.findUserByClientToken(clientToken);
+           long userId = user.getId();
+           String accessToken = authAndUserService.findAccesTokenByUserId(userId);
+
+           Credential credential =
+               new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
+           calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).
+               setApplicationName(APPLICATION_NAME).build();
+           calendarClient.calendars().delete("lkk0461jmnv42qv0k07ok8ts4o@group.calendar.google.com").execute();
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
    }
 }

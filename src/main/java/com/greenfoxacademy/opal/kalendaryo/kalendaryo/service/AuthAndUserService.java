@@ -56,4 +56,11 @@ public class AuthAndUserService{
     public KalUser findUserByAuth(GoogleAuth googleAuth) {
         return kalUserRepository.findKalUserByGoogleAuthListIsContaining(googleAuth);
     }
+
+    public String findAccesTokenByUserId(long id) {
+        GoogleAuth googleAuth = googleAuthRepository.findByUser_Id(id);
+        String accesToken = googleAuth.getAccessToken();
+
+        return accesToken;
+    }
 }
