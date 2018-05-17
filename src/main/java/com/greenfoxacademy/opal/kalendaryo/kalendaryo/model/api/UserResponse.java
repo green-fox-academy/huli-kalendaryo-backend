@@ -1,6 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.authresponses.GetAuthResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleAuth;
 
 import java.util.List;
 
@@ -8,12 +9,12 @@ public class UserResponse {
 
     private long id;
     private String userEmail;
-    List<GetAuthResponse> googleAuths;
+    List<GoogleAuth> googleAuths;
 
     public UserResponse() {
     }
 
-    public UserResponse(long id, String userEmail, List<GetAuthResponse> googleAuths) {
+    public UserResponse(long id, String userEmail, List<GoogleAuth> googleAuths) {
         this.id = id;
         this.userEmail = userEmail;
         this.googleAuths = googleAuths;
@@ -35,11 +36,11 @@ public class UserResponse {
         this.userEmail = userEmail;
     }
 
-    public List<GetAuthResponse> getGoogleAuths() {
+    public List<GoogleAuth> getGoogleAuths() {
         return googleAuths;
     }
 
-    public void setGoogleAuths(List<GetAuthResponse> googleAuths) {
+    public void setGoogleAuths(List<GoogleAuth> googleAuths) {
         this.googleAuths = googleAuths;
     }
 }
