@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.List;
 
 @Service
 public class AuthAndUserService{
@@ -53,12 +54,24 @@ public class AuthAndUserService{
         googleAuthRepository.save(googleAuth);
     }
 
+    public KalUser findUserByUserMail(String email) {
+        return kalUserRepository.findByUserEmail(email);
+    }
+
     public KalUser findUserByAuth(GoogleAuth googleAuth) {
         return kalUserRepository.findKalUserByGoogleAuthListIsContaining(googleAuth);
     }
 
     public void deleteGoogleAuth(String email, KalUser user) {
-        GoogleAuth googleAuth = googleAuthRepository.findByEmailAndUser(email, user);
+        GoogleAuth googleAuth = googleAuthRepository.findByEmailAndUser_Id(email, user.getId());
         googleAuthRepository.delete(googleAuth);
+    }
+
+    public boolean checkIfGoogleAuthExist (GoogleAuth googleAuth, Long kalUserId) {
+        return googleAuthRepository.findByEmailAndUser_Id(googleAuth.getEmail(),kalUserId) != null;
+    }
+
+    public List<GoogleAuth> listAllGoogleAccounts (Long id) {
+        return googleAuthRepository.findByUser_Id(id);
     }
 }
