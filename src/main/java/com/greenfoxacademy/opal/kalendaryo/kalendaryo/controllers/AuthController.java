@@ -27,35 +27,22 @@ public class AuthController {
     @Autowired
     GoogleAuthRepository googleAuthRepository;
 
-    @GetMapping("/auth")
-    public ResponseEntity getAuth(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
-        if (!request.getHeader("X-Client-Token").equals("")) {
-            KalUser kalUser = authAndUserService.findUserByClientToken(clientToken);
-            UserResponse userResponse = new UserResponse();
-
-            for (int i = 0; i < kalUser.getGoogleAuthList().size() ; i++) {
-                GoogleAuth currentGoogleAuth = kalUser.getGoogleAuthList().get(i);
-                GetAuthResponse currentGetAuthResponse = new GetAuthResponse(currentGoogleAuth.getEmail(), currentGoogleAuth.getAccessToken());
-                userResponse.getGoogleAuths().add(currentGetAuthResponse);
-            }
-
-            return ResponseEntity.status(200).body(new UserResponse(kalUser.getId(), kalUser.getUserEmail(), userResponse.getGoogleAuths()));
-        }
-        return ResponseEntity.status(401).body("Client token is missing or invalid");
-    }
-
     @PostMapping("/auth")
     public PostAuthResponse postAuth(@RequestBody GoogleAuth googleAuth, @RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
         KalUser kalUser;
         if (!request.getHeader("X-Client-Token").equals("")) {
             kalUser = authAndUserService.findUserByClientToken(clientToken);
-        } else if (googleAuthRepository.findByEmail(googleAuth.getEmail()) != null) {
-            kalUser = authAndUserService.findUserByAuth(googleAuth);
+        } else if (authAndUserService.findUserByUserMail(googleAuth.getEmail()) != null) {
+            kalUser = authAndUserService.findUserByUserMail(googleAuth.getEmail());
         } else {
             kalUser = new KalUser(authAndUserService.getRandomClientToken());
             kalUser.setUserEmail(googleAuth.getEmail());
         }
         googleAuth.setUser(kalUser);
+        if (authAndUserService.checkIfGoogleAuthExist(googleAuth, kalUser.getId())) {
+            googleAuth = googleAuthRepository.findByEmailAndUser_Id(googleAuth.getEmail(),kalUser.getId());
+            return new PostAuthResponse(kalUser.getId(), kalUser.getClientToken(), googleAuth.getEmail(), googleAuth.getAccessToken());
+        }
         authAndUserService.saveGoogleAuth(googleAuth);
         return new PostAuthResponse(kalUser.getId(), kalUser.getClientToken(), googleAuth.getEmail(), googleAuth.getAccessToken());
     }
