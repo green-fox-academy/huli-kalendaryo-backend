@@ -1,5 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -7,15 +9,18 @@ import java.util.List;
 public class GoogleAuth {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String email;
     private String authCode;
     private String displayName;
     private String accessToken;
     private String refreshToken;
-    @OneToMany(mappedBy = "googleAuth")
+    @OneToMany(mappedBy = "googleAuth", cascade = CascadeType.ALL)
     List<GoogleCalendar> googleCalendars;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     KalUser user;
 
     public GoogleAuth() {
@@ -94,6 +99,10 @@ public class GoogleAuth {
 
     public void setGoogleCalendars(List<GoogleCalendar> googleCalendars) {
         this.googleCalendars = googleCalendars;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override
