@@ -35,13 +35,6 @@ public class KalendarService {
         return kalendarRepository.findKalendarsByUser(user);
     }
 
-    /*public void setKalendar(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String
-            clientToken) {
-        kalendar.setOutputGoogleAuthId(kalendarFromAndroid.getOutputGoogleAuthId());
-        kalendar.setUser(kalUserRepository.findByClientToken(clientToken));
-        saveKalendar(kalendar);
-    }*/
-
     public Kalendar setKalendarAttribute(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) {
         if (kalendarFromAndroid.getCustomName().isEmpty()) {
             Faker faker = new Faker();
