@@ -29,21 +29,6 @@ public class AuthController {
 
     @PostMapping("/auth")
     public PostAuthResponse postAuth(@RequestBody GoogleAuth googleAuth, @RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
-        KalUser kalUser;
-        if (!request.getHeader("X-Client-Token").equals("")) {
-            kalUser = authAndUserService.findUserByClientToken(clientToken);
-        } else if (authAndUserService.findUserByUserMail(googleAuth.getEmail()) != null) {
-            kalUser = authAndUserService.findUserByUserMail(googleAuth.getEmail());
-        } else {
-            kalUser = new KalUser(authAndUserService.getRandomClientToken());
-            kalUser.setUserEmail(googleAuth.getEmail());
-        }
-        googleAuth.setUser(kalUser);
-        if (authAndUserService.checkIfGoogleAuthExist(googleAuth, kalUser.getId())) {
-            googleAuth = googleAuthRepository.findByEmailAndUser_Id(googleAuth.getEmail(),kalUser.getId());
-            return new PostAuthResponse(kalUser.getId(), kalUser.getClientToken(), googleAuth.getEmail(), googleAuth.getAccessToken());
-        }
-        authAndUserService.saveGoogleAuth(googleAuth);
-        return new PostAuthResponse(kalUser.getId(), kalUser.getClientToken(), googleAuth.getEmail(), googleAuth.getAccessToken());
+        return authAndUserService.createPostAuthResponse(clientToken, googleAuth);
     }
 }
