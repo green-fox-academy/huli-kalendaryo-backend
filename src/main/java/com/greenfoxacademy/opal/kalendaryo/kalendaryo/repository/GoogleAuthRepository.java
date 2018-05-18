@@ -13,5 +13,5 @@ public interface GoogleAuthRepository extends CrudRepository<GoogleAuth, String>
 
     GoogleAuth findByEmail(String email);
     GoogleAuth findByEmailAndUser_Id(String email, Long Id);
-    List<GoogleAuth> findByUser_Id(Long id);
+    List<GoogleAuth> findAllByUser(KalUser user);
 }
