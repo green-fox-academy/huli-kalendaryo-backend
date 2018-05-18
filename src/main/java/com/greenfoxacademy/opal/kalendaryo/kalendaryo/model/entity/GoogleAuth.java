@@ -16,7 +16,8 @@ public class GoogleAuth {
     private String displayName;
     private String accessToken;
     private String refreshToken;
-    @OneToMany(mappedBy = "googleAuth", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "googleAuth", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     List<GoogleCalendar> googleCalendars;
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
