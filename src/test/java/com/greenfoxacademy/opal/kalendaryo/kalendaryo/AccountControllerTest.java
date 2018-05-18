@@ -1,9 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers.AccountController;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarResponse;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.UserResponse;
-import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,11 +13,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.nio.charset.Charset;
-import java.util.Arrays;
 
-import static org.mockito.Matchers.anyList;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.core.Is.is;
 
@@ -58,6 +53,13 @@ public class AccountControllerTest {
             .contentType(contentType)
             .headers(headers))
             .andExpect(status().is2xxSuccessful());
+  }
+
+  @Test
+  public void deleteAccountstatusShouldBe200WithClientToken() throws Exception {
+    mock.perform(delete("/account")
+            .contentType(contentType))
+            .andExpect(status().is4xxClientError());
   }
 }
 
