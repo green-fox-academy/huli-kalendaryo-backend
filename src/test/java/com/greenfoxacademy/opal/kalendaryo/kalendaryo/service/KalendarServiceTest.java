@@ -18,12 +18,6 @@ import static org.junit.Assert.*;
 
 public class KalendarServiceTest {
 
-  private MockMvc mock;
-
-  private String clientToken;
-  private KalendarFromAndroid kalendarFromAndroid;
-  private Kalendar kalendar;
-
   @Mock
   KalUserRepository kalUserRepository;
 
@@ -42,22 +36,42 @@ public class KalendarServiceTest {
   @Before
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
-    mock = MockMvcBuilders.standaloneSetup(kalendarService).build();
-    kalendarFromAndroid = new KalendarFromAndroid();
-    kalendar = new Kalendar();
-    clientToken = "sPnRiVAq6n8Nq/SmeB9VHSnBsI4=";
+
   }
 
   @Test
-  public void checkIfKalendarNameEqualsCustomName() {
-    kalendarFromAndroid.setCustomName("Hello");
-    assertEquals("Hello", kalendarService.setKalendarAttribute(kalendar, kalendarFromAndroid, clientToken).getName());
+  public void setKalendarAttribute_customNameProvided() {
+    String customName = "Hello";
+    KalendarFromAndroid kalendarFromAndroid = generateModelFromName(customName);
+
+    Kalendar actualKalendar = kalendarService.setKalendarAttribute(new Kalendar(), kalendarFromAndroid, "");
+
+    assertEquals(customName, actualKalendar.getName());
   }
 
   @Test
-  public void checkIfNameIsNotNullIfCustomNameIsNotEntered() {
-    kalendarFromAndroid.setCustomName("");
-    assertTrue(kalendarService.setKalendarAttribute(kalendar, kalendarFromAndroid, clientToken)
-            .getName().length() > 0);
+  public void setKalendarAttribute_customNameMissing() {
+    String customName = "";
+    KalendarFromAndroid kalendarFromAndroid = generateModelFromName(customName);
+
+    Kalendar actualKalendar = kalendarService.setKalendarAttribute(new Kalendar(), kalendarFromAndroid, "");
+
+    assertTrue(customName, actualKalendar.getName().length() > 0);
+  }
+
+  @Test
+  public void setKalendarAttribute_customNameIsNull() {
+    String customName = null;
+    KalendarFromAndroid kalendarFromAndroid = generateModelFromName(customName);
+
+    Kalendar actualKalendar = kalendarService.setKalendarAttribute(new Kalendar(), kalendarFromAndroid, "");
+
+    assertTrue(customName, actualKalendar.getName().length() > 0);
+  }
+
+  private KalendarFromAndroid generateModelFromName(String name) {
+    KalendarFromAndroid kalendarFromAndroid = new KalendarFromAndroid();
+    kalendarFromAndroid.setCustomName(name);
+    return kalendarFromAndroid;
   }
 }

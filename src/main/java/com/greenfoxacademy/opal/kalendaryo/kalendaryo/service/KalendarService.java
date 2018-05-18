@@ -12,6 +12,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserReposito
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,9 @@ public class KalendarService {
     }
 
     public Kalendar setKalendarAttribute(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) {
-        if (kalendarFromAndroid.getCustomName().isEmpty()) {
+        String customName = kalendarFromAndroid.getCustomName();
+
+        if (StringUtils.isEmpty(customName)) {
             Faker faker = new Faker();
             kalendar.setName(faker.gameOfThrones().character());
         } else {
@@ -76,4 +79,5 @@ public class KalendarService {
         }
         return GoogleCalendarIDsToString;
     }
+
 }
