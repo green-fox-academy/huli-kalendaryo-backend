@@ -135,6 +135,8 @@ public class AuthorizeKal implements Authorization{
         } while (pageToken != null);
    }
 
+   //Unfinished because first the Google Calendar Id-s should be saved to database when creating new calendar
+   // to make possible to delete calendars from Google via API.
    public void deleteCalendar(String clientToken, long kalendarId) {
        try {
            String id = String.valueOf(kalendarId);

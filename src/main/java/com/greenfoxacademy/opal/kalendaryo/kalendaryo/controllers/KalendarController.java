@@ -72,7 +72,6 @@ public class KalendarController {
                                          @PathVariable(name = "id") long id) {
         try {
             kalendarService.deleteKalendar(clientToken, id);
-            authorizeKal.deleteCalendar(clientToken, id);
             return new ResponseEntity(HttpStatus.OK);
         } catch (ValidationException val) {
             return new ResponseEntity<String>(val.getMessage(), HttpStatus.BAD_REQUEST);
