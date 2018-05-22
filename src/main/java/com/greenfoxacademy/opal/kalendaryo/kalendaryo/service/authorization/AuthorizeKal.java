@@ -105,8 +105,7 @@ public class AuthorizeKal implements Authorization{
             e.printStackTrace();
         }
     }
-
-
+    
     public void getInputCalendarsData (com.google.api.services.calendar.Calendar client) throws IOException {
 
         String pageToken = null;
