@@ -93,33 +93,19 @@ public class AuthorizeKal implements Authorization{
             Credential credential =
                     new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
             calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
-            addCalendars(kalendar);
-            getInputCalendarsData(calendarClient);
 
+            com.google.api.services.calendar.model.Calendar calendar = new Calendar();
+            calendar.setSummary(kalendar.getName());
+
+            Calendar createdCalendar = calendarClient.calendars().insert(calendar).execute();
+            kalendar.setGoogleCalendarId(createdCalendar.getId());
+            kalendarService.saveKalendar(kalendar);
+            getInputCalendarsData(calendarClient);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void addCalendars(Kalendar kalendar) throws IOException {
-        BatchRequest batch = calendarClient.batch();
-        JsonBatchCallback<Calendar> callback = new JsonBatchCallback<Calendar>() {
-
-            @Override
-            public void onSuccess(Calendar calendar, HttpHeaders responseHeaders) {
-                addedCalendarUsingBatch.add(calendar);
-            }
-
-            @Override
-            public void onFailure(GoogleJsonError e, HttpHeaders responseHeaders) {
-                System.out.println("Error Message: " + e.getMessage());
-            }
-        };
-        Calendar createdGoogleCalendar = new Calendar().setSummary(kalendar.getName());
-        calendarClient.calendars().insert(createdGoogleCalendar).queue(batch, callback);
-        kalendar.setGoogleCalendarId(createdGoogleCalendar.getId());
-        batch.execute();
-    }
 
     public void getInputCalendarsData (com.google.api.services.calendar.Calendar client) throws IOException {
 
