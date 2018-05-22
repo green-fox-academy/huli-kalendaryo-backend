@@ -1,5 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.exception.ValidationException;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,23 +19,22 @@ public class AccountController {
 
   @GetMapping(value = "/account")
   public ResponseEntity getGoogleAccounts(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
-    if (!request.getHeader("X-Client-Token").equals("")) {
+    try {
       return ResponseEntity.status(200).body(authAndUserService.createUserResponseForGetAccounts(clientToken));
+    } catch (ValidationException val) {
+      return ResponseEntity.status(400).body(val.getMessage());
     }
-    return ResponseEntity.status(401).body("Client token is missing or invalid");
   }
 
   @Transactional
   @DeleteMapping(value = "/account")
-  public ResponseEntity deleteGoogleAccount(@RequestHeader("X-Client-Token") String clientToken, @RequestHeader("email")String email,
+  public ResponseEntity deleteGoogleAccount(@RequestHeader("X-Client-Token") String clientToken, @RequestHeader("email") String email,
                                             HttpServletRequest request) throws IOException {
-    if (!request.getHeader("X-Client-Token").equals("")) {
-      if (!authAndUserService.checkIfEmailIsLoggedInUser(email, clientToken)) {
-        authAndUserService.deleteGoogleAuth(email, clientToken);
-        return new ResponseEntity(HttpStatus.OK);
-      }
-      return ResponseEntity.status(500).body("Can not delete the base login email");
+    try {
+      authAndUserService.deleteGoogleAuth(email, clientToken);
+      return new ResponseEntity(HttpStatus.OK);
+    } catch (ValidationException val) {
+      return ResponseEntity.status(400).body(val.getMessage());
     }
-    return ResponseEntity.status(401).body("Client token is missing or invalid");
   }
 }
