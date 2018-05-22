@@ -123,7 +123,8 @@ public class KalendarService {
             Kalendar kalendarToDelete = kalendarRepository.findKalendarById(id);
             KalUser kalUser = kalendarToDelete.getUser();
             long userId = kalUser.getId();
-            GoogleAuth googleAuth = googleAuthRepository.findByUser_Id(userId);
+            String userEmail = kalUser.getUserEmail();
+            GoogleAuth googleAuth = googleAuthRepository.findByUser_IdAndEmail(userId, userEmail);
             String accessToken = googleAuth.getAccessToken();
             return accessToken;
         } catch (NullPointerException ne) {

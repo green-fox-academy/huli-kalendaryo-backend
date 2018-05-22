@@ -69,6 +69,11 @@ public class KalendarServiceTest {
     assertTrue(customName, actualKalendar.getName().length() > 0);
   }
 
+  @Test
+  public void deleteGoogleCalendar_wrongClientToken() {
+
+  }
+
   private KalendarFromAndroid generateModelFromName(String name) {
     KalendarFromAndroid kalendarFromAndroid = new KalendarFromAndroid();
     kalendarFromAndroid.setCustomName(name);
