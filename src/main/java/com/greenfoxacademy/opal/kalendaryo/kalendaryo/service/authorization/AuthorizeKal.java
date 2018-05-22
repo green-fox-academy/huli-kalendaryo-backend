@@ -135,21 +135,13 @@ public class AuthorizeKal implements Authorization{
         } while (pageToken != null);
    }
 
-   //Unfinished because first the Google Calendar Id-s should be saved to database when creating new calendar
-   // to make possible to delete calendars from Google via API.
-   public void deleteCalendar(String clientToken, long kalendarId) {
+   public void deleteCalendar(String accessToken, String googleCalendarId) {
        try {
-           String id = String.valueOf(kalendarId);
-
-           KalUser user = authAndUserService.findUserByClientToken(clientToken);
-           long userId = user.getId();
-           String accessToken = authAndUserService.findAccesTokenByUserId(userId);
-
            Credential credential =
                new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
            calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).
                setApplicationName(APPLICATION_NAME).build();
-           calendarClient.calendars().delete("lkk0461jmnv42qv0k07ok8ts4o@group.calendar.google.com").execute();
+           calendarClient.calendars().delete(googleCalendarId).execute();
        } catch (IOException e) {
            e.printStackTrace();
        }

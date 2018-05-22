@@ -5,13 +5,16 @@ import com.github.javafaker.Faker;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.exception.ValidationException;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleAuth;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleCalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.KalUser;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleCalendarRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalendarRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization.Authorization;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization.AuthorizeKal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +35,12 @@ public class KalendarService {
 
     @Autowired
     KalendarRepository kalendarRepository;
+
+    @Autowired
+    AuthorizeKal authorizeKal;
+
+    @Autowired
+    GoogleAuthRepository googleAuthRepository;
 
     public List<Kalendar> findKalendars(KalUser user) {
         return kalendarRepository.findKalendarsByUser(user);
@@ -78,9 +87,39 @@ public class KalendarService {
 
     public void deleteKalendar(String clientToken, long id) throws ValidationException {
         if (validateUser(clientToken, id)) {
+            deleteGoogleCalendar(id);
             deleteKalendarById(id);
         } else {
             throw new ValidationException("The validation process failed");
+        }
+    }
+
+    private void deleteGoogleCalendar(long id) throws ValidationException {
+        String accesToken = getAccessTokenByKalendarId(id);
+        String calendarId = getCalendarIdByKalendarId(id);
+        authorizeKal.deleteCalendar(accesToken, calendarId);
+    }
+
+    private String getCalendarIdByKalendarId(long id) throws ValidationException {
+        try {
+            Kalendar kalendarToDelete = kalendarRepository.findKalendarById(id);
+            String googleCalendarId = kalendarToDelete.getGoogleCalendarId();
+            return googleCalendarId;
+        } catch (NullPointerException ne) {
+            throw new ValidationException("No such Google calendar id in the database");
+        }
+    }
+
+    private String getAccessTokenByKalendarId(long id) throws ValidationException {
+        try {
+            Kalendar kalendarToDelete = kalendarRepository.findKalendarById(id);
+            KalUser kalUser = kalendarToDelete.getUser();
+            long userId = kalUser.getId();
+            GoogleAuth googleAuth = googleAuthRepository.findByUser_Id(userId);
+            String accessToken = googleAuth.getAccessToken();
+            return accessToken;
+        } catch (NullPointerException ne) {
+            throw new ValidationException("No such user in the database");
         }
     }
 
