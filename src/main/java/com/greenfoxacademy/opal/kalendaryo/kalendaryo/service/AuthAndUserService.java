@@ -59,10 +59,9 @@ public class AuthAndUserService {
     return Base64.encodeBase64String(random);
   }
 
-  public boolean checkIfEmailIsLoggedInUser(String email, String clientToken) throws ValidationException {
+  public boolean checkIfEmailIsLoggedInUser(String email, KalUser kalUser) throws ValidationException {
     try {
-      KalUser user = findUserByClientToken(clientToken);
-      return user.getUserEmail().equals(email);
+      return kalUser.getUserEmail().equals(email);
     } catch (NullPointerException e) {
       throw new ValidationException("Client token is missing or invalid");
     }
@@ -76,8 +75,8 @@ public class AuthAndUserService {
 
   public void deleteGoogleAuth(String email, String clientToken) throws ValidationException {
     try {
-      if (!checkIfEmailIsLoggedInUser(email, clientToken)) {
-        KalUser user = findUserByClientToken(clientToken);
+      KalUser user = findUserByClientToken(clientToken);
+      if (!checkIfEmailIsLoggedInUser(email, user)) {
         GoogleAuth googleAuth = googleAuthRepository.findByEmailAndUser_Id(email, user.getId());
         googleAuthRepository.delete(googleAuth);
       } else {
@@ -89,20 +88,18 @@ public class AuthAndUserService {
 
   }
 
-
-  private List<GoogleAuth> listAllGoogleAccounts(KalUser user) {
-    return googleAuthRepository.findAllByUser(user);
-  }
-
   public UserResponse createUserResponseForGetAccounts(String clientToken) throws ValidationException {
     try {
       KalUser user = findUserByClientToken(clientToken);
-      List<GoogleAuth> googleAuthList = listAllGoogleAccounts(findUserByClientToken(clientToken));
+      List<GoogleAuth> googleAuthList = listAllGoogleAccounts(user);
       return new UserResponse(user.getId(), user.getUserEmail(), googleAuthList);
-    } catch (Exception e) {
+    } catch (NullPointerException e) {
       throw new ValidationException("Client token is missing or invalid");
     }
+  }
 
+  private List<GoogleAuth> listAllGoogleAccounts(KalUser user) {
+    return googleAuthRepository.findAllByUser(user);
   }
 
   public PostAuthResponse createPostAuthResponse(String clientToken, GoogleAuth googleAuth) throws ValidationException {
@@ -110,12 +107,12 @@ public class AuthAndUserService {
       KalUser kalUser = setKalUserForPostAuth(clientToken, googleAuth);
       googleAuth = manageGoogleAuthForPostAuth(kalUser, googleAuth);
       return new PostAuthResponse(kalUser.getId(), kalUser.getClientToken(), googleAuth.getEmail(), googleAuth.getAccessToken());
-    } catch (Exception e) {
-      throw new ValidationException("Client token is missing or invalid");
+    } catch (IOException e) {
+      throw new ValidationException("Error while saving");
     }
   }
 
-  private KalUser setKalUserForPostAuth(String clientToken, GoogleAuth googleAuth) throws ValidationException {
+  public KalUser setKalUserForPostAuth(String clientToken, GoogleAuth googleAuth) {
     KalUser kalUser;
     if (!clientToken.equals("")) {
       kalUser = findUserByClientToken(clientToken);
@@ -128,7 +125,7 @@ public class AuthAndUserService {
     return kalUser;
   }
 
-  private GoogleAuth manageGoogleAuthForPostAuth(KalUser kalUser, GoogleAuth googleAuth) throws Exception {
+  public GoogleAuth manageGoogleAuthForPostAuth(KalUser kalUser, GoogleAuth googleAuth) throws IOException {
     googleAuth.setUser(kalUser);
     if (checkIfGoogleAuthExist(googleAuth, kalUser.getId())) {
       googleAuth = googleAuthRepository.findByEmailAndUser_Id(googleAuth.getEmail(), kalUser.getId());
@@ -138,7 +135,7 @@ public class AuthAndUserService {
     return googleAuth;
   }
 
-  private boolean checkIfGoogleAuthExist(GoogleAuth googleAuth, Long kalUserId) {
+  public boolean checkIfGoogleAuthExist(GoogleAuth googleAuth, Long kalUserId) {
     return googleAuthRepository.findByEmailAndUser_Id(googleAuth.getEmail(), kalUserId) != null;
   }
 }
