@@ -4,6 +4,7 @@ public class KalendarFromAndroid {
 
   private String outputGoogleAuthId;
   private String[] inputGoogleCalendars;
+  private String customName;
 
   public KalendarFromAndroid() {
   }
@@ -11,6 +12,7 @@ public class KalendarFromAndroid {
   public KalendarFromAndroid(String outputGoogleAuthId, String[] inputGoogleCalendars) {
     this.outputGoogleAuthId = outputGoogleAuthId;
     this.inputGoogleCalendars = inputGoogleCalendars;
+    this.customName = customName;
   }
 
   public String getOutputGoogleAuthId() {
@@ -27,5 +29,13 @@ public class KalendarFromAndroid {
 
   public void setInputGoogleCalendars(String[] inputGoogleCalendars) {
     this.inputGoogleCalendars = inputGoogleCalendars;
+  }
+
+  public String getCustomName() {
+    return customName;
+  }
+
+  public void setCustomName(String customName) {
+    this.customName = customName;
   }
 }
