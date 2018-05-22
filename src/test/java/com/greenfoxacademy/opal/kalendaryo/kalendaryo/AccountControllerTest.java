@@ -38,6 +38,7 @@ public class AccountControllerTest {
     MockitoAnnotations.initMocks(this);
     mock = MockMvcBuilders.standaloneSetup(accountController).build();
     headers.add("X-Client-Token", "Dm1IyAVxRrDrTQKtQH32fCvvyjY=");
+    headers.add("email", "test-email@gmail.com");
   }
 
   @Test
@@ -56,10 +57,18 @@ public class AccountControllerTest {
   }
 
   @Test
-  public void deleteAccountstatusShouldBe200WithClientToken() throws Exception {
+  public void deleteAccountstatusShouldBe400WithoutHeader() throws Exception {
     mock.perform(delete("/account")
             .contentType(contentType))
             .andExpect(status().is4xxClientError());
+  }
+
+  @Test
+  public void deleteAccountstatusShouldBe200WithClientToken() throws Exception {
+    mock.perform(delete("/account")
+            .contentType(contentType)
+            .headers(headers))
+            .andExpect(status().is2xxSuccessful());
   }
 }
 
