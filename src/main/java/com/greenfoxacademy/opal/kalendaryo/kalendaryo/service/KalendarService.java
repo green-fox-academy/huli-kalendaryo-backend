@@ -12,6 +12,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserReposito
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +36,18 @@ public class KalendarService {
         return kalendarRepository.findKalendarsByUser(user);
     }
 
-    public void setKalendar(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) {
-        Faker faker = new Faker();
-        kalendar.setName(faker.gameOfThrones().character());
+    public Kalendar setKalendarAttribute(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) {
+        String customName = kalendarFromAndroid.getCustomName();
+
+        if (StringUtils.isEmpty(customName)) {
+            Faker faker = new Faker();
+            kalendar.setName(faker.gameOfThrones().character());
+        } else {
+            kalendar.setName(kalendarFromAndroid.getCustomName());
+        }
         kalendar.setOutputGoogleAuthId(kalendarFromAndroid.getOutputGoogleAuthId());
         kalendar.setUser(kalUserRepository.findByClientToken(clientToken));
-        saveKalendar(kalendar);
+        return kalendar;
     }
 
     public void saveKalendar(Kalendar kalendar) {
@@ -72,4 +79,5 @@ public class KalendarService {
         }
         return GoogleCalendarIDsToString;
     }
+
 }
