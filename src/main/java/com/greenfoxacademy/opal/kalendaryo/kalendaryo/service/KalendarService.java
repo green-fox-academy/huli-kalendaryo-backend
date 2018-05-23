@@ -149,7 +149,7 @@ public class KalendarService {
             Long kalUserId = userByToken.getId();
             return kalUserId;
         } catch (NullPointerException ne) {
-            throw new ValidationException("No such user in the database");
+            throw new ValidationException("No such kalendar in the database");
         }
     }
 
