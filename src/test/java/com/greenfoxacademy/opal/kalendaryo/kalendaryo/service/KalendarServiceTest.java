@@ -123,7 +123,8 @@ public class KalendarServiceTest {
     when(googleAuthRepository.findByUser_IdAndEmail(anyLong(), anyString())).thenReturn(googleAuth);
     try {
       kalendarService.deleteKalendar("",1l);
-    } catch (ValidationException expected) {
+    } catch (ValidationException ex) {
+      ex.printStackTrace();
       fail();
     }
   }
