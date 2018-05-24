@@ -6,6 +6,7 @@ public class KalendarResponse {
     private String outputGoogleAuthId;
     private String outputCalendarId;
     private List<String> inputGoogleCalendars;
+    private long id;
 
     public KalendarResponse() {
     }
@@ -32,5 +33,13 @@ public class KalendarResponse {
 
     public void setInputGoogleCalendars(List<String> inputGoogleCalendars) {
         this.inputGoogleCalendars = inputGoogleCalendars;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

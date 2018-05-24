@@ -1,6 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers.KalendarController;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.exception.ValidationException;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserRepository;
@@ -33,7 +34,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.core.Is.is;
@@ -106,5 +111,42 @@ public class KalendarControllerTest {
                 .headers(headers))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.kalendars[0].outputCalendarId", is(expectedOutputAccountId)));
+    }
+
+    @Test
+    public void deleteKalendarSuccessfully() throws Exception {
+        mock.perform(delete("/calendar/1")
+                .contentType(contentType)
+                .headers(headers))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteKalendarWithWrongId() throws Exception {
+        doThrow(new ValidationException("No such kalendar in the database"))
+            .when(kalendarService).deleteKalendar(anyString(), anyLong());
+
+        mock.perform(delete("/calendar/2")
+            .contentType(contentType)
+            .headers(headers))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void deleteKalendarWithWrongToken() throws Exception {
+        doThrow(new ValidationException("No such user in the database"))
+            .when(kalendarService).deleteKalendar(anyString(), anyLong());
+
+        mock.perform(delete("/calendar/1")
+            .contentType(contentType)
+            .headers(headers))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void deleteKalendarBadRequestWithoutToken() throws Exception {
+        mock.perform(delete("/calendar/1")
+            .contentType(contentType))
+            .andExpect(status().isBadRequest());
     }
 }

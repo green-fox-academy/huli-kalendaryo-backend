@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface GoogleAuthRepository extends CrudRepository<GoogleAuth, String> {
 
     GoogleAuth findByEmail(String email);
+    GoogleAuth findByUser_Id(long id);
+    GoogleAuth findByUser_IdAndEmail(long id, String email);
 }

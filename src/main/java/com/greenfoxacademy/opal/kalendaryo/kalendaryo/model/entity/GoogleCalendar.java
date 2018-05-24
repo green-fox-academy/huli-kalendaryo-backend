@@ -1,5 +1,8 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,7 +10,7 @@ public class GoogleCalendar {
 
     @Id
     private String id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="google_auth_email")
     GoogleAuth googleAuth;
     @ManyToOne(cascade = CascadeType.ALL)

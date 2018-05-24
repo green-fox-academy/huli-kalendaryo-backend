@@ -1,5 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.exception.ValidationException;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization.AuthorizeKal;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarListResponse;
@@ -11,17 +12,14 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserReposito
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.GoogleCalendarService;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.KalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class KalendarController {
@@ -66,5 +64,17 @@ public class KalendarController {
         googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
         authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Transactional
+    @DeleteMapping(value = "/calendar/{id}")//rethink endpoint name, maybe use kalendar
+    public ResponseEntity deleteKalendar(@RequestHeader("X-Client-Token") String clientToken,
+                                         @PathVariable(name = "id") long kalendarId) {
+        try {
+            kalendarService.deleteKalendar(clientToken, kalendarId);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (ValidationException val) {
+            return new ResponseEntity(val.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }
