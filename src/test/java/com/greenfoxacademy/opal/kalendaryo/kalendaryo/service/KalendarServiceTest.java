@@ -13,9 +13,11 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization.Auth
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization.AuthorizeKal;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 
@@ -115,17 +117,19 @@ public class KalendarServiceTest {
   public void deleteGoogleCalendar_everythingIsOk() {
     Kalendar kalendar = new Kalendar();
     KalUser kalUser = new KalUser();
+    kalUser.setUserEmail("");
     kalendar.setUser(kalUser);
     GoogleAuth googleAuth = new GoogleAuth();
 
     when(kalendarRepository.findKalendarById(anyLong())).thenReturn(kalendar);
     when(kalUserRepository.findByClientToken(anyString())).thenReturn(kalUser);
     when(googleAuthRepository.findByUser_IdAndEmail(anyLong(), anyString())).thenReturn(googleAuth);
+
     try {
       kalendarService.deleteKalendar("",1l);
     } catch (ValidationException ex) {
       ex.printStackTrace();
-      fail();
+      fail(ex.getMessage());
     }
   }
 
