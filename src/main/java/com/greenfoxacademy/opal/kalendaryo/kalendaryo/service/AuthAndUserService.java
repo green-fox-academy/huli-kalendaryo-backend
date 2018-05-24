@@ -68,8 +68,11 @@ public class AuthAndUserService {
   }
 
   private void saveGoogleAuth(GoogleAuth googleAuth) throws IOException {
-    String accessToken = authorization.authorize(googleAuth.getAuthCode());
+    String tokens = authorization.authorize(googleAuth.getAuthCode());
+    String accessToken = tokens.split(" ")[0];
+    String refreshToken = tokens.split(" ")[1];
     googleAuth.setAccessToken(accessToken);
+    googleAuth.setRefreshToken(refreshToken);
     googleAuthRepository.save(googleAuth);
   }
 
@@ -128,7 +131,9 @@ public class AuthAndUserService {
   public GoogleAuth manageGoogleAuthForPostAuth(KalUser kalUser, GoogleAuth googleAuth) throws IOException {
     googleAuth.setUser(kalUser);
     if (checkIfGoogleAuthExist(googleAuth, kalUser.getId())) {
-      googleAuth = googleAuthRepository.findByEmailAndUser_Id(googleAuth.getEmail(), kalUser.getId());
+      GoogleAuth existingGoogleAuth = googleAuthRepository.findByEmailAndUser_Id(googleAuth.getEmail(), kalUser.getId());
+      googleAuth.setId(existingGoogleAuth.getId());
+      saveGoogleAuth(googleAuth);
       return googleAuth;
     }
     saveGoogleAuth(googleAuth);
