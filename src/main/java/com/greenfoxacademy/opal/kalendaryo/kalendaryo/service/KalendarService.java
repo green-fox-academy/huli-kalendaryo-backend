@@ -93,30 +93,20 @@ public class KalendarService {
     }
 
 
-    public void deleteKalendar(String clientToken, long id) throws ValidationException {
-        if (validateUser(clientToken, id)) {
-            deleteGoogleCalendar(id);
-            deleteKalendarById(id);
-        } else {
-            throw new ValidationException("The validation process failed");
-        }
+    public void deleteKalendar(String clientToken, long kalendarId) throws ValidationException {
+        validateUser(clientToken, kalendarId);
+
+        deleteGoogleCalendar(kalendarId);
+        deleteKalendarById(kalendarId);
+
     }
 
-    private void deleteGoogleCalendar(long id) throws ValidationException {
-        String accesToken = getAccessTokenByKalendarId(id);
-        String calendarId = getCalendarIdByKalendarId(id);
-        authorizeKal.deleteCalendar(accesToken, calendarId);
+    private void deleteGoogleCalendar(long kalendarId) throws ValidationException {
+        String accessToken = getAccessTokenByKalendarId(kalendarId);
+        String calendarId = getCalendarIdByKalendarId(kalendarId);
+        authorizeKal.deleteCalendar(accessToken, calendarId);
     }
 
-    private String getCalendarIdByKalendarId(long id) throws ValidationException {
-        try {
-            Kalendar kalendarToDelete = kalendarRepository.findKalendarById(id);
-            String googleCalendarId = kalendarToDelete.getGoogleCalendarId();
-            return googleCalendarId;
-        } catch (NullPointerException ne) {
-            throw new ValidationException("No such Google calendar id in the database");
-        }
-    }
 
     private String getAccessTokenByKalendarId(long id) throws ValidationException {
         try {
@@ -132,35 +122,50 @@ public class KalendarService {
         }
     }
 
+    private String getCalendarIdByKalendarId(long id) throws ValidationException {
+        try {
+            Kalendar kalendarToDelete = kalendarRepository.findKalendarById(id);
+            String googleCalendarId = kalendarToDelete.getGoogleCalendarId();
+            return googleCalendarId;
+        } catch (NullPointerException ne) {
+            throw new ValidationException("No such Google calendar id in the database");
+        }
+    }
     private void deleteKalendarById(long id) {
         googleCalendarRepository.deleteAllByKalendar_Id(id);
     }
 
-    private boolean validateUser(String clientToken, long kalendarId) throws ValidationException {
-        Long kalUserId = getKalUserId(clientToken);
-        Long userId = getUserIdOfKalendar(kalendarId);
+    private void validateUser(String clientToken, long kalendarId) throws ValidationException {
+        Long userIdByClientToken = getUserIdByClientToken(clientToken);
+        Long userIdByKalendarId = getUserIdByKalendarId(kalendarId);
 
-        return kalUserId == userId;
+        if (userIdByClientToken != userIdByKalendarId) {
+            throw new ValidationException("The kalendar does not belong to the user, " +
+                "clientToken=" + clientToken + " kalendarId=" + kalendarId);
+        };
     }
 
-    private long getKalUserId(String clientToken) throws ValidationException {
+    private long getUserIdByClientToken(String clientToken) throws ValidationException {
         try {
-            KalUser userByToken = kalUserRepository.findByClientToken(clientToken);
-            Long kalUserId = userByToken.getId();
-            return kalUserId;
+            KalUser kalUserByClientToken = kalUserRepository.findByClientToken(clientToken);
+            return kalUserByClientToken.getId();
         } catch (NullPointerException ne) {
-            throw new ValidationException("No such kalendar in the database");
+            throw new ValidationException("User not found for clientToken=" + clientToken);
         }
     }
 
-    private long getUserIdOfKalendar(long kalendarId) throws ValidationException {
+    private long getUserIdByKalendarId(long kalendarId) throws ValidationException {
         try {
-            Kalendar deletableKalendar = kalendarRepository.findKalendarById(kalendarId);
-            KalUser userOfTheKalendar = deletableKalendar.getUser();
-            Long userId = userOfTheKalendar.getId();
-            return userId;
+            Kalendar kalendar = kalendarRepository.findKalendarById(kalendarId);
+            KalUser user = kalendar.getUser();
+            if (user != null) {
+                return user.getId();
+            } else {
+                throw new ValidationException("User not found for kalendarId=" + kalendarId);
+            }
+
         } catch (NullPointerException ne) {
-            throw new ValidationException("No such kalendar in the database");
+            throw new ValidationException("Kalendar not found for kalendarId=" + kalendarId);
         }
     }
 }

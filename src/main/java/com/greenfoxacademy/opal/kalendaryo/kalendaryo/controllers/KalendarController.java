@@ -67,14 +67,14 @@ public class KalendarController {
     }
 
     @Transactional
-    @DeleteMapping(value = "/calendar/{id}")
-    public ResponseEntity deleteCalendar(@RequestHeader("X-Client-Token") String clientToken,
-                                         @PathVariable(name = "id") long id) {
+    @DeleteMapping(value = "/calendar/{id}")//rethink endpoint name, maybe use kalendar
+    public ResponseEntity deleteKalendar(@RequestHeader("X-Client-Token") String clientToken,
+                                         @PathVariable(name = "id") long kalendarId) {
         try {
-            kalendarService.deleteKalendar(clientToken, id);
+            kalendarService.deleteKalendar(clientToken, kalendarId);
             return new ResponseEntity(HttpStatus.OK);
         } catch (ValidationException val) {
-            return new ResponseEntity<String>(val.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(val.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }
