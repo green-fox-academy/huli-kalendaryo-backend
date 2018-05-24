@@ -93,11 +93,11 @@ public class KalendarServiceTest {
 
   @Test
   public void deleteGoogleCalendar_wrongClientToken() {
-    String expectedMessage = "No such user in the database";
+    String expectedMessage = "User not found for clientToken=";
     doThrow(new NullPointerException()).when(kalUserRepository).findByClientToken(anyString());
 
     try {
-      kalendarService.deleteKalendar("",1l);
+      kalendarService.deleteKalendar("",2);
     } catch (ValidationException expected) {
       assertEquals(expectedMessage, expected.getMessage());
     }
@@ -105,11 +105,14 @@ public class KalendarServiceTest {
 
   @Test
   public void deleteGoogleCalendar_notExistingKalendar() {
-    String expectedMessage = "No such kalendar in the database";
-    doThrow(new NullPointerException()).when(kalendarRepository).findKalendarById(anyLong());
+    String expectedMessage = "Kalendar not found for kalendarId=2";
+    KalUser kalUser = new KalUser();
+
+    doThrow(new NullPointerException()).when(kalendarRepository).findKalendarById(2);
+    when(kalUserRepository.findByClientToken(anyString())).thenReturn(kalUser);
 
     try {
-      kalendarService.deleteKalendar("",1l);
+      kalendarService.deleteKalendar("",2);
     } catch (ValidationException expected) {
       assertEquals(expectedMessage, expected.getMessage());
     }
