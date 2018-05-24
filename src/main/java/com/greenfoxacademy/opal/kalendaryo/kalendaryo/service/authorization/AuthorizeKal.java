@@ -79,7 +79,7 @@ public class AuthorizeKal implements Authorization{
                         "https://huli-kalendaryo-android.firebaseapp.com/__/auth/handler")
                         .execute();
 
-        return tokenResponse.getAccessToken();
+        return tokenResponse.getAccessToken() + " " + tokenResponse.getRefreshToken();
     }
 
     public void createGoogleCalendarUnderAccount(KalendarFromAndroid android, Kalendar kalendar) {
