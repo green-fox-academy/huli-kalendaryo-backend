@@ -12,6 +12,7 @@ import java.util.List;
 public interface GoogleAuthRepository extends CrudRepository<GoogleAuth, String> {
 
     GoogleAuth findByEmail(String email);
-    GoogleAuth findByEmailAndUser_Id(String email, Long Id);
+    GoogleAuth findByUser_IdAndEmail(Long Id, String email);
     List<GoogleAuth> findAllByUser(KalUser user);
+    GoogleAuth findByUser_Id(long id);
 }
