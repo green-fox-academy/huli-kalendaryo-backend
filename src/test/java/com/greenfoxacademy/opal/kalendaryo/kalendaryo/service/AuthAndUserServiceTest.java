@@ -64,20 +64,20 @@ public class AuthAndUserServiceTest {
 
   @Test
   public void createPostAuthResponse_testIfResponseIsCreated() throws ValidationException{
-    String email = "test@email.com";
-    String authCode = "testCode";
-    String displayName = "Test Elek";
-    KalUser kalUser = new KalUser();
-    String accesToken = "testToken";
-    GoogleAuth googleAuth = new GoogleAuth(email, authCode, displayName, kalUser, accesToken);
+    GoogleAuth googleAuth = new GoogleAuth("test@email.com", "testCode", "Test Elek", new KalUser(), "testToken");
     assertTrue("check if created", authAndUserService.createPostAuthResponse("", googleAuth) != null);
   }
 
-  @Test
-  public void createPostAuthResponse_testKalUserClientToken() throws ValidationException{
-    String clientToken = "";
+  @Test(expected = ValidationException.class)
+  public void createPostAuthResponse_noEmail() throws ValidationException{
     GoogleAuth googleAuth = new GoogleAuth();
     assertTrue("check if userId is added", authAndUserService.createPostAuthResponse("", googleAuth).getClientToken() != null);
+  }
+
+  @Test
+  public void setKalUserForPostAuth_noToken(){
+    GoogleAuth googleAuth = new GoogleAuth();
+    assertTrue("googleAuth is returned", authAndUserService.setKalUserForPostAuth("", googleAuth) != null);
   }
 
   @Test
