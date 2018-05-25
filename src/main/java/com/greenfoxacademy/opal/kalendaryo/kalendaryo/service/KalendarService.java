@@ -46,13 +46,13 @@ public class KalendarService {
 
     public KalendarListResponse makeKalendarListResponse(String clientToken) {
         KalendarListResponse kalendarListResponse = new KalendarListResponse();
-        KalUser user = kalUserRepository.findByClientToken(clientToken);
-        List<Kalendar> list = findKalendars(user);
-        kalendarListResponse.setKalendars(setKalendarResponse(list));
+        List<KalendarResponse> kalendarResponses = setKalendarResponse(clientToken);
+        kalendarListResponse.setKalendars(kalendarResponses);
         return kalendarListResponse;
     }
 
-    public List<Kalendar> findKalendars(KalUser user) {
+    public List<Kalendar> findKalendars(String clientToken) {
+        KalUser user = kalUserRepository.findByClientToken(clientToken);
         return kalendarRepository.findKalendarsByUser(user);
     }
 
@@ -80,7 +80,8 @@ public class KalendarService {
         saveKalendar(kalendar);
     }
 
-    public List<KalendarResponse> setKalendarResponse(List<Kalendar> kalendars) {
+    public List<KalendarResponse> setKalendarResponse(String clientToken) {
+        List<Kalendar> kalendars = findKalendars(clientToken);
         List<KalendarResponse> kalendarResponses = new ArrayList<>();
         for (int i = 0; i < kalendars.size(); i++) {
             KalendarResponse kalendarResponse = new KalendarResponse();
