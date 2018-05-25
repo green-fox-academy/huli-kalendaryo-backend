@@ -155,4 +155,11 @@ public class AuthAndUserService {
   public boolean checkIfGoogleAuthExist(GoogleAuth googleAuth, Long kalUserId) {
     return googleAuthRepository.findByUser_IdAndEmail(kalUserId, googleAuth.getEmail()) != null;
   }
+
+  public String findAccesTokenByUserId(long id) {
+      GoogleAuth googleAuth = googleAuthRepository.findByUser_Id(id);
+      String accesToken = googleAuth.getAccessToken();
+
+      return accesToken;
+  }
 }
