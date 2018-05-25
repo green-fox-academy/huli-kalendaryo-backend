@@ -1,6 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.exception.ValidationException;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.UserResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.AuthAndUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,8 @@ public class AccountController {
   @GetMapping(value = "/account")
   public ResponseEntity getGoogleAccounts(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
     try {
-      return ResponseEntity.status(200).body(authAndUserService.createUserResponseForGetAccounts(clientToken));
+      UserResponse userResponse = authAndUserService.createUserResponseForGetAccounts(clientToken);
+      return ResponseEntity.status(200).body(userResponse);
     } catch (ValidationException val) {
       return ResponseEntity.status(400).body(val.getMessage());
     }

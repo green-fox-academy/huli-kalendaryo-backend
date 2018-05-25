@@ -11,5 +11,7 @@ import java.util.List;
 public interface KalendarRepository extends CrudRepository<Kalendar,Long> {
 
     List<Kalendar> findKalendarsByUser(KalUser kalUser);
+    void deleteKalendarById(long id);
+    Kalendar findKalendarById(long id);
 
 }

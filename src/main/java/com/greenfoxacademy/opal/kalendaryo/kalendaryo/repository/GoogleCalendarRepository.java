@@ -11,4 +11,5 @@ import java.util.List;
 public interface GoogleCalendarRepository extends CrudRepository<GoogleCalendar, String> {
 
     List<GoogleCalendar> findGoogleCalendarsByKalendar(Kalendar kalendar);
+    void deleteAllByKalendar_Id(long id);
 }

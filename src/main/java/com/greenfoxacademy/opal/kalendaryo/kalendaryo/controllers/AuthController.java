@@ -32,7 +32,8 @@ public class AuthController {
   @PostMapping("/auth")
   public ResponseEntity postAuth(@RequestBody GoogleAuth googleAuth, @RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
     try {
-      return ResponseEntity.status(200).body(authAndUserService.createPostAuthResponse(clientToken, googleAuth));
+      PostAuthResponse postAuthResponse = authAndUserService.createPostAuthResponse(clientToken, googleAuth);
+      return ResponseEntity.status(200).body(postAuthResponse);
     } catch (ValidationException val) {
       return ResponseEntity.status(400).body(val.getMessage());
     }
