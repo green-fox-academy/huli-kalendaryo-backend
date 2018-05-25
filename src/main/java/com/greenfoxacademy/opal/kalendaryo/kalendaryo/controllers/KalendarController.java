@@ -45,10 +45,7 @@ public class KalendarController {
     @GetMapping(value = "/calendar")
     public ResponseEntity getKalendarList(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
         if (!request.getHeader("X-Client-Token").equals("")) {
-            KalendarListResponse kalendarListResponse = new KalendarListResponse();
-            KalUser user = kalUserRepository.findByClientToken(clientToken);
-            List<Kalendar> list = kalendarService.findKalendars(user);
-            kalendarListResponse.setKalendars(kalendarService.setKalendarResponse(list));
+            KalendarListResponse kalendarListResponse = kalendarService.makeKalendarListResponse(clientToken);
             return new ResponseEntity<>(kalendarListResponse, HttpStatus.OK);
         }
         return new ResponseEntity<String>("Client token is missing or invalid", HttpStatus.UNAUTHORIZED);

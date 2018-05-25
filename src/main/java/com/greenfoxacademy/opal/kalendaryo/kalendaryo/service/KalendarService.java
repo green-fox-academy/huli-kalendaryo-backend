@@ -4,6 +4,7 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 import com.github.javafaker.Faker;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.exception.ValidationException;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarListResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleAuth;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleCalendar;
@@ -42,6 +43,14 @@ public class KalendarService {
 
     @Autowired
     GoogleAuthRepository googleAuthRepository;
+
+    public KalendarListResponse makeKalendarListResponse(String clientToken) {
+        KalendarListResponse kalendarListResponse = new KalendarListResponse();
+        KalUser user = kalUserRepository.findByClientToken(clientToken);
+        List<Kalendar> list = findKalendars(user);
+        kalendarListResponse.setKalendars(setKalendarResponse(list));
+        return kalendarListResponse;
+    }
 
     public List<Kalendar> findKalendars(KalUser user) {
         return kalendarRepository.findKalendarsByUser(user);
