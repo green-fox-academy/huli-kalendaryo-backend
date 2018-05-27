@@ -1,6 +1,7 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo;
 
 import org.flywaydb.core.Flyway;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,18 +13,22 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("dev")
 public class KalendaryoApplication implements CommandLineRunner {
 
+	@Value("${RDS_USERNAME}")
+	private String username;
+
+	@Value("${RDS_PASSWORD}")
+	private String password;
+
+	@Value("jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}")
+	private String url;
+
 	public static void main(String[] args) {
 		SpringApplication.run(KalendaryoApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-
 		Flyway flyway = new Flyway();
-		String url = "jdbc:mysql://" + System.getenv("RDS_HOSTNAME") + ":" + System.getenv("RDS_PORT") + "/" + System.getenv("RDS_DB_NAME");
-		String username = System.getenv("RDS_USERNAME");
-		String password = System.getenv("RDS_PASSWORD");
-
 		flyway.setDataSource(url, username, password);
 		flyway.migrate();
 	}
