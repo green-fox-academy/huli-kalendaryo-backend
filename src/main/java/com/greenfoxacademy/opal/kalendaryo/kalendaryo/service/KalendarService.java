@@ -19,6 +19,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization.Auth
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,14 +45,37 @@ public class KalendarService {
     @Autowired
     GoogleAuthRepository googleAuthRepository;
 
+    @Autowired
+    GoogleCalendarService googleCalendarService;
+
+    public void createNewKalendar(String clientToken, KalendarFromAndroid kalendarFromAndroid) {
+        Kalendar kalendar = new Kalendar();
+        googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
+        authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar);
+    }
+
     public KalendarListResponse makeKalendarListResponse(String clientToken) {
         KalendarListResponse kalendarListResponse = new KalendarListResponse();
-        List<KalendarResponse> kalendarResponses = setKalendarResponse(clientToken);
-        kalendarListResponse.setKalendars(kalendarResponses);
+        List<KalendarResponse> kalendarResponse = setKalendarResponse(clientToken);
+        kalendarListResponse.setKalendars(kalendarResponse);
         return kalendarListResponse;
     }
 
-    public List<Kalendar> findKalendars(String clientToken) {
+    private List<KalendarResponse> setKalendarResponse(String clientToken) {
+        List<Kalendar> kalendars = findKalendars(clientToken);
+        List<KalendarResponse> kalendarResponses = new ArrayList<>();
+        for (int i = 0; i < kalendars.size(); i++) {
+            KalendarResponse kalendarResponse = new KalendarResponse();
+            kalendarResponse.setOutputGoogleAuthId(kalendars.get(i).getOutputGoogleAuthId());
+            kalendarResponse.setOutputCalendarId(kalendars.get(i).getName());
+            kalendarResponse.setId(kalendars.get(i).getId());
+            kalendarResponse.setInputGoogleCalendars((setToStringGoogleCalendars(googleCalendarRepository.findGoogleCalendarsByKalendar(kalendars.get(i)))));
+            kalendarResponses.add(kalendarResponse);
+        }
+        return kalendarResponses;
+    }
+
+    private List<Kalendar> findKalendars(String clientToken) {
         KalUser user = kalUserRepository.findByClientToken(clientToken);
         return kalendarRepository.findKalendarsByUser(user);
     }
@@ -80,20 +104,6 @@ public class KalendarService {
         saveKalendar(kalendar);
     }
 
-    public List<KalendarResponse> setKalendarResponse(String clientToken) {
-        List<Kalendar> kalendars = findKalendars(clientToken);
-        List<KalendarResponse> kalendarResponses = new ArrayList<>();
-        for (int i = 0; i < kalendars.size(); i++) {
-            KalendarResponse kalendarResponse = new KalendarResponse();
-            kalendarResponse.setOutputGoogleAuthId(kalendars.get(i).getOutputGoogleAuthId());
-            kalendarResponse.setOutputCalendarId(kalendars.get(i).getName());
-            kalendarResponse.setId(kalendars.get(i).getId());
-            kalendarResponse.setInputGoogleCalendars((setToStringGoogleCalendars(googleCalendarRepository.findGoogleCalendarsByKalendar(kalendars.get(i)))));
-            kalendarResponses.add(kalendarResponse);
-        }
-        return kalendarResponses;
-    }
-
     public List<String> setToStringGoogleCalendars(List<GoogleCalendar> googleCalendars) {
         List<String> GoogleCalendarIDsToString = new ArrayList<>();
         for (int i = 0; i < googleCalendars.size(); i++) {
@@ -102,13 +112,11 @@ public class KalendarService {
         return GoogleCalendarIDsToString;
     }
 
-
     public void deleteKalendar(String clientToken, long kalendarId) throws ValidationException {
         validateUser(clientToken, kalendarId);
 
         deleteGoogleCalendar(kalendarId);
         deleteKalendarById(kalendarId);
-
     }
 
     private void deleteGoogleCalendar(long kalendarId) throws ValidationException {
@@ -118,10 +126,9 @@ public class KalendarService {
     }
 
 
-    private String getAccessTokenByKalendarId(long id) throws ValidationException {
+    private String getAccessTokenByKalendarId(long kalendarId) throws ValidationException {
         try {
-            Kalendar kalendarToDelete = kalendarRepository.findKalendarById(id);
-            KalUser kalUser = kalendarToDelete.getUser();
+            KalUser kalUser = getKalUserByKalendarId(kalendarId);
             long userId = kalUser.getId();
             String userEmail = kalUser.getUserEmail();
             GoogleAuth googleAuth = googleAuthRepository.findByUser_IdAndEmail(userId, userEmail);
@@ -166,8 +173,7 @@ public class KalendarService {
 
     private long getUserIdByKalendarId(long kalendarId) throws ValidationException {
         try {
-            Kalendar kalendar = kalendarRepository.findKalendarById(kalendarId);
-            KalUser user = kalendar.getUser();
+            KalUser user = getKalUserByKalendarId(kalendarId);
             if (user != null) {
                 return user.getId();
             } else {
@@ -177,5 +183,10 @@ public class KalendarService {
         } catch (NullPointerException ne) {
             throw new ValidationException("Kalendar not found for kalendarId=" + kalendarId);
         }
+    }
+
+    private KalUser getKalUserByKalendarId(long kalendarId) {
+        Kalendar kalendar = kalendarRepository.findKalendarById(kalendarId);
+        return kalendar.getUser();
     }
 }

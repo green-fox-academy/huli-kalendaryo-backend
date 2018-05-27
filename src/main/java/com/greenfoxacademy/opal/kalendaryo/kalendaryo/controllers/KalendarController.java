@@ -57,9 +57,7 @@ public class KalendarController {
         if (clientToken == null) {
             return ResponseEntity.status(401).body("Client token is missing or invalid");
         }
-        Kalendar kalendar = new Kalendar();
-        googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
-        authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar);
+        kalendarService.createNewKalendar(clientToken, kalendarFromAndroid);
         return new ResponseEntity(HttpStatus.OK);
     }
 
