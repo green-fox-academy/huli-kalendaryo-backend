@@ -27,6 +27,13 @@ import java.util.List;
 @Service
 public class KalendarService {
 
+    private static final String USER_NOT_FOUND_TOKEN = "User not found for clientToken=";
+    private static final String USER_HAS_NO_ID = "ID not found for user with this clientToken=";
+    private static final String NO_KALENDAR_FOR_USER = "Kalendar not found for user with this clientToken=";
+    private static final String NO_GOOGLE_CALENDAR_FOR_KALENDAR = "Google calendar not found for kalendar with ID=";
+    private static final String NO_USER_FOR_KALENDAR_ID = "User not found for kalendarId=";
+    private static final String NO_KALENDAR_FOR_KALENDAR_ID = "Kalendar not found for kalendarId=";
+
     @Autowired
     KalUserRepository kalUserRepository;
 
@@ -48,20 +55,20 @@ public class KalendarService {
     @Autowired
     GoogleCalendarService googleCalendarService;
 
-    public void createNewKalendar(String clientToken, KalendarFromAndroid kalendarFromAndroid) {
+    public void createNewKalendar(String clientToken, KalendarFromAndroid kalendarFromAndroid) throws ValidationException {
         Kalendar kalendar = new Kalendar();
         googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
         authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar);
     }
 
-    public KalendarListResponse makeKalendarListResponse(String clientToken) {
+    public KalendarListResponse makeKalendarListResponse(String clientToken) throws ValidationException {
         KalendarListResponse kalendarListResponse = new KalendarListResponse();
         List<KalendarResponse> kalendarResponse = setKalendarResponse(clientToken);
         kalendarListResponse.setKalendars(kalendarResponse);
         return kalendarListResponse;
     }
 
-    private List<KalendarResponse> setKalendarResponse(String clientToken) {
+    private List<KalendarResponse> setKalendarResponse(String clientToken) throws ValidationException {
         List<Kalendar> kalendars = findKalendars(clientToken);
         List<KalendarResponse> kalendarResponses = new ArrayList<>();
         for (int i = 0; i < kalendars.size(); i++) {
@@ -69,18 +76,30 @@ public class KalendarService {
             kalendarResponse.setOutputGoogleAuthId(kalendars.get(i).getOutputGoogleAuthId());
             kalendarResponse.setOutputCalendarId(kalendars.get(i).getName());
             kalendarResponse.setId(kalendars.get(i).getId());
-            kalendarResponse.setInputGoogleCalendars((setToStringGoogleCalendars(googleCalendarRepository.findGoogleCalendarsByKalendar(kalendars.get(i)))));
+            kalendarResponse.setInputGoogleCalendars((setToStringGoogleCalendars(findGoogleCalendarsByKalendar(kalendars.get(i)))));
             kalendarResponses.add(kalendarResponse);
         }
         return kalendarResponses;
     }
 
-    private List<Kalendar> findKalendars(String clientToken) {
-        KalUser user = kalUserRepository.findByClientToken(clientToken);
-        return kalendarRepository.findKalendarsByUser(user);
+    private List<GoogleCalendar> findGoogleCalendarsByKalendar(Kalendar kalendar) throws ValidationException {
+        try {
+            return googleCalendarRepository.findGoogleCalendarsByKalendar(kalendar);
+        } catch (NullPointerException ne) {
+            throw new ValidationException(NO_GOOGLE_CALENDAR_FOR_KALENDAR + kalendar.getId());
+        }
     }
 
-    public Kalendar setKalendarAttribute(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) {
+    private List<Kalendar> findKalendars(String clientToken) throws ValidationException {
+        try {
+            KalUser user = getKalUserByClientToken(clientToken);
+            return kalendarRepository.findKalendarsByUser(user);
+        } catch (NullPointerException ne) {
+            throw new ValidationException(NO_KALENDAR_FOR_USER + clientToken);
+        }
+    }
+
+    public Kalendar setKalendarAttribute(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) throws ValidationException {
         String customName = kalendarFromAndroid.getCustomName();
 
         if (StringUtils.isEmpty(customName)) {
@@ -90,7 +109,7 @@ public class KalendarService {
             kalendar.setName(kalendarFromAndroid.getCustomName());
         }
         kalendar.setOutputGoogleAuthId(kalendarFromAndroid.getOutputGoogleAuthId());
-        kalendar.setUser(kalUserRepository.findByClientToken(clientToken));
+        kalendar.setUser(getKalUserByClientToken(clientToken));
         return kalendar;
     }
 
@@ -142,8 +161,7 @@ public class KalendarService {
     private String getCalendarIdByKalendarId(long id) throws ValidationException {
         try {
             Kalendar kalendarToDelete = kalendarRepository.findKalendarById(id);
-            String googleCalendarId = kalendarToDelete.getGoogleCalendarId();
-            return googleCalendarId;
+            return kalendarToDelete.getGoogleCalendarId();
         } catch (NullPointerException ne) {
             throw new ValidationException("No such Google calendar id in the database");
         }
@@ -164,29 +182,44 @@ public class KalendarService {
 
     private long getUserIdByClientToken(String clientToken) throws ValidationException {
         try {
-            KalUser kalUserByClientToken = kalUserRepository.findByClientToken(clientToken);
+            KalUser kalUserByClientToken = getKalUserByClientToken(clientToken);
             return kalUserByClientToken.getId();
         } catch (NullPointerException ne) {
-            throw new ValidationException("User not found for clientToken=" + clientToken);
+            throw new ValidationException(USER_HAS_NO_ID + clientToken);
         }
     }
 
     private long getUserIdByKalendarId(long kalendarId) throws ValidationException {
+        KalUser user = getKalUserByKalendarId(kalendarId);
         try {
-            KalUser user = getKalUserByKalendarId(kalendarId);
-            if (user != null) {
-                return user.getId();
-            } else {
-                throw new ValidationException("User not found for kalendarId=" + kalendarId);
-            }
-
+            return user.getId();
         } catch (NullPointerException ne) {
-            throw new ValidationException("Kalendar not found for kalendarId=" + kalendarId);
+            throw new ValidationException(USER_HAS_NO_ID + user.getClientToken());
         }
     }
 
-    private KalUser getKalUserByKalendarId(long kalendarId) {
-        Kalendar kalendar = kalendarRepository.findKalendarById(kalendarId);
-        return kalendar.getUser();
+    private KalUser getKalUserByKalendarId(long kalendarId) throws ValidationException {
+        try {
+            Kalendar kalendar = findKalendarById(kalendarId);
+            return kalendar.getUser();
+        } catch (NullPointerException ne) {
+            throw new ValidationException(NO_USER_FOR_KALENDAR_ID + kalendarId);
+        }
+    }
+
+    private Kalendar findKalendarById(long kalendarId) throws ValidationException {
+        try {
+            return kalendarRepository.findKalendarById(kalendarId);
+        } catch (NullPointerException ne) {
+            throw new ValidationException(NO_KALENDAR_FOR_KALENDAR_ID + kalendarId);
+        }
+    }
+
+    private KalUser getKalUserByClientToken(String clientToken) throws ValidationException {
+        try {
+            return kalUserRepository.findByClientToken(clientToken);
+        } catch (NullPointerException ne) {
+            throw new ValidationException(USER_NOT_FOUND_TOKEN + clientToken);
+        }
     }
 }
