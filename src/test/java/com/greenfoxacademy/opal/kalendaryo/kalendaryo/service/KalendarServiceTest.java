@@ -57,7 +57,7 @@ public class KalendarServiceTest {
   }
 
   @Test
-  public void setKalendarAttribute_customNameProvided() {
+  public void setKalendarAttribute_customNameProvided() throws ValidationException {
     String customName = "Hello";
     KalendarFromAndroid kalendarFromAndroid = generateModelFromName(customName);
 
@@ -67,7 +67,7 @@ public class KalendarServiceTest {
   }
 
   @Test
-  public void setKalendarAttribute_customNameMissing() {
+  public void setKalendarAttribute_customNameMissing() throws ValidationException {
     String customName = "";
     KalendarFromAndroid kalendarFromAndroid = generateModelFromName(customName);
 
@@ -77,7 +77,7 @@ public class KalendarServiceTest {
   }
 
   @Test
-  public void setKalendarAttribute_customNameIsNull() {
+  public void setKalendarAttribute_customNameIsNull() throws ValidationException {
     String customName = null;
     KalendarFromAndroid kalendarFromAndroid = generateModelFromName(customName);
 
@@ -120,6 +120,7 @@ public class KalendarServiceTest {
     kalUser.setUserEmail("");
     kalendar.setUser(kalUser);
     GoogleAuth googleAuth = new GoogleAuth();
+    googleAuth.setAccessToken("fjhejecv43n3s");
 
     when(kalendarRepository.findKalendarById(anyLong())).thenReturn(kalendar);
     when(kalUserRepository.findByClientToken(anyString())).thenReturn(kalUser);

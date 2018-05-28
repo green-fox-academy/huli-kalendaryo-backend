@@ -2,6 +2,7 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers.KalendarController;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.exception.ValidationException;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarListResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserRepository;
@@ -104,7 +105,13 @@ public class KalendarControllerTest {
         KalendarResponse expectedKalendarResponse = new KalendarResponse();
         expectedKalendarResponse.setOutputCalendarId(expectedOutputAccountId);
 
-        when(kalendarService.setKalendarResponse(anyList())).thenReturn(Arrays.asList(expectedKalendarResponse));
+        List<KalendarResponse> kalendarResponses = new ArrayList<>();
+        kalendarResponses.add(expectedKalendarResponse);
+
+        KalendarListResponse kalendarListResponse = new KalendarListResponse();
+        kalendarListResponse.setKalendars(kalendarResponses);
+
+        when(kalendarService.makeKalendarListResponse(anyString())).thenReturn(kalendarListResponse);
 
         mock.perform(get("/calendar")
                 .contentType(contentType)
