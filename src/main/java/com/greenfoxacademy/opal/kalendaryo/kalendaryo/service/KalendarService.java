@@ -6,6 +6,7 @@ import com.greenfoxacademy.opal.kalendaryo.kalendaryo.exception.ValidationExcept
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarListResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarResponse;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.builder.KalendarResponseBuilder;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleAuth;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.GoogleCalendar;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.entity.Kalendar;
@@ -63,7 +64,7 @@ public class KalendarService {
         authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar);
     }
 
-    public KalendarListResponse makeKalendarListResponse(String clientToken) throws ValidationException {
+    public KalendarListResponse getKalendarsByClientToken(String clientToken) throws ValidationException {
         KalendarListResponse kalendarListResponse = new KalendarListResponse();
         List<KalendarResponse> kalendarResponse = setKalendarResponse(clientToken);
         kalendarListResponse.setKalendars(kalendarResponse);
@@ -74,11 +75,18 @@ public class KalendarService {
         List<Kalendar> kalendars = findKalendars(clientToken);
         List<KalendarResponse> kalendarResponses = new ArrayList<>();
         for (int i = 0; i < kalendars.size(); i++) {
-            KalendarResponse kalendarResponse = new KalendarResponse();
-            kalendarResponse.setOutputGoogleAuthId(kalendars.get(i).getOutputGoogleAuthId());
-            kalendarResponse.setOutputCalendarId(kalendars.get(i).getName());
-            kalendarResponse.setId(kalendars.get(i).getId());
-            kalendarResponse.setInputGoogleCalendars((setToStringGoogleCalendars(findGoogleCalendarsByKalendar(kalendars.get(i)))));
+            Kalendar actualKalendar = kalendars.get(i);
+
+            List<GoogleCalendar> googleCalendars = findGoogleCalendarsByKalendar(actualKalendar);
+            List<String> namesOfGoogleCalendars = setToStringGoogleCalendars(googleCalendars);
+
+            KalendarResponse kalendarResponse = new KalendarResponseBuilder()
+                .setOutputCalendarId(actualKalendar.getName())
+                .setOutputGoogleAuthId(actualKalendar.getOutputGoogleAuthId())
+                .setInputGoogleCalendars(namesOfGoogleCalendars)
+                .setId(actualKalendar.getId())
+                .build();
+            
             kalendarResponses.add(kalendarResponse);
         }
         return kalendarResponses;

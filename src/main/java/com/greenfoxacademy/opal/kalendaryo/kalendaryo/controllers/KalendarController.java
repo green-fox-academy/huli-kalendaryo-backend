@@ -45,7 +45,7 @@ public class KalendarController {
     @GetMapping(value = "/calendar")
     public ResponseEntity getKalendarList(@RequestHeader("X-Client-Token") String clientToken) {
         try {
-            KalendarListResponse kalendarListResponse = kalendarService.makeKalendarListResponse(clientToken);
+            KalendarListResponse kalendarListResponse = kalendarService.getKalendarsByClientToken(clientToken);
             return new ResponseEntity<>(kalendarListResponse, HttpStatus.OK);
         } catch (ValidationException val) {
             return new ResponseEntity(val.getMessage(), HttpStatus.BAD_REQUEST);
