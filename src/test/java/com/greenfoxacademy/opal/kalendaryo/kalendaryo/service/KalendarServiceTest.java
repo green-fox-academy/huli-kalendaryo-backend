@@ -21,6 +21,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.KalendarService.NO_KALENDAR_FOR_KALENDAR_ID;
+import static com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.KalendarService.USER_NOT_FOUND_TOKEN;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.doThrow;
@@ -88,19 +90,17 @@ public class KalendarServiceTest {
 
   @Test
   public void deleteGoogleCalendar_wrongClientToken() {
-    String expectedMessage = "User not found for clientToken=";
     doThrow(new NullPointerException()).when(kalUserRepository).findByClientToken(anyString());
 
     try {
       kalendarService.deleteKalendar("",2);
     } catch (ValidationException expected) {
-      assertEquals(expectedMessage, expected.getMessage());
+      assertEquals(USER_NOT_FOUND_TOKEN, expected.getMessage());
     }
   }
 
   @Test
   public void deleteGoogleCalendar_notExistingKalendar() {
-    String expectedMessage = "Kalendar not found for kalendarId=2";
     KalUser kalUser = new KalUser();
 
     doThrow(new NullPointerException()).when(kalendarRepository).findKalendarById(2);
@@ -109,7 +109,7 @@ public class KalendarServiceTest {
     try {
       kalendarService.deleteKalendar("",2);
     } catch (ValidationException expected) {
-      assertEquals(expectedMessage, expected.getMessage());
+      assertEquals(NO_KALENDAR_FOR_KALENDAR_ID + 2, expected.getMessage());
     }
   }
 

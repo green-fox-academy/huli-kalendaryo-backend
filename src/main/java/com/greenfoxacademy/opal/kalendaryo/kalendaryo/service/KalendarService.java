@@ -27,15 +27,15 @@ import java.util.List;
 @Service
 public class KalendarService {
 
-    private static final String USER_NOT_FOUND_TOKEN = "User not found for clientToken=";
-    private static final String USER_HAS_NO_ID = "ID not found for user with this clientToken=";
-    private static final String NO_KALENDAR_FOR_USER = "Kalendar not found for user with this clientToken=";
-    private static final String NO_GOOGLE_CALENDAR_FOR_KALENDAR = "Google calendar not found for kalendar with ID=";
-    private static final String NO_USER_FOR_KALENDAR_ID = "User not found for kalendarId=";
-    private static final String NO_KALENDAR_FOR_KALENDAR_ID = "Kalendar not found for kalendarId=";
-    private static final String GOOGLE_AUTH_NOT_FOUND = "GoogleAuth not found int database for the following email and ID=";
-    private static final String KAL_USER_HAS_NO_ID_OR_EMAIL = "ID or email not found for user of kalendar with ID=";
-    private static final String KAL_USER_HAS_NO_ACCESS_TOKEN = "Access Token not found for user of kalendar with ID=";
+    public static final String USER_NOT_FOUND_TOKEN = "User not found for clientToken=";
+    public static final String USER_HAS_NO_ID = "ID not found for user with this clientToken=";
+    public static final String NO_KALENDAR_FOR_USER = "Kalendar not found for user with this clientToken=";
+    public static final String NO_GOOGLE_CALENDAR_FOR_KALENDAR = "Google calendar not found for kalendar with ID=";
+    public static final String NO_USER_FOR_KALENDAR_ID = "User not found for kalendarId=";
+    public static final String NO_KALENDAR_FOR_KALENDAR_ID = "Kalendar not found for kalendarId=";
+    public static final String GOOGLE_AUTH_NOT_FOUND = "GoogleAuth not found int database for the following email and ID=";
+    public static final String KAL_USER_HAS_NO_ID_OR_EMAIL = "ID or email not found for user of kalendar with ID=";
+    public static final String KAL_USER_HAS_NO_ACCESS_TOKEN = "Access Token not found for user of kalendar with ID=";
 
     @Autowired
     KalUserRepository kalUserRepository;
@@ -74,9 +74,8 @@ public class KalendarService {
     public List<KalendarResponse> setKalendarResponse(String clientToken) throws ValidationException {
         List<Kalendar> kalendars = findKalendars(clientToken);
         List<KalendarResponse> kalendarResponses = new ArrayList<>();
-        for (int i = 0; i < kalendars.size(); i++) {
-            Kalendar actualKalendar = kalendars.get(i);
 
+        for (Kalendar actualKalendar : kalendars) {
             List<GoogleCalendar> googleCalendars = findGoogleCalendarsByKalendar(actualKalendar);
             List<String> namesOfGoogleCalendars = setToStringGoogleCalendars(googleCalendars);
 
@@ -86,7 +85,7 @@ public class KalendarService {
                 .setInputGoogleCalendars(namesOfGoogleCalendars)
                 .setId(actualKalendar.getId())
                 .build();
-            
+
             kalendarResponses.add(kalendarResponse);
         }
         return kalendarResponses;
