@@ -2,6 +2,7 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo;
 
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.controllers.KalendarController;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.exception.ValidationException;
+import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarListResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.KalendarResponse;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserRepository;
@@ -104,7 +105,13 @@ public class KalendarControllerTest {
         KalendarResponse expectedKalendarResponse = new KalendarResponse();
         expectedKalendarResponse.setOutputCalendarId(expectedOutputAccountId);
 
-        when(kalendarService.setKalendarResponse(anyList())).thenReturn(Arrays.asList(expectedKalendarResponse));
+        List<KalendarResponse> kalendarResponses = new ArrayList<>();
+        kalendarResponses.add(expectedKalendarResponse);
+
+        KalendarListResponse kalendarListResponse = new KalendarListResponse();
+        kalendarListResponse.setKalendars(kalendarResponses);
+
+        when(kalendarService.getKalendarsByClientToken(anyString())).thenReturn(kalendarListResponse);
 
         mock.perform(get("/calendar")
                 .contentType(contentType)
@@ -123,7 +130,7 @@ public class KalendarControllerTest {
 
     @Test
     public void deleteKalendarWithWrongId() throws Exception {
-        doThrow(new ValidationException("No such kalendar in the database"))
+        doThrow(new ValidationException(""))
             .when(kalendarService).deleteKalendar(anyString(), anyLong());
 
         mock.perform(delete("/calendar/2")
@@ -134,7 +141,7 @@ public class KalendarControllerTest {
 
     @Test
     public void deleteKalendarWithWrongToken() throws Exception {
-        doThrow(new ValidationException("No such user in the database"))
+        doThrow(new ValidationException(""))
             .when(kalendarService).deleteKalendar(anyString(), anyLong());
 
         mock.perform(delete("/calendar/1")

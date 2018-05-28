@@ -43,27 +43,24 @@ public class KalendarController {
     AuthorizeKal authorizeKal;
 
     @GetMapping(value = "/calendar")
-    public ResponseEntity getKalendarList(@RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
-        if (!request.getHeader("X-Client-Token").equals("")) {
-            KalendarListResponse kalendarListResponse = new KalendarListResponse();
-            KalUser user = kalUserRepository.findByClientToken(clientToken);
-            List<Kalendar> list = kalendarService.findKalendars(user);
-            kalendarListResponse.setKalendars(kalendarService.setKalendarResponse(list));
+    public ResponseEntity getKalendarList(@RequestHeader("X-Client-Token") String clientToken) {
+        try {
+            KalendarListResponse kalendarListResponse = kalendarService.getKalendarsByClientToken(clientToken);
             return new ResponseEntity<>(kalendarListResponse, HttpStatus.OK);
+        } catch (ValidationException val) {
+            return new ResponseEntity(val.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<String>("Client token is missing or invalid", HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping(value = "/calendar")
     public ResponseEntity postKalendar(@RequestHeader("X-Client-Token") String clientToken,
-        @RequestBody KalendarFromAndroid kalendarFromAndroid) throws IOException {
-        if (clientToken == null) {
-            return ResponseEntity.status(401).body("Client token is missing or invalid");
+        @RequestBody KalendarFromAndroid kalendarFromAndroid) {
+        try {
+            kalendarService.createNewKalendar(clientToken, kalendarFromAndroid);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (ValidationException val) {
+            return new ResponseEntity(val.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        Kalendar kalendar = new Kalendar();
-        googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
-        authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar);
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Transactional
