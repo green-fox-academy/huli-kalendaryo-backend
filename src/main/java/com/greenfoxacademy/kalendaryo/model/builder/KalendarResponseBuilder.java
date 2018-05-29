@@ -35,6 +35,6 @@ public class KalendarResponseBuilder {
   }
 
   public KalendarResponse build() {
-    return  new KalendarResponse(outputGoogleAuthId, outputCalendarId, inputGoogleCalendars, id);
+    return new KalendarResponse(outputGoogleAuthId, outputCalendarId, inputGoogleCalendars, id);
   }
 }
