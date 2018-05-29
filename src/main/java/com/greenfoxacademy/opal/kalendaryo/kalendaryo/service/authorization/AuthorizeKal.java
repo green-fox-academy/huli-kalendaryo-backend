@@ -2,7 +2,9 @@ package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization;
 
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+import com.google.api.client.googleapis.auth.oauth2.GoogleRefreshTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.googleapis.batch.BatchRequest;
 import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
@@ -70,7 +72,7 @@ public class AuthorizeKal implements Authorization{
         return requestFactory.buildGetRequest(url).execute();
     }
 
-    public String authorize(String authCode) throws IOException {
+    public TokenResponse authorize(String authCode) throws IOException {
         String clientId = System.getenv("CLIENT_ID");
         String clientSecret = System.getenv("CLIENT_SECRET");
         GoogleTokenResponse tokenResponse =
@@ -84,12 +86,26 @@ public class AuthorizeKal implements Authorization{
                         "https://huli-kalendaryo-android.firebaseapp.com/__/auth/handler")
                         .execute();
 
-        return tokenResponse.getAccessToken() + " " + tokenResponse.getRefreshToken();
+        return tokenResponse;
+    }
+
+    public TokenResponse authorizeWithRefreshToken(String refreshToken) throws IOException {
+        String clientId = System.getenv("CLIENT_ID");
+        String clientSecret = System.getenv("CLIENT_SECRET");
+        TokenResponse tokenResponse =
+                new GoogleRefreshTokenRequest(
+                        new NetHttpTransport(),
+                        JSON_FACTORY,
+                        refreshToken,
+                        clientId,
+                        clientSecret).execute();
+
+        return tokenResponse;
     }
 
     public void createGoogleCalendarUnderAccount(KalendarFromAndroid android, Kalendar kalendar) {
         try {
-            String accessToken = googleAuthRepository.findByEmail(android.getOutputGoogleAuthId()).getAccessToken();
+            String accessToken = googleAuthRepository.findByEmail(android.getOutputGoogleAuthId()).getAccessToken()+"e";
             Credential credential =
                     new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
             calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
