@@ -1,5 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service.authorization;
 
+import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.util.Base64;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.repository.KalUserRepository;
@@ -32,7 +33,12 @@ public class AuthorizeKalTestEnvImp implements Authorization {
     }
 
     @Override
-    public String authorize(String authCode) throws IOException {
-        return getRandomToken();
+    public TokenResponse authorize(String authCode) throws IOException {
+        return new TokenResponse();
+    }
+
+    @Override
+    public TokenResponse authorizeWithRefreshToken(String refreshToken) throws IOException {
+        return null;
     }
 }
