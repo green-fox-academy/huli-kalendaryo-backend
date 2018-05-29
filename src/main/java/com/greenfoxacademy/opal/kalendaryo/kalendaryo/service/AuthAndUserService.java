@@ -1,5 +1,6 @@
 package com.greenfoxacademy.opal.kalendaryo.kalendaryo.service;
 
+import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.util.Base64;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.exception.ValidationException;
 import com.greenfoxacademy.opal.kalendaryo.kalendaryo.model.api.UserResponse;
@@ -60,8 +61,11 @@ public class AuthAndUserService {
   }
 
   private void saveGoogleAuth(GoogleAuth googleAuth) throws IOException {
-    String accessToken = authorization.authorize(googleAuth.getAuthCode());
+    TokenResponse tokens = authorization.authorize(googleAuth.getAuthCode());
+    String accessToken = tokens.getAccessToken();
+    String refreshTOken = tokens.getRefreshToken();
     googleAuth.setAccessToken(accessToken);
+    googleAuth.setRefreshToken(refreshTOken);
     googleAuthRepository.save(googleAuth);
   }
 
@@ -144,9 +148,9 @@ public class AuthAndUserService {
     googleAuth.setUser(kalUser);
     if (checkIfGoogleAuthExist(googleAuth, kalUser.getId())) {
       GoogleAuth existingGoogleAuth = googleAuthRepository.findByUser_IdAndEmail(kalUser.getId(), googleAuth.getEmail());
-      googleAuth.setId(existingGoogleAuth.getId());
-      saveGoogleAuth(googleAuth);
-      return googleAuth;
+      existingGoogleAuth.setAuthCode(googleAuth.getAuthCode());
+      saveGoogleAuth(existingGoogleAuth);
+      return existingGoogleAuth;
     }
     saveGoogleAuth(googleAuth);
     return googleAuth;
