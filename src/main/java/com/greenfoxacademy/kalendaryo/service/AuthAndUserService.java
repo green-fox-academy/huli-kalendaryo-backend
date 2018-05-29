@@ -166,4 +166,19 @@ public class AuthAndUserService {
 
       return accesToken;
   }
+
+  public String refreshAccessTokenForAndroid (String clientToken, String email) throws ValidationException{
+    try {
+      KalUser user = kalUserRepository.findByClientToken(clientToken);
+      GoogleAuth googleAuth = googleAuthRepository.findByUser_IdAndEmail(user.getId(), email);
+      TokenResponse tokenResponse = authorization.authorizeWithRefreshToken(googleAuth.getRefreshToken());
+      googleAuth.setAccessToken(tokenResponse.getAccessToken());
+      googleAuthRepository.save(googleAuth);
+      return tokenResponse.getAccessToken();
+    } catch (NullPointerException e) {
+      throw new ValidationException("Client token is missing or invalid");
+    } catch (IOException i) {
+      throw new ValidationException("Error while refreshing the access token");
+    }
+  }
 }
