@@ -15,6 +15,8 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.common.collect.Lists;
+import com.greenfoxacademy.kalendaryo.model.entity.GoogleAuth;
+import com.greenfoxacademy.kalendaryo.model.entity.KalUser;
 import com.greenfoxacademy.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarFromAndroid;
@@ -99,9 +101,10 @@ public class AuthorizeKal implements Authorization{
         return tokenResponse;
     }
 
-    public void createGoogleCalendarUnderAccount(KalendarFromAndroid android, Kalendar kalendar) {
+    public void createGoogleCalendarUnderAccount(KalendarFromAndroid android, Kalendar kalendar, Integer attempt) throws IOException {
         try {
-            String accessToken = googleAuthRepository.findByEmail(android.getOutputGoogleAuthId()).getAccessToken()+"e";
+            GoogleAuth googleAuth = googleAuthRepository.findByEmail(android.getOutputGoogleAuthId());
+            String accessToken = googleAuth.getAccessToken();
             Credential credential =
                     new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
             calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
@@ -114,8 +117,25 @@ public class AuthorizeKal implements Authorization{
             kalendarService.saveKalendar(kalendar);
             getInputCalendarsData(calendarClient);
         } catch (IOException e) {
-            e.printStackTrace();
+            if (attempt == 1) {
+                accessTokenRefreshForCalendar(android, kalendar);
+            } else
+                e.printStackTrace();
         }
+    }
+
+    public void saveRefreshedAccessToken (GoogleAuth googleAuth) throws IOException{
+        String refreshToken = googleAuth.getRefreshToken();
+        TokenResponse tokenResponse = authorizeWithRefreshToken(refreshToken);
+        googleAuth.setAccessToken(tokenResponse.getAccessToken());
+        googleAuthRepository.save(googleAuth);
+    }
+
+    public void accessTokenRefreshForCalendar (KalendarFromAndroid android, Kalendar kalendar) throws IOException{
+        GoogleAuth googleAuth = googleAuthRepository.findByEmail(android.getOutputGoogleAuthId());
+        saveRefreshedAccessToken(googleAuth);
+        int attempt = 2;
+        createGoogleCalendarUnderAccount(android, kalendar, attempt);
     }
     
     public void getInputCalendarsData (com.google.api.services.calendar.Calendar client) throws IOException {
@@ -132,7 +152,7 @@ public class AuthorizeKal implements Authorization{
         } while (pageToken != null);
    }
 
-   public void deleteCalendar(String accessToken, String googleCalendarId) {
+   public void deleteCalendar(String accessToken, String googleCalendarId) throws IOException {
        try {
            Credential credential =
                new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
