@@ -11,6 +11,13 @@ public class KalendarResponse {
     public KalendarResponse() {
     }
 
+    public KalendarResponse(String outputGoogleAuthId, String outputCalendarId, List<String> inputGoogleCalendars, long id) {
+        this.outputGoogleAuthId = outputGoogleAuthId;
+        this.outputCalendarId = outputCalendarId;
+        this.inputGoogleCalendars = inputGoogleCalendars;
+        this.id = id;
+    }
+
     public String getOutputGoogleAuthId() {
         return outputGoogleAuthId;
     }

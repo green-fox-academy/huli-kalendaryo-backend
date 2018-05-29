@@ -1,5 +1,7 @@
+
 package com.greenfoxacademy.kalendaryo.service;
 
+import com.greenfoxacademy.kalendaryo.exception.ValidationException;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleCalendar;
 import com.greenfoxacademy.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarFromAndroid;
@@ -28,7 +30,7 @@ public class GoogleCalendarService {
         googleCalendarRepository.save(googleCalendar);
     }
 
-    public void setGoogleCalendar(Kalendar kalendar, KalendarFromAndroid fromAndroid, String clientToken) {
+    public void setGoogleCalendar(Kalendar kalendar, KalendarFromAndroid fromAndroid, String clientToken) throws ValidationException {
         Kalendar newKalendar = kalendarService.setKalendarAttribute(kalendar, fromAndroid,
                 clientToken);
         kalendarService.saveKalendar(newKalendar);

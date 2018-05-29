@@ -18,7 +18,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 
-
+import static com.greenfoxacademy.kalendaryo.service.KalendarService.NO_KALENDAR_FOR_KALENDAR_ID;
+import static com.greenfoxacademy.kalendaryo.service.KalendarService.USER_NOT_FOUND_TOKEN;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.doThrow;
@@ -55,7 +56,7 @@ public class KalendarServiceTest {
   }
 
   @Test
-  public void setKalendarAttribute_customNameProvided() {
+  public void setKalendarAttribute_customNameProvided() throws ValidationException {
     String customName = "Hello";
     KalendarFromAndroid kalendarFromAndroid = generateModelFromName(customName);
 
@@ -65,7 +66,7 @@ public class KalendarServiceTest {
   }
 
   @Test
-  public void setKalendarAttribute_customNameMissing() {
+  public void setKalendarAttribute_customNameMissing() throws ValidationException {
     String customName = "";
     KalendarFromAndroid kalendarFromAndroid = generateModelFromName(customName);
 
@@ -75,7 +76,7 @@ public class KalendarServiceTest {
   }
 
   @Test
-  public void setKalendarAttribute_customNameIsNull() {
+  public void setKalendarAttribute_customNameIsNull() throws ValidationException {
     String customName = null;
     KalendarFromAndroid kalendarFromAndroid = generateModelFromName(customName);
 
@@ -86,19 +87,17 @@ public class KalendarServiceTest {
 
   @Test
   public void deleteGoogleCalendar_wrongClientToken() {
-    String expectedMessage = "User not found for clientToken=";
     doThrow(new NullPointerException()).when(kalUserRepository).findByClientToken(anyString());
 
     try {
       kalendarService.deleteKalendar("",2);
     } catch (ValidationException expected) {
-      assertEquals(expectedMessage, expected.getMessage());
+      assertEquals(USER_NOT_FOUND_TOKEN, expected.getMessage());
     }
   }
 
   @Test
   public void deleteGoogleCalendar_notExistingKalendar() {
-    String expectedMessage = "Kalendar not found for kalendarId=2";
     KalUser kalUser = new KalUser();
 
     doThrow(new NullPointerException()).when(kalendarRepository).findKalendarById(2);
@@ -107,7 +106,7 @@ public class KalendarServiceTest {
     try {
       kalendarService.deleteKalendar("",2);
     } catch (ValidationException expected) {
-      assertEquals(expectedMessage, expected.getMessage());
+      assertEquals(NO_KALENDAR_FOR_KALENDAR_ID + 2, expected.getMessage());
     }
   }
 
@@ -118,6 +117,7 @@ public class KalendarServiceTest {
     kalUser.setUserEmail("");
     kalendar.setUser(kalUser);
     GoogleAuth googleAuth = new GoogleAuth();
+    googleAuth.setAccessToken("fjhejecv43n3s");
 
     when(kalendarRepository.findKalendarById(anyLong())).thenReturn(kalendar);
     when(kalUserRepository.findByClientToken(anyString())).thenReturn(kalUser);

@@ -2,6 +2,7 @@ package com.greenfoxacademy.kalendaryo;
 
 import com.greenfoxacademy.kalendaryo.controllers.KalendarController;
 import com.greenfoxacademy.kalendaryo.exception.ValidationException;
+import com.greenfoxacademy.kalendaryo.model.api.KalendarListResponse;
 import com.greenfoxacademy.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.kalendaryo.repository.KalUserRepository;
 import com.greenfoxacademy.kalendaryo.repository.KalendarRepository;
@@ -21,7 +22,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyLong;
@@ -94,7 +97,13 @@ public class KalendarControllerTest {
         KalendarResponse expectedKalendarResponse = new KalendarResponse();
         expectedKalendarResponse.setOutputCalendarId(expectedOutputAccountId);
 
-        when(kalendarService.setKalendarResponse(anyList())).thenReturn(Arrays.asList(expectedKalendarResponse));
+        List<KalendarResponse> kalendarResponses = new ArrayList<>();
+        kalendarResponses.add(expectedKalendarResponse);
+
+        KalendarListResponse kalendarListResponse = new KalendarListResponse();
+        kalendarListResponse.setKalendars(kalendarResponses);
+
+        when(kalendarService.getKalendarsByClientToken(anyString())).thenReturn(kalendarListResponse);
 
         mock.perform(get("/calendar")
                 .contentType(contentType)
@@ -113,7 +122,7 @@ public class KalendarControllerTest {
 
     @Test
     public void deleteKalendarWithWrongId() throws Exception {
-        Mockito.doThrow(new ValidationException("No such kalendar in the database"))
+        doThrow(new ValidationException(""))
             .when(kalendarService).deleteKalendar(anyString(), anyLong());
 
         mock.perform(delete("/calendar/2")
@@ -124,7 +133,7 @@ public class KalendarControllerTest {
 
     @Test
     public void deleteKalendarWithWrongToken() throws Exception {
-        doThrow(new ValidationException("No such user in the database"))
+        doThrow(new ValidationException(""))
             .when(kalendarService).deleteKalendar(anyString(), anyLong());
 
         mock.perform(delete("/calendar/1")
