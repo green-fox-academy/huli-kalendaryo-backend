@@ -30,6 +30,9 @@ import java.util.List;
 @Service
 public class KalendarService {
 
+    public static Integer CURRENT_ATTEMPT;
+    public static Integer FIRST_ATTEMPT = 1;
+    public static Integer FINAL_ATTEMPT = 2;
     public static final String USER_NOT_FOUND_TOKEN = "User not found for clientToken=";
     public static final String USER_HAS_NO_ID = "ID not found for user with this clientToken=";
     public static final String NO_KALENDAR_FOR_USER = "Kalendar not found for user with this clientToken=";
@@ -66,8 +69,8 @@ public class KalendarService {
         try {
             Kalendar kalendar = new Kalendar();
             googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
-            int attempt = 1;
-            authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar, attempt);
+            CURRENT_ATTEMPT = FIRST_ATTEMPT;
+            authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar, CURRENT_ATTEMPT);
         } catch (IOException e) {
             throw new ValidationException(GOOGLE_API_UNREACHABLE + kalendarFromAndroid.getOutputGoogleAuthId());
         }
@@ -152,9 +155,9 @@ public class KalendarService {
     public void deleteKalendar(String clientToken, long kalendarId) throws ValidationException {
         try {
             validateUser(clientToken, kalendarId);
-            int attempt = 1;
+            CURRENT_ATTEMPT = FIRST_ATTEMPT;
             String accessToken = getAccessTokenByKalendarId(kalendarId);
-            deleteGoogleCalendar(kalendarId, attempt, accessToken);
+            deleteGoogleCalendar(kalendarId, CURRENT_ATTEMPT, accessToken);
             deleteKalendarById(kalendarId);
         } catch (IOException e) {
             e.printStackTrace();
@@ -167,7 +170,7 @@ public class KalendarService {
             String calendarId = getCalendarIdByKalendarId(kalendarId);
             authorizeKal.deleteCalendar(accessToken, calendarId);
         } catch (GoogleJsonResponseException e) {
-            if (attempt == 1) {
+            if (attempt == FIRST_ATTEMPT) {
                 refreshTokenRequestforDeleteCalendar(kalendarId);
             } else {
                 e.printStackTrace();
@@ -182,7 +185,7 @@ public class KalendarService {
             long userId = kalUser.getId();
             GoogleAuth googleAuth = findGoogleAuthByIdAndEmail(userId, userEmail);
             String accessToken = authorizeKal.saveRefreshedAccessToken(googleAuth);
-            deleteGoogleCalendar(kalendarId, 2, accessToken);
+            deleteGoogleCalendar(kalendarId, FINAL_ATTEMPT, accessToken);
         } catch (IOException e) {
             throw new ValidationException("Error while refreshing the access token");
         }
