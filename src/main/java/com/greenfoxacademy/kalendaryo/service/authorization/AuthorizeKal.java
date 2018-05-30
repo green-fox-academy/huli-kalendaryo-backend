@@ -35,6 +35,8 @@ import java.util.List;
 @Profile("dev")
 public class AuthorizeKal implements Authorization{
 
+    public static Integer FIRST_ATTEMPT = 1;
+    public static Integer FINAL_ATTEMPT = 2;
     private static final String APPLICATION_NAME = "Kalendaryo";
     private static final java.io.File DATA_STORE_DIR = new java.io.File(System.getProperty("user.home"), ".credentials/calendar-java-quickstart");
     private static FileDataStoreFactory DATA_STORE_FACTORY;
@@ -118,7 +120,7 @@ public class AuthorizeKal implements Authorization{
             kalendarService.saveKalendar(kalendar);
             getInputCalendarsData(calendarClient);
         } catch (GoogleJsonResponseException e) {
-            if (attempt == 1) {
+            if (attempt == FIRST_ATTEMPT) {
                 accessTokenRefreshForCalendar(android, kalendar);
             } else
                 e.printStackTrace();
@@ -136,7 +138,7 @@ public class AuthorizeKal implements Authorization{
     public void accessTokenRefreshForCalendar (KalendarFromAndroid android, Kalendar kalendar) throws IOException{
         GoogleAuth googleAuth = googleAuthRepository.findByEmail(android.getOutputGoogleAuthId());
         saveRefreshedAccessToken(googleAuth);
-        int attempt = 2;
+        int attempt = FINAL_ATTEMPT;
         createGoogleCalendarUnderAccount(android, kalendar, attempt);
     }
     
