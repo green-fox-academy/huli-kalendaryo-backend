@@ -1,4 +1,4 @@
-package com.greenfoxacademy.kalendaryo;
+package com.greenfoxacademy.kalendaryo.controllers;
 
 import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.kalendaryo.controllers.AccountController;
