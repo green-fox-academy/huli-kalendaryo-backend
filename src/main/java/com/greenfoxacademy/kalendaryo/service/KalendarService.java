@@ -3,6 +3,7 @@ package com.greenfoxacademy.kalendaryo.service;
 
 import com.github.javafaker.Faker;
 import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarListResponse;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleAuth;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleCalendar;
@@ -149,18 +150,23 @@ public class KalendarService {
     }
 
     public void deleteKalendar(String clientToken, long kalendarId) throws ValidationException {
-        validateUser(clientToken, kalendarId);
-        int attempt = 1;
-        deleteGoogleCalendar(kalendarId, attempt);
-        deleteKalendarById(kalendarId);
+        try {
+            validateUser(clientToken, kalendarId);
+            int attempt = 1;
+            String accessToken = getAccessTokenByKalendarId(kalendarId);
+            deleteGoogleCalendar(kalendarId, attempt, accessToken);
+            deleteKalendarById(kalendarId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    private void deleteGoogleCalendar(long kalendarId, Integer attempt) throws ValidationException {
+    private void deleteGoogleCalendar(long kalendarId, Integer attempt, String accessToken) throws IOException, ValidationException {
         try {
-            String accessToken = getAccessTokenByKalendarId(kalendarId);
             String calendarId = getCalendarIdByKalendarId(kalendarId);
             authorizeKal.deleteCalendar(accessToken, calendarId);
-        } catch (IOException e) {
+        } catch (GoogleJsonResponseException e) {
             if (attempt == 1) {
                 refreshTokenRequestforDeleteCalendar(kalendarId);
             } else {
@@ -175,8 +181,8 @@ public class KalendarService {
             String userEmail = kalUser.getUserEmail();
             long userId = kalUser.getId();
             GoogleAuth googleAuth = findGoogleAuthByIdAndEmail(userId, userEmail);
-            authorizeKal.saveRefreshedAccessToken(googleAuth);
-            deleteGoogleCalendar(kalendarId, 2);
+            String accessToken = authorizeKal.saveRefreshedAccessToken(googleAuth);
+            deleteGoogleCalendar(kalendarId, 2, accessToken);
         } catch (IOException e) {
             throw new ValidationException("Error while refreshing the access token");
         }
