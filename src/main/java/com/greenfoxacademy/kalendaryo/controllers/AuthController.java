@@ -38,7 +38,6 @@ public class AuthController {
   @GetMapping("/auth")
   public ResponseEntity refreshAccessToken (@RequestHeader("email") String email, @RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) {
     try {
-      Integer attempt = 1;
       String accessToken = authAndUserService.refreshAccessTokenForAndroid(clientToken, email);
       return ResponseEntity.status(200).body(accessToken);
     } catch (ValidationException val) {
