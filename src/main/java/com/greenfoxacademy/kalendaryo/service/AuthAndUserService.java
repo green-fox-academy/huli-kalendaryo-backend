@@ -148,8 +148,6 @@ public class AuthAndUserService {
     googleAuth.setUser(kalUser);
     if (checkIfGoogleAuthExist(googleAuth, kalUser.getId())) {
       GoogleAuth existingGoogleAuth = googleAuthRepository.findByUser_IdAndEmail(kalUser.getId(), googleAuth.getEmail());
-      existingGoogleAuth.setAuthCode(googleAuth.getAuthCode());
-      saveGoogleAuth(existingGoogleAuth);
       return existingGoogleAuth;
     }
     saveGoogleAuth(googleAuth);
