@@ -41,7 +41,7 @@ public class GoogleCalendarService {
             String destinationAccountId = fromAndroid.getOutputGoogleAuthId();
             long userId = newKalendar.getUser().getId();
             GoogleAuth googleAccount =
-                    googleAuthRepository.findByEmailAndByUserId(destinationAccountId, userId);
+                    googleAuthRepository.findByUser_IdAndEmail(userId, destinationAccountId);
             googleCalendar.setGoogleAuth(googleAccount);
             googleCalendar.setKalendar(kalendar);
             saveGoogleCalendar(googleCalendar);
