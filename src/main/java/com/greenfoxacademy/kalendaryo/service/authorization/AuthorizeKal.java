@@ -10,8 +10,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.calendar.model.CalendarList;
-import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.*;
 import com.google.common.collect.Lists;
 import com.greenfoxacademy.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
@@ -21,7 +20,6 @@ import com.greenfoxacademy.kalendaryo.service.KalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import com.google.api.services.calendar.model.Calendar;
 
 import java.io.IOException;
 import java.util.List;
@@ -96,6 +94,19 @@ public class AuthorizeKal implements Authorization{
 
             Calendar createdCalendar = calendarClient.calendars().insert(calendar).execute();
             kalendar.setGoogleCalendarId(createdCalendar.getId());
+
+            for (String sourceCalendarId : kalendarFromAndroid.getInputGoogleCalendars()) {
+                String pageToken = null;
+                do {
+                    Events eventsResponse = calendarClient.events().list(sourceCalendarId).setPageToken(pageToken).execute();
+                    List<Event> events = eventsResponse.getItems();
+                    for (Event event : events) {
+                        calendarClient.events().insert(kalendar.getGoogleCalendarId(), event).execute();
+                    }
+                    pageToken = eventsResponse.getNextPageToken();
+                } while (pageToken != null);
+            }
+
             kalendarService.saveKalendar(kalendar);
             getInputCalendarsData(calendarClient);
         } catch (IOException e) {
