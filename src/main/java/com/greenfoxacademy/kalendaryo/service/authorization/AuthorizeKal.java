@@ -83,12 +83,13 @@ public class AuthorizeKal implements Authorization{
         return tokenResponse.getAccessToken();
     }
 
-    public void createGoogleCalendarUnderAccount(KalendarFromAndroid android, Kalendar kalendar) {
+    public void createGoogleCalendarUnderAccount(KalendarFromAndroid kalendarFromAndroid, Kalendar kalendar) {
         try {
-            String accessToken = googleAuthRepository.findByEmail(android.getOutputGoogleAuthId()).getAccessToken();
+            String accessToken = googleAuthRepository.findByEmail(kalendarFromAndroid.getOutputGoogleAuthId()).getAccessToken();
             Credential credential =
                     new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
-            calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
+            calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+                    .setApplicationName(APPLICATION_NAME).build();
 
             com.google.api.services.calendar.model.Calendar calendar = new Calendar();
             calendar.setSummary(kalendar.getName());
