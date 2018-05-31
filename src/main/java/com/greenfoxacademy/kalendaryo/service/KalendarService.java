@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -117,6 +118,8 @@ public class KalendarService {
         } else {
             kalendar.setName(kalendarFromAndroid.getCustomName());
         }
+
+        System.out.println(Arrays.toString(kalendarFromAndroid.getInputGoogleCalendars()));
         kalendar.setOutputGoogleAuthId(kalendarFromAndroid.getOutputGoogleAuthId());
         kalendar.setUser(getKalUserByClientToken(clientToken));
         return kalendar;
