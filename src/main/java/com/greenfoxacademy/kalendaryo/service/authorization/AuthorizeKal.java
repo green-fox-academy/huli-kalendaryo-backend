@@ -96,6 +96,10 @@ public class AuthorizeKal implements Authorization{
 
             Calendar createdCalendar = calendarClient.calendars().insert(calendar).execute();
             kalendar.setGoogleCalendarId(createdCalendar.getId());
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            System.out.println(kalendar.getId());
+            System.out.println(createdCalendar.getId());
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             kalendarService.saveKalendar(kalendar);
             getInputCalendarsData(calendarClient);
         } catch (IOException e) {

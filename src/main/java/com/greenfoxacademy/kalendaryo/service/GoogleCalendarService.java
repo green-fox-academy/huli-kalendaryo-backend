@@ -2,6 +2,7 @@
 package com.greenfoxacademy.kalendaryo.service;
 
 import com.greenfoxacademy.kalendaryo.exception.ValidationException;
+import com.greenfoxacademy.kalendaryo.model.entity.GoogleAuth;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleCalendar;
 import com.greenfoxacademy.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarFromAndroid;
@@ -37,7 +38,11 @@ public class GoogleCalendarService {
         for (int i = 0; i < fromAndroid.getInputGoogleCalendars().length; i++) {
             GoogleCalendar googleCalendar = new GoogleCalendar();
             googleCalendar.setId(fromAndroid.getInputGoogleCalendars()[i]);
-            googleCalendar.setGoogleAuth(googleAuthRepository.findByEmail(fromAndroid.getOutputGoogleAuthId()));
+            String destinationAccountId = fromAndroid.getOutputGoogleAuthId();
+            long userId = newKalendar.getUser().getId();
+            GoogleAuth googleAccount =
+                    googleAuthRepository.findByEmailAndByUserId(destinationAccountId, userId);
+            googleCalendar.setGoogleAuth(googleAccount);
             googleCalendar.setKalendar(kalendar);
             saveGoogleCalendar(googleCalendar);
         }

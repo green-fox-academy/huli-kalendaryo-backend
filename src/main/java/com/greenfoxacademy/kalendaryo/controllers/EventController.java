@@ -9,6 +9,6 @@ public class EventController {
 
   @GetMapping (value = "/{calendarId}/events")
   public EventListResponse getEventList(@RequestHeader("X-Client-Token") String clientToken, @PathVariable(name = "calendarId") String calendarId) {
-
+    return null;
   }
 }
