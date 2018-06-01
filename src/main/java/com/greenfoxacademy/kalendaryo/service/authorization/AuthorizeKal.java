@@ -10,9 +10,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.calendar.model.CalendarList;
-import com.google.api.services.calendar.model.CalendarListEntry;
-import com.google.api.services.calendar.model.Events;
+import com.google.api.services.calendar.model.*;
 import com.google.common.collect.Lists;
 import com.greenfoxacademy.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
@@ -22,7 +20,6 @@ import com.greenfoxacademy.kalendaryo.service.KalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import com.google.api.services.calendar.model.Calendar;
 
 import java.io.IOException;
 import java.util.List;
@@ -103,8 +100,8 @@ public class AuthorizeKal implements Authorization{
                 String pageToken = null;
                 do {
                     Events events = calendarClient.events().list(calendarId).setPageToken(pageToken).execute();
-                    List<com.google.api.services.calendar.model.Event> items = events.getItems();
-                    for (com.google.api.services.calendar.model.Event event : items) {
+                    List<Event> items = events.getItems();
+                    for (Event event : items) {
                         calendarClient.events().insert(kalendar.getGoogleCalendarId(), event).execute();
                     }
                     pageToken = events.getNextPageToken();
