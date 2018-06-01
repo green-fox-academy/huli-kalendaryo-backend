@@ -10,7 +10,9 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.calendar.model.*;
+import com.google.api.services.calendar.model.CalendarList;
+import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.Events;
 import com.google.common.collect.Lists;
 import com.greenfoxacademy.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
@@ -20,6 +22,7 @@ import com.greenfoxacademy.kalendaryo.service.KalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import com.google.api.services.calendar.model.Calendar;
 
 import java.io.IOException;
 import java.util.List;
@@ -56,10 +59,10 @@ public class AuthorizeKal implements Authorization{
     }
 
     public static HttpResponse executeGet(
-            HttpTransport transport, JsonFactory jsonFactory, String accessToken, GenericUrl url)
-            throws IOException {
+      HttpTransport transport, JsonFactory jsonFactory, String accessToken, GenericUrl url)
+      throws IOException {
         Credential credential =
-                new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
+          new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
         HttpRequestFactory requestFactory = transport.createRequestFactory(credential);
         return requestFactory.buildGetRequest(url).execute();
     }
@@ -68,15 +71,15 @@ public class AuthorizeKal implements Authorization{
         String clientId = System.getenv("CLIENT_ID");
         String clientSecret = System.getenv("CLIENT_SECRET");
         GoogleTokenResponse tokenResponse =
-                new GoogleAuthorizationCodeTokenRequest(
-                        new NetHttpTransport(),
-                        JSON_FACTORY,
-                        "https://www.googleapis.com/oauth2/v4/token",
-                        clientId,
-                        clientSecret,
-                        authCode,
-                        "https://huli-kalendaryo-android.firebaseapp.com/__/auth/handler")
-                        .execute();
+          new GoogleAuthorizationCodeTokenRequest(
+            new NetHttpTransport(),
+            JSON_FACTORY,
+            "https://www.googleapis.com/oauth2/v4/token",
+            clientId,
+            clientSecret,
+            authCode,
+            "https://huli-kalendaryo-android.firebaseapp.com/__/auth/handler")
+            .execute();
 
         return tokenResponse.getAccessToken();
     }
@@ -85,9 +88,9 @@ public class AuthorizeKal implements Authorization{
         try {
             String accessToken = googleAuthRepository.findByEmail(kalendarFromAndroid.getOutputGoogleAuthId()).getAccessToken();
             Credential credential =
-                    new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
+              new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
             calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
-                    .setApplicationName(APPLICATION_NAME).build();
+              .setApplicationName(APPLICATION_NAME).build();
 
             com.google.api.services.calendar.model.Calendar calendar = new Calendar();
             calendar.setSummary(kalendar.getName());
@@ -95,15 +98,16 @@ public class AuthorizeKal implements Authorization{
             Calendar createdCalendar = calendarClient.calendars().insert(calendar).execute();
             kalendar.setGoogleCalendarId(createdCalendar.getId());
 
-            for (String sourceCalendarId : kalendarFromAndroid.getInputGoogleCalendars()) {
+            for (int i = 0; i < kalendarFromAndroid.getInputGoogleCalendars().length; i++) {
+                String calendarId = kalendarFromAndroid.getCalendarId(i);
                 String pageToken = null;
                 do {
-                    Events eventsResponse = calendarClient.events().list(sourceCalendarId).setPageToken(pageToken).execute();
-                    List<Event> events = eventsResponse.getItems();
-                    for (Event event : events) {
+                    Events events = calendarClient.events().list(calendarId).setPageToken(pageToken).execute();
+                    List<com.google.api.services.calendar.model.Event> items = events.getItems();
+                    for (com.google.api.services.calendar.model.Event event : items) {
                         calendarClient.events().insert(kalendar.getGoogleCalendarId(), event).execute();
                     }
-                    pageToken = eventsResponse.getNextPageToken();
+                    pageToken = events.getNextPageToken();
                 } while (pageToken != null);
             }
 
@@ -113,7 +117,7 @@ public class AuthorizeKal implements Authorization{
             e.printStackTrace();
         }
     }
-    
+
     public void getInputCalendarsData (com.google.api.services.calendar.Calendar client) throws IOException {
 
         String pageToken = null;
@@ -126,17 +130,17 @@ public class AuthorizeKal implements Authorization{
             }
             pageToken = calendarList.getNextPageToken();
         } while (pageToken != null);
-   }
+    }
 
-   public void deleteCalendar(String accessToken, String googleCalendarId) {
-       try {
-           Credential credential =
-               new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
-           calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).
-               setApplicationName(APPLICATION_NAME).build();
-           calendarClient.calendars().delete(googleCalendarId).execute();
-       } catch (IOException e) {
-           e.printStackTrace();
-       }
-   }
+    public void deleteCalendar(String accessToken, String googleCalendarId) {
+        try {
+            Credential credential =
+              new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
+            calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).
+              setApplicationName(APPLICATION_NAME).build();
+            calendarClient.calendars().delete(googleCalendarId).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

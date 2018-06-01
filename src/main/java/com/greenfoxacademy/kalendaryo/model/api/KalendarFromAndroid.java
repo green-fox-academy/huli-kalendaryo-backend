@@ -29,6 +29,10 @@ public class KalendarFromAndroid {
     return inputGoogleCalendars;
   }
 
+  public String getCalendarId(int index){
+    return inputGoogleCalendars[index];
+  }
+
   public void setInputGoogleCalendars(String[] inputGoogleCalendars) {
     this.inputGoogleCalendars = inputGoogleCalendars;
   }
