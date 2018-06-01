@@ -13,13 +13,13 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("dev")
 public class KalendaryoApplication implements CommandLineRunner {
 
-	@Value("${RDS_USERNAME}")
+	@Value("spring.datasource.username")
 	private String username;
 
-	@Value("${RDS_PASSWORD}")
+	@Value("spring.datasource.password")
 	private String password;
 
-	@Value("jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}")
+	@Value("spring.datasource.url")
 	private String url;
 
 	public static void main(String[] args) {
