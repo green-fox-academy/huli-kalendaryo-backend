@@ -83,13 +83,7 @@ public class AuthorizeKal implements Authorization{
 
     public void createGoogleCalendarUnderAccount(KalendarFromAndroid kalendarFromAndroid, Kalendar kalendar) {
         try {
-            String accessToken = googleAuthRepository.findByEmail(kalendarFromAndroid.getOutputGoogleAuthId()).getAccessToken();
-            Credential credential =
-              new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
-            calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
-              .setApplicationName(APPLICATION_NAME).build();
-
-            com.google.api.services.calendar.model.Calendar calendar = new Calendar();
+            Calendar calendar = getCalendar(kalendarFromAndroid);
             calendar.setSummary(kalendar.getName());
 
             Calendar createdCalendar = calendarClient.calendars().insert(calendar).execute();
@@ -113,6 +107,16 @@ public class AuthorizeKal implements Authorization{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Calendar getCalendar(KalendarFromAndroid kalendarFromAndroid) {
+        String accessToken = googleAuthRepository.findByEmail(kalendarFromAndroid.getOutputGoogleAuthId()).getAccessToken();
+        Credential credential =
+          new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
+        calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+          .setApplicationName(APPLICATION_NAME).build();
+
+        return new Calendar();
     }
 
     public void getInputCalendarsData (com.google.api.services.calendar.Calendar client) throws IOException {
