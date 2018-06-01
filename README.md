@@ -5,7 +5,7 @@ The goal of this project is to provide a simple application where the user can c
 
 ** This is the project's backend part, [here](https://github.com/greenfox-academy/huli-kalendaryo-android) you can find the link to its android repository.**
 
-## Setting up the environment
+
 To run the application's backend part you need to have the following things set up:
 
 1. Create a a database schema with the help of MySQL
