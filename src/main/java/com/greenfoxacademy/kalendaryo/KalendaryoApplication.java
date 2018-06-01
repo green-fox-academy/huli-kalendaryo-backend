@@ -1,3 +1,4 @@
+/*
 package com.greenfoxacademy.kalendaryo;
 
 import org.flywaydb.core.Flyway;
@@ -33,3 +34,4 @@ public class KalendaryoApplication implements CommandLineRunner {
 		flyway.migrate();
 	}
 }
+*/
