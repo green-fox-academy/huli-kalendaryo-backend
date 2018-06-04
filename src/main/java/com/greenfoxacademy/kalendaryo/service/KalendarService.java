@@ -119,7 +119,6 @@ public class KalendarService {
             kalendar.setName(kalendarFromAndroid.getCustomName());
         }
 
-        System.out.println(Arrays.toString(kalendarFromAndroid.getInputGoogleCalendars()));
         kalendar.setOutputGoogleAuthId(kalendarFromAndroid.getOutputGoogleAuthId());
         kalendar.setUser(getKalUserByClientToken(clientToken));
         return kalendar;

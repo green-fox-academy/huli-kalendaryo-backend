@@ -89,24 +89,27 @@ public class AuthorizeKal implements Authorization{
             Calendar createdCalendar = calendarClient.calendars().insert(calendar).execute();
             kalendar.setGoogleCalendarId(createdCalendar.getId());
 
-            for (int i = 0; i < kalendarFromAndroid.getInputGoogleCalendars().length; i++) {
-                String calendarId = kalendarFromAndroid.getCalendarId(i);
-                String pageToken = null;
-                do {
-                    Events events = calendarClient.events().list(calendarId).setPageToken(pageToken).execute();
-                    List<Event> items = events.getItems();
-                    for (Event event : items) {
-                        event.setAnyoneCanAddSelf(true);
-                        calendarClient.events().insert(kalendar.getGoogleCalendarId(), event).execute();
-                    }
-                    pageToken = events.getNextPageToken();
-                } while (pageToken != null);
-            }
+            migrateEvents(kalendarFromAndroid, kalendar);
 
             kalendarService.saveKalendar(kalendar);
-            getInputCalendarsData(calendarClient);
+            
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void migrateEvents(KalendarFromAndroid kalendarFromAndroid, Kalendar kalendar) throws IOException {
+        for (int i = 0; i < kalendarFromAndroid.getInputGoogleCalendars().length; i++) {
+            String calendarId = kalendarFromAndroid.getCalendarId(i);
+            String pageToken = null;
+            do {
+                Events events = calendarClient.events().list(calendarId).setPageToken(pageToken).execute();
+                List<Event> items = events.getItems();
+                for (Event event : items) {
+                    calendarClient.events().insert(kalendar.getGoogleCalendarId(), event).execute();
+                }
+                pageToken = events.getNextPageToken();
+            } while (pageToken != null);
         }
     }
 
@@ -118,20 +121,6 @@ public class AuthorizeKal implements Authorization{
           .setApplicationName(APPLICATION_NAME).build();
 
         return new Calendar();
-    }
-
-    public void getInputCalendarsData (com.google.api.services.calendar.Calendar client) throws IOException {
-
-        String pageToken = null;
-        do {
-            CalendarList calendarList = client.calendarList().list().setPageToken(pageToken).execute();
-            List<CalendarListEntry> items = calendarList.getItems();
-
-            for (CalendarListEntry calendarListEntry : items) {
-                System.out.println(calendarListEntry.getId());
-            }
-            pageToken = calendarList.getNextPageToken();
-        } while (pageToken != null);
     }
 
     public void deleteCalendar(String accessToken, String googleCalendarId) {
