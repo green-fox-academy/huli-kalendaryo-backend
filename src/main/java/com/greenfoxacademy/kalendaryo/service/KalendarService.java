@@ -171,26 +171,21 @@ public class KalendarService {
             authorizeKal.deleteCalendar(accessToken, calendarId);
         } catch (GoogleJsonResponseException e) {
             if (attempt == FIRST_ATTEMPT) {
-                refreshTokenRequestforDeleteCalendar(kalendarId);
+                GoogleAuth googleAuth = findGoogleAuthByKalendarId(kalendarId);
+                String refreshedAccessToken = authorizeKal.saveRefreshedAccessToken(googleAuth);
+                deleteGoogleCalendar(kalendarId, FINAL_ATTEMPT, refreshedAccessToken);
             } else {
                 e.printStackTrace();
             }
         }
     }
 
-    private void refreshTokenRequestforDeleteCalendar (long kalendarId) throws ValidationException {
-        try {
-            KalUser kalUser = getKalUserByKalendarId(kalendarId);
-            String userEmail = kalUser.getUserEmail();
-            long userId = kalUser.getId();
-            GoogleAuth googleAuth = findGoogleAuthByIdAndEmail(userId, userEmail);
-            String accessToken = authorizeKal.saveRefreshedAccessToken(googleAuth);
-            deleteGoogleCalendar(kalendarId, FINAL_ATTEMPT, accessToken);
-        } catch (IOException e) {
-            throw new ValidationException("Error while refreshing the access token");
-        }
+    private GoogleAuth findGoogleAuthByKalendarId(long kalendarId) throws ValidationException {
+        KalUser kalUser = getKalUserByKalendarId(kalendarId);
+        String userEmail = kalUser.getUserEmail();
+        long userId = kalUser.getId();
+        return findGoogleAuthByIdAndEmail(userId, userEmail);
     }
-
 
     private String getAccessTokenByKalendarId(long kalendarId) throws ValidationException {
         try {

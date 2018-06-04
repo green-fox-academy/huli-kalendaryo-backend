@@ -121,7 +121,9 @@ public class AuthorizeKal implements Authorization{
             getInputCalendarsData(calendarClient);
         } catch (GoogleJsonResponseException e) {
             if (attempt == FIRST_ATTEMPT) {
-                accessTokenRefreshForCalendar(android, kalendar);
+                GoogleAuth googleAuth = googleAuthRepository.findByEmail(android.getOutputGoogleAuthId());
+                saveRefreshedAccessToken(googleAuth);
+                createGoogleCalendarUnderAccount(android, kalendar, FINAL_ATTEMPT);
             } else
                 e.printStackTrace();
         }
@@ -133,13 +135,6 @@ public class AuthorizeKal implements Authorization{
         googleAuth.setAccessToken(tokenResponse.getAccessToken());
         googleAuthRepository.save(googleAuth);
         return tokenResponse.getAccessToken();
-    }
-
-    public void accessTokenRefreshForCalendar (KalendarFromAndroid android, Kalendar kalendar) throws IOException{
-        GoogleAuth googleAuth = googleAuthRepository.findByEmail(android.getOutputGoogleAuthId());
-        saveRefreshedAccessToken(googleAuth);
-        int attempt = FINAL_ATTEMPT;
-        createGoogleCalendarUnderAccount(android, kalendar, attempt);
     }
     
     public void getInputCalendarsData (com.google.api.services.calendar.Calendar client) throws IOException {
@@ -160,6 +155,5 @@ public class AuthorizeKal implements Authorization{
         Credential credential = new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
         calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
         calendarClient.calendars().delete(googleCalendarId).execute();
-
    }
 }

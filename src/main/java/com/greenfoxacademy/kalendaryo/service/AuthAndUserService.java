@@ -147,8 +147,7 @@ public class AuthAndUserService {
   public GoogleAuth manageGoogleAuthForPostAuth(KalUser kalUser, GoogleAuth googleAuth) throws IOException {
     googleAuth.setUser(kalUser);
     if (checkIfGoogleAuthExist(googleAuth, kalUser.getId())) {
-      GoogleAuth existingGoogleAuth = googleAuthRepository.findByUser_IdAndEmail(kalUser.getId(), googleAuth.getEmail());
-      return existingGoogleAuth;
+      return googleAuthRepository.findByUser_IdAndEmail(kalUser.getId(), googleAuth.getEmail());
     }
     saveGoogleAuth(googleAuth);
     return googleAuth;
@@ -156,13 +155,6 @@ public class AuthAndUserService {
 
   public boolean checkIfGoogleAuthExist(GoogleAuth googleAuth, Long kalUserId) {
     return googleAuthRepository.findByUser_IdAndEmail(kalUserId, googleAuth.getEmail()) != null;
-  }
-
-  public String findAccesTokenByUserId(long id) {
-      GoogleAuth googleAuth = googleAuthRepository.findByUser_Id(id);
-      String accesToken = googleAuth.getAccessToken();
-
-      return accesToken;
   }
 
   public String refreshAccessTokenForAndroid (String clientToken, String email) throws ValidationException{
