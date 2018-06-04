@@ -3,13 +3,13 @@ package com.greenfoxacademy.kalendaryo.model.api;
 public class KalendarFromAndroid {
 
   private String outputGoogleAuthId;
-  private String[] inputGoogleCalendars;
+  private GoogleCalendarFromAndroid[] inputGoogleCalendars;
   private String customName;
 
   public KalendarFromAndroid() {
   }
 
-  public KalendarFromAndroid(String outputGoogleAuthId, String[] inputGoogleCalendars) {
+  public KalendarFromAndroid(String outputGoogleAuthId, GoogleCalendarFromAndroid[] inputGoogleCalendars) {
     this.outputGoogleAuthId = outputGoogleAuthId;
     this.inputGoogleCalendars = inputGoogleCalendars;
     this.customName = customName;
@@ -23,11 +23,11 @@ public class KalendarFromAndroid {
     this.outputGoogleAuthId = outputGoogleAuthId;
   }
 
-  public String[] getInputGoogleCalendars() {
+  public GoogleCalendarFromAndroid[] getInputGoogleCalendars() {
     return inputGoogleCalendars;
   }
 
-  public void setInputGoogleCalendars(String[] inputGoogleCalendars) {
+  public void setInputGoogleCalendars(GoogleCalendarFromAndroid[] inputGoogleCalendars) {
     this.inputGoogleCalendars = inputGoogleCalendars;
   }
 
