@@ -96,6 +96,7 @@ public class AuthorizeKal implements Authorization{
                     Events events = calendarClient.events().list(calendarId).setPageToken(pageToken).execute();
                     List<Event> items = events.getItems();
                     for (Event event : items) {
+                        event.setAnyoneCanAddSelf(true);
                         calendarClient.events().insert(kalendar.getGoogleCalendarId(), event).execute();
                     }
                     pageToken = events.getNextPageToken();
