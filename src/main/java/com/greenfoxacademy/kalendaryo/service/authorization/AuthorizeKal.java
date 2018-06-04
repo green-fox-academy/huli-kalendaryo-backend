@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import com.google.api.services.calendar.model.Calendar;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.Events;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,7 +38,6 @@ public class AuthorizeKal implements Authorization{
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static HttpTransport HTTP_TRANSPORT;
     private com.google.api.services.calendar.Calendar calendarClient;
-    List<Calendar> addedCalendarUsingBatch = Lists.newArrayList();
 
     @Autowired
     GoogleAuthRepository googleAuthRepository;
@@ -96,17 +97,27 @@ public class AuthorizeKal implements Authorization{
 
             Calendar createdCalendar = calendarClient.calendars().insert(calendar).execute();
             kalendar.setGoogleCalendarId(createdCalendar.getId());
-            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-            System.out.println(kalendar.getId());
-            System.out.println(createdCalendar.getId());
-            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             kalendarService.saveKalendar(kalendar);
             getInputCalendarsData(calendarClient);
+
+            String pageToken = null;
+            for (int i = 0; i < kalendarFromAndroid.getInputGoogleCalendars().length; i++) {
+
+                do {
+                    Events events = calendarClient.events().list(kalendarFromAndroid.getInputGoogleCalendars()[i]).setPageToken(pageToken).execute();
+                    List<Event> items = events.getItems();
+                    for (Event event : items) {
+                        calendarClient.events().insert(createdCalendar.getId(), event).execute();
+                    }
+                    pageToken = events.getNextPageToken();
+                } while (pageToken != null);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
     public void getInputCalendarsData (com.google.api.services.calendar.Calendar client) throws IOException {
 
         String pageToken = null;
