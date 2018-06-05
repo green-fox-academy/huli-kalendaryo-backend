@@ -120,10 +120,10 @@ public class AuthorizeKal implements Authorization{
             kalendarService.saveKalendar(kalendar);
             getInputCalendarsData(calendarClient);
         } catch (GoogleJsonResponseException e) {
-            if (attempt == FIRST_ATTEMPT) {
+            if (attempt != FINAL_ATTEMPT) {
                 GoogleAuth googleAuth = googleAuthRepository.findByEmail(android.getOutputGoogleAuthId());
                 saveRefreshedAccessToken(googleAuth);
-                createGoogleCalendarUnderAccount(android, kalendar, FINAL_ATTEMPT);
+                createGoogleCalendarUnderAccount(android, kalendar, attempt++);
             } else
                 e.printStackTrace();
         }
