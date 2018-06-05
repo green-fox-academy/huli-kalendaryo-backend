@@ -66,6 +66,7 @@ public class AuthorizeKal implements Authorization{
         return requestFactory.buildGetRequest(url).execute();
     }
 
+    @Override
     public String authorize(String authCode) throws IOException {
         String clientId = System.getenv("CLIENT_ID");
         String clientSecret = System.getenv("CLIENT_SECRET");
@@ -83,6 +84,7 @@ public class AuthorizeKal implements Authorization{
         return tokenResponse.getAccessToken();
     }
 
+    @Override
     public void createGoogleCalendarUnderAccount(KalendarFromAndroid android, Kalendar kalendar) {
         try {
             String accessToken = googleAuthRepository.findByEmail(android.getOutputGoogleAuthId()).getAccessToken();
@@ -101,7 +103,7 @@ public class AuthorizeKal implements Authorization{
             e.printStackTrace();
         }
     }
-    
+
     public void getInputCalendarsData (com.google.api.services.calendar.Calendar client) throws IOException {
 
         String pageToken = null;
@@ -116,6 +118,7 @@ public class AuthorizeKal implements Authorization{
         } while (pageToken != null);
    }
 
+   @Override
    public void deleteCalendar(String accessToken, String googleCalendarId) {
        try {
            Credential credential =

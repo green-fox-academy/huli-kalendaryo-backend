@@ -1,6 +1,8 @@
 package com.greenfoxacademy.kalendaryo.service.authorization;
 
 import com.google.api.client.util.Base64;
+import com.greenfoxacademy.kalendaryo.model.api.KalendarFromAndroid;
+import com.greenfoxacademy.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.kalendaryo.repository.KalUserRepository;
 import com.greenfoxacademy.kalendaryo.repository.KalendarRepository;
@@ -34,5 +36,15 @@ public class AuthorizeKalTestEnvImp implements Authorization {
     @Override
     public String authorize(String authCode) throws IOException {
         return getRandomToken();
+    }
+
+    @Override
+    public void deleteCalendar(String accessToken, String calendarId) {
+        return;
+    }
+
+    @Override
+    public void createGoogleCalendarUnderAccount(KalendarFromAndroid kalendarFromAndroid, Kalendar kalendar) {
+        return;
     }
 }

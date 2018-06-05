@@ -8,6 +8,7 @@ import com.greenfoxacademy.kalendaryo.repository.KalUserRepository;
 import com.greenfoxacademy.kalendaryo.repository.KalendarRepository;
 import com.greenfoxacademy.kalendaryo.service.GoogleCalendarService;
 import com.greenfoxacademy.kalendaryo.service.KalendarService;
+import com.greenfoxacademy.kalendaryo.service.authorization.Authorization;
 import com.greenfoxacademy.kalendaryo.service.authorization.AuthorizeKal;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarListResponse;
@@ -26,22 +27,8 @@ import org.springframework.web.bind.annotation.*;
 public class KalendarController {
 
     @Autowired
-    KalendarRepository kalendarRepository;
-
-    @Autowired
-    KalUserRepository kalUserRepository;
-
-    @Autowired
-    GoogleAuthRepository googleAuthRepository;
-
-    @Autowired
     KalendarService kalendarService;
 
-    @Autowired
-    GoogleCalendarService googleCalendarService;
-
-    @Autowired
-    AuthorizeKal authorizeKal;
 
     @GetMapping(value = "/calendar")
     public ResponseEntity getKalendarList(@RequestHeader("X-Client-Token") String clientToken) {

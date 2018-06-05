@@ -50,9 +50,6 @@ public class KalendarService {
     KalendarRepository kalendarRepository;
 
     @Autowired
-    AuthorizeKal authorizeKal;
-
-    @Autowired
     GoogleAuthRepository googleAuthRepository;
 
     @Autowired
@@ -61,7 +58,7 @@ public class KalendarService {
     public void createNewKalendar(String clientToken, KalendarFromAndroid kalendarFromAndroid) throws ValidationException {
         Kalendar kalendar = new Kalendar();
         googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
-        authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar);
+        authorization.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar);
     }
 
     public KalendarListResponse getKalendarsByClientToken(String clientToken) throws ValidationException {
@@ -150,7 +147,7 @@ public class KalendarService {
     private void deleteGoogleCalendar(long kalendarId) throws ValidationException {
         String accessToken = getAccessTokenByKalendarId(kalendarId);
         String calendarId = getCalendarIdByKalendarId(kalendarId);
-        authorizeKal.deleteCalendar(accessToken, calendarId);
+        authorization.deleteCalendar(accessToken, calendarId);
     }
 
 

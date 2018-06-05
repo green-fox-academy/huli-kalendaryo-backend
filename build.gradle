@@ -22,20 +22,33 @@ repositories {
 	mavenCentral()
 }
 
+sourceSets {
+	integrationTest {
+		java {
+			compileClasspath += main.output + test.output
+			runtimeClasspath += main.output + test.output
+			srcDir file('src/integration-test/java')
+		}
+		resources.srcDir file('src/integration-test/resources')
+	}
+}
+
+
+
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('com.google.apis:google-api-services-calendar:v3-rev271-1.23.0')
-	runtime('org.springframework.boot:spring-boot-devtools')
-	runtime('mysql:mysql-connector-java')
+	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+	implementation('org.springframework.boot:spring-boot-starter-web')
+	implementation('com.google.apis:google-api-services-calendar:v3-rev271-1.23.0')
+	implementation('org.springframework.boot:spring-boot-devtools')
+	implementation('mysql:mysql-connector-java')
 	compileOnly('org.projectlombok:lombok')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testcompile('com.h2database:h2')
-	compile('com.google.oauth-client:google-oauth-client-jetty:1.23.0')
-	compile('com.google.api-client:google-api-client:1.23.0')
-	compile('org.flywaydb:flyway-core:5.0.5')
-	compile group: 'com.github.javafaker', name: 'javafaker', version: '0.12'
-	testCompile('org.mockito:mockito-core:2.7.22')
-  	compile('org.springframework.boot:spring-boot-starter-test')
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	testImplementation('com.h2database:h2:1.4.197')
+	implementation('com.google.oauth-client:google-oauth-client-jetty:1.23.0')
+	implementation('com.google.api-client:google-api-client:1.23.0')
+	implementation('org.flywaydb:flyway-core:5.0.5')
+	implementation group: 'com.github.javafaker', name: 'javafaker', version: '0.12'
+	testImplementation('org.mockito:mockito-core:2.7.22')
+	implementation('org.springframework.boot:spring-boot-starter-test')
 
 }
