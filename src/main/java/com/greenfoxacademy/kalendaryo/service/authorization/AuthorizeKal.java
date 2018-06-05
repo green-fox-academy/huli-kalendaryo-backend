@@ -12,6 +12,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.model.*;
 import com.google.common.collect.Lists;
+import com.greenfoxacademy.kalendaryo.model.api.GoogleCalendarFromAndroid;
 import com.greenfoxacademy.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarFromAndroid;
@@ -85,7 +86,7 @@ public class AuthorizeKal implements Authorization{
     public void createGoogleCalendarUnderAccount(KalendarFromAndroid kalendarFromAndroid, Kalendar kalendar) {
         try {
             String mergedCalendarId = kalendarFromAndroid.getOutputGoogleAuthId();
-            String[] sourceCalendarIds = kalendarFromAndroid.getInputGoogleCalendars();
+            GoogleCalendarFromAndroid[] sourceCalendarIds = kalendarFromAndroid.getInputGoogleCalendars();
 
             buildCalendarClient(mergedCalendarId);
             String destinationCalendarId = insertNewGoogleCalendar(kalendar.getName());
@@ -98,10 +99,10 @@ public class AuthorizeKal implements Authorization{
         }
     }
 
-    private void migrateEvents(String[] sourceCalendarIds , String googleCalendarId) throws IOException {
+    private void migrateEvents(GoogleCalendarFromAndroid[] sourceCalendarIds , String googleCalendarId) throws IOException {
         getMainUserById();
         for (int i = 0; i < sourceCalendarIds.length; i++) {
-            String calendarId = sourceCalendarIds[i];
+            String calendarId = sourceCalendarIds[i].getId();
             String pageToken = null;
             do {
                 Events events = calendarClient2.events().list(calendarId).setPageToken(pageToken).execute();

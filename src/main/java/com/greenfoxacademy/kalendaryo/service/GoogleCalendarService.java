@@ -36,7 +36,7 @@ public class GoogleCalendarService {
         kalendarService.saveKalendar(newKalendar);
         for (int i = 0; i < fromAndroid.getInputGoogleCalendars().length; i++) {
             GoogleCalendar googleCalendar = new GoogleCalendar();
-            googleCalendar.setId(fromAndroid.getInputGoogleCalendars()[i]);
+            googleCalendar.setId(fromAndroid.getInputGoogleCalendars()[i].getId());
             googleCalendar.setGoogleAuth(googleAuthRepository.findByEmail(fromAndroid.getOutputGoogleAuthId()));
             googleCalendar.setKalendar(kalendar);
             saveGoogleCalendar(googleCalendar);
