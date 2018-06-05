@@ -118,11 +118,7 @@ public class AuthorizeKal implements Authorization{
     private String insertNewGoogleCalendar(String name) throws IOException{
         Calendar calendar = new Calendar();
         calendar.setSummary(name);
-        AclRule rule = new AclRule();
-        AclRule.Scope scope = new AclRule.Scope();
-        scope.setType("default").setValue("default");
-        rule.setScope(scope).setRole("role");
-        calendarClient.acl().insert("primary", rule.setRole("reader"));
+
         Calendar createdCalendar = calendarClient.calendars().insert(calendar).execute();
         return createdCalendar.getId();
     }
