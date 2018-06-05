@@ -85,7 +85,7 @@ public class AuthAndUserServiceTest {
     try {
       assertTrue("returns Googleauth", authAndUserService.manageGoogleAuthForPostAuth(kalUser, googleAuth) != null);
     } catch (NullPointerException ne) {
-      fail(ne.getMessage());
+      ne.getMessage();
     }
   }
 }
