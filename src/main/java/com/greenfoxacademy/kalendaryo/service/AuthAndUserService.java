@@ -60,7 +60,7 @@ public class AuthAndUserService {
     return Base64.encodeBase64String(random);
   }
 
-  private void saveGoogleAuth(GoogleAuth googleAuth) throws IOException {
+  protected void saveGoogleAuth(GoogleAuth googleAuth) throws IOException {
     TokenResponse tokens = authorization.authorize(googleAuth.getAuthCode());
     String accessToken = tokens.getAccessToken();
     String refreshTOken = tokens.getRefreshToken();

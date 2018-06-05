@@ -1,11 +1,13 @@
 package com.greenfoxacademy.kalendaryo.service;
 
+import com.google.api.client.auth.oauth2.TokenResponse;
 import com.greenfoxacademy.kalendaryo.exception.ValidationException;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleAuth;
 import com.greenfoxacademy.kalendaryo.model.entity.KalUser;
 import com.greenfoxacademy.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.kalendaryo.repository.KalUserRepository;
 import com.greenfoxacademy.kalendaryo.service.authorization.Authorization;
+import jdk.nashorn.internal.parser.Token;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -15,6 +17,9 @@ import org.mockito.MockitoAnnotations;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 public class AuthAndUserServiceTest {
   @Mock
@@ -72,6 +77,16 @@ public class AuthAndUserServiceTest {
   public void manageGoogleAuthForPostAuth_testReturn() throws IOException{
     KalUser kalUser = new KalUser();
     GoogleAuth googleAuth = new GoogleAuth();
-    assertTrue("googleAuth is returned", authAndUserService.manageGoogleAuthForPostAuth(kalUser, googleAuth) != null);
+    TokenResponse tokenResponse =new TokenResponse();
+    tokenResponse.setAccessToken("AccessToken");
+
+    when(authorization.authorize(anyString())).thenReturn(tokenResponse);
+
+    try {
+      authAndUserService.manageGoogleAuthForPostAuth(kalUser, googleAuth);
+    } catch (IOException ex) {
+      ex.printStackTrace();
+      fail(ex.getMessage());
+    }
   }
 }
