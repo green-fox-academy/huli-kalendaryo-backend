@@ -80,14 +80,7 @@ public class AuthAndUserServiceTest {
     TokenResponse tokenResponse =new TokenResponse();
     tokenResponse.setAccessToken("AccessToken");
     tokenResponse.setRefreshToken("RefreshToken");
-
     when(authorization.authorize(anyString())).thenReturn(tokenResponse);
-
-    try {
-      assertTrue("returns Googleauth", authAndUserService.manageGoogleAuthForPostAuth(kalUser, googleAuth) != null);
-    } catch (IOException ex) {
-      ex.printStackTrace();
-      fail(ex.getMessage());
-    }
+    assertTrue("returns Googleauth", authAndUserService.manageGoogleAuthForPostAuth(kalUser, googleAuth) != null);
   }
 }
