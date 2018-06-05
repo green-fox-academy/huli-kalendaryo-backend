@@ -34,6 +34,7 @@ public class AuthorizeKal implements Authorization{
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static HttpTransport HTTP_TRANSPORT;
     private com.google.api.services.calendar.Calendar calendarClient;
+    private com.google.api.services.calendar.Calendar calendarClient2;
     List<Calendar> addedCalendarUsingBatch = Lists.newArrayList();
 
     @Autowired
@@ -98,15 +99,16 @@ public class AuthorizeKal implements Authorization{
     }
 
     private void migrateEvents(String[] sourceCalendarIds , String googleCalendarId) throws IOException {
+        getMainUserById();
         for (int i = 0; i < sourceCalendarIds.length; i++) {
             String calendarId = sourceCalendarIds[i];
             String pageToken = null;
             do {
-                Events events = calendarClient.events().list(calendarId).setPageToken(pageToken).execute();
+                Events events = calendarClient2.events().list(calendarId).setPageToken(pageToken).execute();
                 List<Event> items = events.getItems();
-                for (Event event : items) {
-                    calendarClient.events().insert(googleCalendarId, event).execute();
-                }
+                    for (Event event : items) {
+                        calendarClient.events().insert(googleCalendarId, event).execute();
+                    }
                 pageToken = events.getNextPageToken();
             } while (pageToken != null);
         }
@@ -115,12 +117,25 @@ public class AuthorizeKal implements Authorization{
     private String insertNewGoogleCalendar(String name) throws IOException{
         Calendar calendar = new Calendar();
         calendar.setSummary(name);
+        AclRule rule = new AclRule();
+        AclRule.Scope scope = new AclRule.Scope();
+        scope.setType("default").setValue("default");
+        rule.setScope(scope).setRole("role");
+        calendarClient.acl().insert("primary", rule.setRole("reader"));
         Calendar createdCalendar = calendarClient.calendars().insert(calendar).execute();
         return createdCalendar.getId();
     }
 
-    private void buildCalendarClient(String calendarId) {
-        String accessToken = googleAuthRepository.findByEmail(calendarId).getAccessToken();
+    private void getMainUserById(){
+        String accessToken = googleAuthRepository.findByEmail("kovaxtzeentch@gmail.com").getAccessToken();
+        Credential credential =
+          new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
+        calendarClient2 = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+          .setApplicationName(APPLICATION_NAME).build();
+    }
+
+    private void buildCalendarClient(String mergedCalendarId) {
+        String accessToken = googleAuthRepository.findByEmail(mergedCalendarId).getAccessToken();
         Credential credential =
           new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
         calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)

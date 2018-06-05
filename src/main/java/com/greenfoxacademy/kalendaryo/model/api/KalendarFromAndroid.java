@@ -44,12 +44,5 @@ public class KalendarFromAndroid {
   public void setCustomName(String customName) {
     this.customName = customName;
   }
-
-  @Override
-  public String toString() {
-    return "##### KalendarFromAndroid{" +
-      "inputGoogleCalendars=" + Arrays.toString(inputGoogleCalendars) + "#####" +
-      '}';
-  }
 }
 
