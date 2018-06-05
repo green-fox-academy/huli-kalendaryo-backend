@@ -81,6 +81,11 @@ public class AuthAndUserServiceTest {
     tokenResponse.setAccessToken("AccessToken");
     tokenResponse.setRefreshToken("RefreshToken");
     when(authorization.authorize(anyString())).thenReturn(tokenResponse);
-    assertTrue("returns Googleauth", authAndUserService.manageGoogleAuthForPostAuth(kalUser, googleAuth) != null);
+
+    try {
+      assertTrue("returns Googleauth", authAndUserService.manageGoogleAuthForPostAuth(kalUser, googleAuth) != null);
+    } catch (NullPointerException ne) {
+      fail(ne.getMessage());
+    }
   }
 }
