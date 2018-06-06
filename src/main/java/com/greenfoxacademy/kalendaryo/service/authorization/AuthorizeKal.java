@@ -13,6 +13,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.model.*;
 import com.google.common.collect.Lists;
 import com.greenfoxacademy.kalendaryo.model.api.GoogleCalendarFromAndroid;
+import com.greenfoxacademy.kalendaryo.model.entity.GoogleCalendar;
 import com.greenfoxacademy.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarFromAndroid;
@@ -102,12 +103,14 @@ public class AuthorizeKal implements Authorization{
     private void migrateEvents(GoogleCalendarFromAndroid[] sourceCalendarIds , String googleCalendarId) throws IOException {
         for (int i = 0; i < sourceCalendarIds.length; i++) {
             getMainUserById(sourceCalendarIds[i].getEmail());
+            String visibility = setVisibility(sourceCalendarIds[i]);
             String calendarId = sourceCalendarIds[i].getId();
             String pageToken = null;
             do {
                 Events events = calendarClient2.events().list(calendarId).setPageToken(pageToken).execute();
                 List<Event> items = events.getItems();
                     for (Event event : items) {
+                        event.setVisibility(visibility);
                         calendarClient.events().insert(googleCalendarId, event).execute();
                     }
                 pageToken = events.getNextPageToken();
@@ -136,6 +139,10 @@ public class AuthorizeKal implements Authorization{
           new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
         calendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
           .setApplicationName(APPLICATION_NAME).build();
+    }
+
+    private String setVisibility(GoogleCalendarFromAndroid googleCalendarFromAndroid){
+        return googleCalendarFromAndroid.getSharingOptions();
     }
 
     public void deleteCalendar(String accessToken, String googleCalendarId) {
