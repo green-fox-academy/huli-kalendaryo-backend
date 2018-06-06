@@ -95,7 +95,7 @@ public class Kalendar {
         List<GoogleCalendar> googleCalendars = new ArrayList<>();
         for (int i = 0; i < arrayOfStrings.length; i++) {
             GoogleCalendar googleCalendar = new GoogleCalendar();
-            googleCalendar.setId(Long.parseLong(arrayOfStrings[i]));
+            googleCalendar.setGoogleCalendarId((arrayOfStrings[i]));
             googleCalendar.setGoogleAuth(null);
             googleCalendar.setKalendar(null);
             googleCalendars.add(googleCalendar);
