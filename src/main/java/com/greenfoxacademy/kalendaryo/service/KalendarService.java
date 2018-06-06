@@ -38,7 +38,7 @@ public class KalendarService {
     public static final String NO_GOOGLE_CALENDAR_FOR_KALENDAR = "Google calendar not found for kalendar with ID=";
     public static final String NO_USER_FOR_KALENDAR_ID = "User not found for kalendarId=";
     public static final String NO_KALENDAR_FOR_KALENDAR_ID = "Kalendar not found for kalendarId=";
-    public static final String GOOGLE_AUTH_NOT_FOUND = "GoogleAuth not found int database for the following email and ID=";
+    public static final String GOOGLE_AUTH_NOT_FOUND = "GoogleAuth not found in the database for the following email and ID=";
     public static final String KAL_USER_HAS_NO_ID_OR_EMAIL = "ID or email not found for user of kalendar with ID=";
     public static final String KAL_USER_HAS_NO_ACCESS_TOKEN = "Access Token not found for user of kalendar with ID=";
     public static final String GOOGLE_API_UNREACHABLE = "Cannot connect to google API for email=";

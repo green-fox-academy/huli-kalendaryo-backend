@@ -34,8 +34,7 @@ import java.util.List;
 @Service
 @Profile("dev")
 public class AuthorizeKal implements Authorization{
-
-    public static Integer FIRST_ATTEMPT = 1;
+    
     public static Integer FINAL_ATTEMPT = 2;
     private static final String APPLICATION_NAME = "Kalendaryo";
     private static final java.io.File DATA_STORE_DIR = new java.io.File(System.getProperty("user.home"), ".credentials/calendar-java-quickstart");

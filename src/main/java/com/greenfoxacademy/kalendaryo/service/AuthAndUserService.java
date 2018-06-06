@@ -63,9 +63,9 @@ public class AuthAndUserService {
   protected void saveGoogleAuth(GoogleAuth googleAuth) throws IOException {
     TokenResponse tokens = authorization.authorize(googleAuth.getAuthCode());
     String accessToken = tokens.getAccessToken();
-    String refreshTOken = tokens.getRefreshToken();
+    String refreshToken = tokens.getRefreshToken();
     googleAuth.setAccessToken(accessToken);
-    googleAuth.setRefreshToken(refreshTOken);
+    googleAuth.setRefreshToken(refreshToken);
     googleAuthRepository.save(googleAuth);
   }
 
