@@ -7,7 +7,7 @@ public class GoogleCalendar {
 
     @Id
     private String id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="google_auth_id")
     GoogleAuth googleAuth;
     @ManyToOne(cascade = CascadeType.ALL)
