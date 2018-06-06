@@ -3,16 +3,17 @@ package com.greenfoxacademy.kalendaryo.model.api;
 public class GoogleCalendarFromAndroid {
   private String id;
   private String summary;
-  private String sharingOptions;
+  private String sharingOption;
   private String email;
+
 
   public GoogleCalendarFromAndroid() {
   }
 
-  public GoogleCalendarFromAndroid(String id, String summary, String sharingOptions) {
+  public GoogleCalendarFromAndroid(String id, String summary, String sharingOption) {
     this.id = id;
     this.summary = summary;
-    this.sharingOptions = sharingOptions;
+    this.sharingOption = sharingOption;
   }
 
   public String getId() {
@@ -31,12 +32,12 @@ public class GoogleCalendarFromAndroid {
     this.summary = summary;
   }
 
-  public String getSharingOptions() {
-    return sharingOptions;
+  public String getSharingOption() {
+    return sharingOption;
   }
 
-  public void setSharingOptions(String sharingOptions) {
-    this.sharingOptions = sharingOptions;
+  public void setSharingOption(String sharingOption) {
+    this.sharingOption = sharingOption.toLowerCase();
   }
 
   public String getEmail() {

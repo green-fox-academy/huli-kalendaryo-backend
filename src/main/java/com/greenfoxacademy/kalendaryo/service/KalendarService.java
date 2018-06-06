@@ -2,6 +2,8 @@ package com.greenfoxacademy.kalendaryo.service;
 
 
 import com.github.javafaker.Faker;
+import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarListResponse;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleAuth;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleCalendar;
@@ -21,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,15 +31,18 @@ import java.util.List;
 @Service
 public class KalendarService {
 
+    public static Integer FIRST_ATTEMPT = 1;
+    public static Integer FINAL_ATTEMPT = 2;
     public static final String USER_NOT_FOUND_TOKEN = "User not found for clientToken=";
     public static final String USER_HAS_NO_ID = "ID not found for user with this clientToken=";
     public static final String NO_KALENDAR_FOR_USER = "Kalendar not found for user with this clientToken=";
     public static final String NO_GOOGLE_CALENDAR_FOR_KALENDAR = "Google calendar not found for kalendar with ID=";
     public static final String NO_USER_FOR_KALENDAR_ID = "User not found for kalendarId=";
     public static final String NO_KALENDAR_FOR_KALENDAR_ID = "Kalendar not found for kalendarId=";
-    public static final String GOOGLE_AUTH_NOT_FOUND = "GoogleAuth not found int database for the following email and ID=";
+    public static final String GOOGLE_AUTH_NOT_FOUND = "GoogleAuth not found in the database for the following email and ID=";
     public static final String KAL_USER_HAS_NO_ID_OR_EMAIL = "ID or email not found for user of kalendar with ID=";
     public static final String KAL_USER_HAS_NO_ACCESS_TOKEN = "Access Token not found for user of kalendar with ID=";
+    public static final String GOOGLE_API_UNREACHABLE = "Cannot connect to google API for email=";
 
     @Autowired
     KalUserRepository kalUserRepository;
@@ -60,9 +66,13 @@ public class KalendarService {
     GoogleCalendarService googleCalendarService;
 
     public void createNewKalendar(String clientToken, KalendarFromAndroid kalendarFromAndroid) throws ValidationException {
-        Kalendar kalendar = new Kalendar();
-        googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
-        authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar);
+        try {
+            Kalendar kalendar = new Kalendar();
+            googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
+            authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar, FIRST_ATTEMPT);
+        } catch (IOException e) {
+            throw new ValidationException(GOOGLE_API_UNREACHABLE + kalendarFromAndroid.getOutputGoogleAuthId());
+        }
     }
 
     public KalendarListResponse getKalendarsByClientToken(String clientToken) throws ValidationException {
@@ -143,18 +153,38 @@ public class KalendarService {
     }
 
     public void deleteKalendar(String clientToken, long kalendarId) throws ValidationException {
-        validateUser(clientToken, kalendarId);
+        try {
+            validateUser(clientToken, kalendarId);
+            String accessToken = getAccessTokenByKalendarId(kalendarId);
+            deleteGoogleCalendar(kalendarId, FIRST_ATTEMPT, accessToken);
+            deleteKalendarById(kalendarId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        deleteGoogleCalendar(kalendarId);
-        deleteKalendarById(kalendarId);
     }
 
-    private void deleteGoogleCalendar(long kalendarId) throws ValidationException {
-        String accessToken = getAccessTokenByKalendarId(kalendarId);
-        String calendarId = getCalendarIdByKalendarId(kalendarId);
-        authorizeKal.deleteCalendar(accessToken, calendarId);
+    private void deleteGoogleCalendar(long kalendarId, Integer attempt, String accessToken) throws IOException, ValidationException {
+        try {
+            String calendarId = getCalendarIdByKalendarId(kalendarId);
+            authorizeKal.deleteCalendar(accessToken, calendarId);
+        } catch (GoogleJsonResponseException e) {
+            if (attempt != FINAL_ATTEMPT) {
+                GoogleAuth googleAuth = findGoogleAuthByKalendarId(kalendarId);
+                String refreshedAccessToken = authorizeKal.saveRefreshedAccessToken(googleAuth);
+                deleteGoogleCalendar(kalendarId, attempt++, refreshedAccessToken);
+            } else {
+                e.printStackTrace();
+            }
+        }
     }
 
+    private GoogleAuth findGoogleAuthByKalendarId(long kalendarId) throws ValidationException {
+        KalUser kalUser = getKalUserByKalendarId(kalendarId);
+        String userEmail = kalUser.getUserEmail();
+        long userId = kalUser.getId();
+        return findGoogleAuthByIdAndEmail(userId, userEmail);
+    }
 
     private String getAccessTokenByKalendarId(long kalendarId) throws ValidationException {
         try {
@@ -220,7 +250,7 @@ public class KalendarService {
         }
     }
 
-    private KalUser getKalUserByKalendarId(long kalendarId) throws ValidationException {
+    public KalUser getKalUserByKalendarId(long kalendarId) throws ValidationException {
         try {
             Kalendar kalendar = findKalendarById(kalendarId);
             return kalendar.getUser();
