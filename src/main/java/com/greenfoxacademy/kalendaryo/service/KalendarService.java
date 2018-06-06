@@ -135,7 +135,7 @@ public class KalendarService {
     public List<String> setToStringGoogleCalendars(List<GoogleCalendar> googleCalendars) {
         List<String> GoogleCalendarIDsToString = new ArrayList<>();
         for (int i = 0; i < googleCalendars.size(); i++) {
-            GoogleCalendarIDsToString.add(String.valueOf(googleCalendars.get(i).getId()));
+            GoogleCalendarIDsToString.add((googleCalendars.get(i).getGoogleCalendarId()));
         }
         return GoogleCalendarIDsToString;
     }
