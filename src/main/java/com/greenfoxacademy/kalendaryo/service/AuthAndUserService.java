@@ -1,5 +1,6 @@
 package com.greenfoxacademy.kalendaryo.service;
 
+import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.util.Base64;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleAuth;
 import com.greenfoxacademy.kalendaryo.model.entity.KalUser;
@@ -59,9 +60,12 @@ public class AuthAndUserService {
     return Base64.encodeBase64String(random);
   }
 
-  private void saveGoogleAuth(GoogleAuth googleAuth) throws IOException {
-    String accessToken = authorization.authorize(googleAuth.getAuthCode());
+  protected void saveGoogleAuth(GoogleAuth googleAuth) throws IOException {
+    TokenResponse tokens = authorization.authorize(googleAuth.getAuthCode());
+    String accessToken = tokens.getAccessToken();
+    String refreshToken = tokens.getRefreshToken();
     googleAuth.setAccessToken(accessToken);
+    googleAuth.setRefreshToken(refreshToken);
     googleAuthRepository.save(googleAuth);
   }
 
@@ -143,10 +147,7 @@ public class AuthAndUserService {
   public GoogleAuth manageGoogleAuthForPostAuth(KalUser kalUser, GoogleAuth googleAuth) throws IOException {
     googleAuth.setUser(kalUser);
     if (checkIfGoogleAuthExist(googleAuth, kalUser.getId())) {
-      GoogleAuth existingGoogleAuth = googleAuthRepository.findByUser_IdAndEmail(kalUser.getId(), googleAuth.getEmail());
-      googleAuth.setId(existingGoogleAuth.getId());
-      saveGoogleAuth(googleAuth);
-      return googleAuth;
+      return googleAuthRepository.findByUser_IdAndEmail(kalUser.getId(), googleAuth.getEmail());
     }
     saveGoogleAuth(googleAuth);
     return googleAuth;
@@ -156,10 +157,18 @@ public class AuthAndUserService {
     return googleAuthRepository.findByUser_IdAndEmail(kalUserId, googleAuth.getEmail()) != null;
   }
 
-  public String findAccesTokenByUserId(long id) {
-      GoogleAuth googleAuth = googleAuthRepository.findByUser_Id(id);
-      String accesToken = googleAuth.getAccessToken();
-
-      return accesToken;
+  public String refreshAccessTokenForAndroid (String clientToken, String email) throws ValidationException{
+    try {
+      KalUser user = kalUserRepository.findByClientToken(clientToken);
+      GoogleAuth googleAuth = googleAuthRepository.findByUser_IdAndEmail(user.getId(), email);
+      TokenResponse tokenResponse = authorization.authorizeWithRefreshToken(googleAuth.getRefreshToken());
+      googleAuth.setAccessToken(tokenResponse.getAccessToken());
+      googleAuthRepository.save(googleAuth);
+      return tokenResponse.getAccessToken();
+    } catch (NullPointerException e) {
+      throw new ValidationException("Client token is missing or invalid");
+    } catch (IOException i) {
+      throw new ValidationException("Error while refreshing the access token");
+    }
   }
 }

@@ -1,7 +1,9 @@
-package com.greenfoxacademy.kalendaryo;
+package com.greenfoxacademy.kalendaryo.controllers;
 
+import com.greenfoxacademy.kalendaryo.model.entity.GoogleAuth;
+import com.greenfoxacademy.kalendaryo.repository.GoogleAuthRepository;
+import com.greenfoxacademy.kalendaryo.repository.KalUserRepository;
 import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
-import com.greenfoxacademy.kalendaryo.controllers.AccountController;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -15,11 +17,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.nio.charset.Charset;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.core.Is.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AccountControllerTest {
+public class AuthControllerTest {
+
   private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
           MediaType.APPLICATION_JSON.getSubtype(),
           Charset.forName("utf8"));
@@ -30,45 +32,43 @@ public class AccountControllerTest {
   @Mock
   AuthAndUserService authAndUserService;
 
+  @Mock
+  KalUserRepository kalUserRepository;
+
+  @Mock
+  GoogleAuthRepository googleAuthRepository;
+
   @InjectMocks
-  AccountController accountController;
+  AuthController authController;
 
   @Before
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
-    mock = MockMvcBuilders.standaloneSetup(accountController).build();
-    headers.add("X-Client-Token", "Dm1IyAVxRrDrTQKtQH32fCvvyjY=");
+    mock = MockMvcBuilders.standaloneSetup(authController).build();
+
+    headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
     headers.add("email", "test-email@gmail.com");
   }
 
   @Test
-  public void getAccountShouldReturnHttp401WithoutClientToken() throws Exception {
-    mock.perform(get("/account")
+  public void getAuthShouldReturnHttp401WithoutClientToken() throws Exception {
+    mock.perform(get("/auth")
             .contentType(contentType))
             .andExpect(status().is4xxClientError());
   }
 
   @Test
-  public void getAccountstatusShouldBe200WithClientToken() throws Exception {
-    mock.perform(get("/account")
+  public void getStatusShouldBeOkWithClientToken() throws Exception {
+    mock.perform(get("/auth")
             .contentType(contentType)
             .headers(headers))
-            .andExpect(status().is2xxSuccessful());
+            .andExpect(status().isOk());
   }
 
   @Test
-  public void deleteAccountstatusShouldBe400WithoutHeader() throws Exception {
-    mock.perform(delete("/account")
+  public void postAuthShouldReturnHttp401WithoutClientToken() throws Exception {
+    mock.perform(post("/auth")
             .contentType(contentType))
             .andExpect(status().is4xxClientError());
-  }
-
-  @Test
-  public void deleteAccountstatusShouldBe200WithClientToken() throws Exception {
-    mock.perform(delete("/account")
-            .contentType(contentType)
-            .headers(headers))
-            .andExpect(status().is2xxSuccessful());
   }
 }
-
