@@ -30,10 +30,4 @@ Compile the following dependencies in order to use the necessary google librarie
 * 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
 * 'com.google.api-client:google-api-client:1.23.0'
 
-## Deploy instructions
 
-For deployment we use AWS Elastic Beanstalk and you need to follow these steps for successful deploy for updating:
-* Set the SNAPSHOT-version in `build.gradle`.
-* Build a `jar` file of the project.
-* Find this newly created file in build/libs/huli-kalendaryo-backend-version-number-SNAPSHOT.jar.
-* Upload & Deploy the `jar` file.
