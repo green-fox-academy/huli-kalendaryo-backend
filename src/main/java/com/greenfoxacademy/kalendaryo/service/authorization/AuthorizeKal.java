@@ -100,8 +100,8 @@ public class AuthorizeKal implements Authorization{
     }
 
     private void migrateEvents(GoogleCalendarFromAndroid[] sourceCalendarIds , String googleCalendarId) throws IOException {
-        getMainUserById();
         for (int i = 0; i < sourceCalendarIds.length; i++) {
+            getMainUserById(sourceCalendarIds[i].getEmail());
             String calendarId = sourceCalendarIds[i].getId();
             String pageToken = null;
             do {
@@ -118,13 +118,12 @@ public class AuthorizeKal implements Authorization{
     private String insertNewGoogleCalendar(String name) throws IOException{
         Calendar calendar = new Calendar();
         calendar.setSummary(name);
-
         Calendar createdCalendar = calendarClient.calendars().insert(calendar).execute();
         return createdCalendar.getId();
     }
 
-    private void getMainUserById(){
-        String accessToken = googleAuthRepository.findByEmail("kovaxtzeentch@gmail.com").getAccessToken();
+    private void getMainUserById(String email){
+        String accessToken = googleAuthRepository.findByEmail(email).getAccessToken();
         Credential credential =
           new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
         calendarClient2 = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)

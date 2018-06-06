@@ -4,6 +4,7 @@ public class GoogleCalendarFromAndroid {
   private String id;
   private String summary;
   private String sharingOptions;
+  private String email;
 
   public GoogleCalendarFromAndroid() {
   }
@@ -36,5 +37,13 @@ public class GoogleCalendarFromAndroid {
 
   public void setSharingOptions(String sharingOptions) {
     this.sharingOptions = sharingOptions;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
   }
 }
