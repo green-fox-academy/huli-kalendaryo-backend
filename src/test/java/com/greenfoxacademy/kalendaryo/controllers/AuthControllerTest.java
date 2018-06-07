@@ -58,7 +58,7 @@ public class AuthControllerTest {
   }
 
   @Test
-  public void postAuth_withEverythingOk() throws Exception {
+  public void postAuth_everythingOk() throws Exception {
 
     String json = "{\n"
             + "\"email\":\"mail@test.com\",\n"
@@ -88,7 +88,7 @@ public class AuthControllerTest {
 
     doThrow(new ValidationException(""))
             .when(authAndUserService).createPostAuthResponse(Matchers.anyString(), anyObject());
-
+    
     mock.perform(post("/auth")
             .contentType(contentType)
             .content(json)
