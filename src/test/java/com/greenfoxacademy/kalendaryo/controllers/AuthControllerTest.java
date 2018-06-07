@@ -51,13 +51,6 @@ public class AuthControllerTest {
   }
 
   @Test
-  public void postAuth_withoutClientToken() throws Exception {
-    mock.perform(post("/auth")
-            .contentType(contentType))
-            .andExpect(status().is4xxClientError());
-  }
-
-  @Test
   public void postAuth_everythingOk() throws Exception {
 
     String json = "{\n"
@@ -76,6 +69,13 @@ public class AuthControllerTest {
   }
 
   @Test
+  public void postAuth_withoutClientToken() throws Exception {
+    mock.perform(post("/auth")
+            .contentType(contentType))
+            .andExpect(status().is4xxClientError());
+  }
+
+  @Test
   public void postAuth_withWrongClientToken() throws Exception {
 
     String json = "{\n"
@@ -88,7 +88,7 @@ public class AuthControllerTest {
 
     doThrow(new ValidationException(""))
             .when(authAndUserService).createPostAuthResponse(Matchers.anyString(), anyObject());
-    
+
     mock.perform(post("/auth")
             .contentType(contentType)
             .content(json)

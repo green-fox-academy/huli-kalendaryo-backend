@@ -43,6 +43,14 @@ public class AccountControllerTest {
   }
 
   @Test
+  public void getAccount_everythingOk() throws Exception {
+    mock.perform(get("/account")
+            .contentType(contentType)
+            .headers(headers))
+            .andExpect(status().is2xxSuccessful());
+  }
+
+  @Test
   public void getAccount_withoutClientToken() throws Exception {
     mock.perform(get("/account")
             .contentType(contentType))
@@ -50,8 +58,19 @@ public class AccountControllerTest {
   }
 
   @Test
-  public void getAccount_withClientToken() throws Exception {
+  public void getAccount_withWrongClientToken() throws Exception {
+    doThrow(new ValidationException(""))
+            .when(authAndUserService).createUserResponseForGetAccounts(anyString());
+
     mock.perform(get("/account")
+            .contentType(contentType)
+            .headers(headers))
+            .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void deleteAccount_everythingOk() throws Exception {
+    mock.perform(delete("/account")
             .contentType(contentType)
             .headers(headers))
             .andExpect(status().is2xxSuccessful());
@@ -73,14 +92,6 @@ public class AccountControllerTest {
             .contentType(contentType)
             .headers(headers))
             .andExpect(status().isBadRequest());
-  }
-
-  @Test
-  public void deleteAccount_withClientToken() throws Exception {
-    mock.perform(delete("/account")
-            .contentType(contentType)
-            .headers(headers))
-            .andExpect(status().is2xxSuccessful());
   }
 }
 

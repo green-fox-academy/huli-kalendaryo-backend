@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -72,14 +73,7 @@ public class KalendarControllerTest {
     }
 
     @Test
-    public void getKalendarList_withoutClientToken() throws Exception {
-        mock.perform(get("/calendar")
-                .contentType(contentType))
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    public void getKalendarList_withClientToken() throws Exception {
+    public void getKalendarList_everythingOk() throws Exception {
         mock.perform(get("/calendar")
                 .contentType(contentType)
                 .headers(headers))
@@ -87,7 +81,25 @@ public class KalendarControllerTest {
     }
 
     @Test
-    public void outputAccountIdShouldReturnEmail() throws Exception {
+    public void getKalendarList_withoutClientToken() throws Exception {
+        mock.perform(get("/calendar")
+                .contentType(contentType))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void getKalendarList_withWrongClientToken() throws Exception {
+        doThrow(new ValidationException(""))
+                .when(kalendarService).getKalendarsByClientToken(anyString());
+
+        mock.perform(get("/calendar")
+                .contentType(contentType)
+                .headers(headers))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void getKalendarList_outputAccountIdShouldReturnEmail() throws Exception {
         String expectedOutputAccountId = "test@email.com";
 
         KalendarResponse expectedKalendarResponse = new KalendarResponse();
@@ -109,6 +121,22 @@ public class KalendarControllerTest {
     }
 
     @Test
+    public void postKalendar_everythingOk() throws Exception {
+
+        String json = "{\n"
+                + "\"outputGoogleAuthId\":\"someId\",\n"
+                + "\"googleCalendarFromAndroid\":[\"someGoogleCalendar1\",\"someGoogleCalendar2\"],\n"
+                + "\"customName\":\"someCustomName\"\n"
+                + "}\n";
+
+        mock.perform(post("/calendar")
+                .contentType(contentType)
+                .content(json)
+                .headers(headers))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void postKalendar_withoutClientToken() throws Exception {
         mock.perform(post("/calendar")
                 .contentType(contentType))
@@ -116,7 +144,26 @@ public class KalendarControllerTest {
     }
 
     @Test
-    public void deleteKalendar_everythingIsOk() throws Exception {
+    public void postKalendar_withWrongClientToken() throws Exception {
+
+        String json = "{\n"
+                + "\"outputGoogleAuthId\":\"someId\",\n"
+                + "\"googleCalendarFromAndroid\":[\"someGoogleCalendar1\",\"someGoogleCalendar2\"],\n"
+                + "\"customName\":\"someCustomName\"\n"
+                + "}\n";
+
+        doThrow(new ValidationException(""))
+                .when(kalendarService).createNewKalendar(anyString(), anyObject());
+
+        mock.perform(post("/calendar")
+                .contentType(contentType)
+                .content(json)
+                .headers(headers))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void deleteKalendar_everythingOk() throws Exception {
         mock.perform(delete("/calendar/1")
                 .contentType(contentType)
                 .headers(headers))
@@ -124,29 +171,29 @@ public class KalendarControllerTest {
     }
 
     @Test
-    public void deleteKalendar_withWrongId() throws Exception {
+    public void deleteKalendar_withoutClientToken() throws Exception {
+        mock.perform(delete("/calendar/1")
+                .contentType(contentType))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void deleteKalendar_withWrongClientToken() throws Exception {
+        doThrow(new ValidationException(""))
+                .when(kalendarService).deleteKalendar(anyString(), anyLong());
+
+        mock.perform(delete("/calendar/1")
+                .contentType(contentType)
+                .headers(headers))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void deleteKalendar_withWrongIdFormat() throws Exception {
 
         mock.perform(delete("/calendar/w")
             .contentType(contentType)
             .headers(headers))
-            .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void deleteKalendar_withWrongToken() throws Exception {
-        doThrow(new ValidationException(""))
-            .when(kalendarService).deleteKalendar(anyString(), anyLong());
-
-        mock.perform(delete("/calendar/1")
-            .contentType(contentType)
-            .headers(headers))
-            .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void deleteKalendar_withoutToken() throws Exception {
-        mock.perform(delete("/calendar/1")
-            .contentType(contentType))
             .andExpect(status().isBadRequest());
     }
 }
