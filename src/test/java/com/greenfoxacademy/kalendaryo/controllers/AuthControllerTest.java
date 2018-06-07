@@ -70,8 +70,18 @@ public class AuthControllerTest {
 
   @Test
   public void postAuth_withoutClientToken() throws Exception {
+
+    String json = "{\n"
+            + "\"email\":\"mail@test.com\",\n"
+            + "\"authCode\":\"someCode\",\n"
+            + "\"displayName\":\"someName\",\n"
+            + "\"accessToken\":\"someAccessToken\",\n"
+            + "\"refreshToken\":\"someRefreshToken\"\n"
+            + "}\n";
+
     mock.perform(post("/auth")
-            .contentType(contentType))
+            .contentType(contentType)
+            .content(json))
             .andExpect(status().is4xxClientError());
   }
 
