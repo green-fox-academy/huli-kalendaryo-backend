@@ -1,11 +1,13 @@
 package com.greenfoxacademy.kalendaryo.controllers;
 
+import com.greenfoxacademy.kalendaryo.exception.ValidationException;
 import com.greenfoxacademy.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.kalendaryo.repository.KalUserRepository;
 import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpHeaders;
@@ -15,8 +17,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.nio.charset.Charset;
 
+import static org.mockito.Matchers.anyObject;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.doThrow;
 
 public class AuthControllerTest {
 
@@ -56,18 +60,39 @@ public class AuthControllerTest {
   @Test
   public void postAuth_withEverythingOk() throws Exception {
 
-    String json = String.format("{\n"
+    String json = "{\n"
             + "\"email\":\"mail@test.com\",\n"
             + "\"authCode\":\"someCode\",\n"
             + "\"displayName\":\"someName\",\n"
             + "\"accessToken\":\"someAccessToken\",\n"
-            + "\"refreshToken\":\"someRefreshToken\",\n"
-            + "}\n");
+            + "\"refreshToken\":\"someRefreshToken\"\n"
+            + "}\n";
 
     mock.perform(post("/auth")
             .contentType(contentType)
             .content(json)
             .headers(headers))
             .andExpect(status().isOk());
+  }
+
+  @Test
+  public void postAuth_withWrongClientToken() throws Exception {
+
+    String json = "{\n"
+            + "\"email\":\"mail@test.com\",\n"
+            + "\"authCode\":\"someCode\",\n"
+            + "\"displayName\":\"someName\",\n"
+            + "\"accessToken\":\"someAccessToken\",\n"
+            + "\"refreshToken\":\"someRefreshToken\"\n"
+            + "}\n";
+
+    doThrow(new ValidationException(""))
+            .when(authAndUserService).createPostAuthResponse(Matchers.anyString(), anyObject());
+
+    mock.perform(post("/auth")
+            .contentType(contentType)
+            .content(json)
+            .headers(headers))
+            .andExpect(status().isBadRequest());
   }
 }
