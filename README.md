@@ -25,3 +25,6 @@ To run the application's backend part you need to have the following things set 
 * RDS\_USERNAME: username for the database
 * RDS\_PASSWORD: password for the database
 * OPAL\_CAL\_PORT: your local port or the aws port
+
+## Jenkins integration
+The project has CI setup done in Jenkins both for deployment and checking pull requests. The jobs for this can be found [here](http://195.228.147.126:9090/job/Kalendaryo/).
