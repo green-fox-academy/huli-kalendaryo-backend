@@ -23,7 +23,7 @@ public class DevController {
 
     @GetMapping("/accesstoken")
     public String getAccessToken(@RequestParam String authCode) throws IOException {
-        return authorizeKal.authorize(authCode);
+        return authorizeKal.authorize(authCode).getAccessToken();
     }
 
     @GetMapping(value = "/notification")
