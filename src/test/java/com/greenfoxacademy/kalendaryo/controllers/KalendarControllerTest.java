@@ -68,7 +68,6 @@ public class KalendarControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         mock = MockMvcBuilders.standaloneSetup(kalendarController).build();
-
         headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
     }
 
@@ -138,8 +137,16 @@ public class KalendarControllerTest {
 
     @Test
     public void postKalendar_withoutClientToken() throws Exception {
+
+        String json = "{\n"
+                + "\"outputGoogleAuthId\":\"someId\",\n"
+                + "\"googleCalendarFromAndroid\":[\"someGoogleCalendar1\",\"someGoogleCalendar2\"],\n"
+                + "\"customName\":\"someCustomName\"\n"
+                + "}\n";
+
         mock.perform(post("/calendar")
-                .contentType(contentType))
+                .contentType(contentType)
+                .content(json))
                 .andExpect(status().is4xxClientError());
     }
 
@@ -186,14 +193,5 @@ public class KalendarControllerTest {
                 .contentType(contentType)
                 .headers(headers))
                 .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void deleteKalendar_withWrongIdFormat() throws Exception {
-
-        mock.perform(delete("/calendar/w")
-            .contentType(contentType)
-            .headers(headers))
-            .andExpect(status().isBadRequest());
     }
 }
