@@ -24,36 +24,36 @@ import static org.mockito.Mockito.doThrow;
 
 public class AuthControllerTest {
 
-  private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
           MediaType.APPLICATION_JSON.getSubtype(),
           Charset.forName("utf8"));
 
-  private MockMvc mock;
-  private HttpHeaders headers = new HttpHeaders();
+    private MockMvc mock;
+    private HttpHeaders headers = new HttpHeaders();
 
-  @Mock
-  AuthAndUserService authAndUserService;
+    @Mock
+    AuthAndUserService authAndUserService;
 
-  @Mock
-  KalUserRepository kalUserRepository;
+    @Mock
+    KalUserRepository kalUserRepository;
 
-  @Mock
-  GoogleAuthRepository googleAuthRepository;
+    @Mock
+    GoogleAuthRepository googleAuthRepository;
 
-  @InjectMocks
-  AuthController authController;
+    @InjectMocks
+    AuthController authController;
 
-  @Before
-  public void setUp() throws Exception {
-    MockitoAnnotations.initMocks(this);
-    mock = MockMvcBuilders.standaloneSetup(authController).build();
-    headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
-  }
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+        mock = MockMvcBuilders.standaloneSetup(authController).build();
+        headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
+    }
 
-  @Test
-  public void postAuth_everythingOk() throws Exception {
+    @Test
+    public void postAuth_everythingOk() throws Exception {
 
-    String json = "{\n"
+        String json = "{\n"
             + "\"email\":\"mail@test.com\",\n"
             + "\"authCode\":\"someCode\",\n"
             + "\"displayName\":\"someName\",\n"
@@ -61,17 +61,17 @@ public class AuthControllerTest {
             + "\"refreshToken\":\"someRefreshToken\"\n"
             + "}\n";
 
-    mock.perform(post("/auth")
+        mock.perform(post("/auth")
             .contentType(contentType)
             .content(json)
             .headers(headers))
             .andExpect(status().isOk());
-  }
+    }
 
-  @Test
-  public void postAuth_withoutClientToken() throws Exception {
+    @Test
+    public void postAuth_withoutClientToken() throws Exception {
 
-    String json = "{\n"
+        String json = "{\n"
             + "\"email\":\"mail@test.com\",\n"
             + "\"authCode\":\"someCode\",\n"
             + "\"displayName\":\"someName\",\n"
@@ -79,16 +79,16 @@ public class AuthControllerTest {
             + "\"refreshToken\":\"someRefreshToken\"\n"
             + "}\n";
 
-    mock.perform(post("/auth")
+        mock.perform(post("/auth")
             .contentType(contentType)
             .content(json))
             .andExpect(status().is4xxClientError());
-  }
+    }
 
-  @Test
-  public void postAuth_withWrongClientToken() throws Exception {
+    @Test
+    public void postAuth_withWrongClientToken() throws Exception {
 
-    String json = "{\n"
+        String json = "{\n"
             + "\"email\":\"mail@test.com\",\n"
             + "\"authCode\":\"someCode\",\n"
             + "\"displayName\":\"someName\",\n"
@@ -96,13 +96,13 @@ public class AuthControllerTest {
             + "\"refreshToken\":\"someRefreshToken\"\n"
             + "}\n";
 
-    doThrow(new ValidationException(""))
+        doThrow(new ValidationException(""))
             .when(authAndUserService).createPostAuthResponse(Matchers.anyString(), anyObject());
 
-    mock.perform(post("/auth")
+        mock.perform(post("/auth")
             .contentType(contentType)
             .content(json)
             .headers(headers))
             .andExpect(status().isBadRequest());
-  }
+    }
 }
