@@ -128,7 +128,6 @@ public class KalendarService {
         } else {
             kalendar.setName(kalendarFromAndroid.getCustomName());
         }
-
         kalendar.setOutputGoogleAuthId(kalendarFromAndroid.getOutputGoogleAuthId());
         kalendar.setUser(getKalUserByClientToken(clientToken));
         return kalendar;
