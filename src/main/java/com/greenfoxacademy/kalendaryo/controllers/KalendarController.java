@@ -55,7 +55,7 @@ public class KalendarController {
 
     @PostMapping(value = "/calendar")
     public ResponseEntity postKalendar(@RequestHeader("X-Client-Token") String clientToken,
-        @RequestBody KalendarFromAndroid kalendarFromAndroid) {
+                                       @RequestBody KalendarFromAndroid kalendarFromAndroid) {
         try {
             kalendarService.createNewKalendar(clientToken, kalendarFromAndroid);
             return new ResponseEntity(HttpStatus.OK);
