@@ -26,13 +26,22 @@ public class AuthController {
   GoogleAuthRepository googleAuthRepository;
 
   @PostMapping("/auth")
-  public ResponseEntity postAuth(@RequestBody GoogleAuth googleAuth, @RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) throws IOException {
+  public ResponseEntity postAuth(@RequestBody GoogleAuth googleAuth, @RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) {
     try {
       PostAuthResponse postAuthResponse = authAndUserService.createPostAuthResponse(clientToken, googleAuth);
       return ResponseEntity.status(200).body(postAuthResponse);
     } catch (ValidationException val) {
       return ResponseEntity.status(400).body(val.getMessage());
     }
+  }
 
+  @GetMapping("/auth")
+  public ResponseEntity refreshAccessToken (@RequestHeader("email") String email, @RequestHeader("X-Client-Token") String clientToken, HttpServletRequest request) {
+    try {
+      String accessToken = authAndUserService.refreshAccessTokenForAndroid(clientToken, email);
+      return ResponseEntity.status(200).body(accessToken);
+    } catch (ValidationException val) {
+      return ResponseEntity.status(400).body(val.getMessage());
+    }
   }
 }
