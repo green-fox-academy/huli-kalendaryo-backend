@@ -106,15 +106,13 @@ public class AuthorizeKal implements Authorization{
     public void createGoogleCalendarUnderAccount(KalendarFromAndroid kalendarFromAndroid, Kalendar kalendar, Integer attempt) throws IOException {
         try {
             String mergedCalendarId = kalendarFromAndroid.getOutputGoogleAuthId();
+            buildMergedCalendarClient(mergedCalendarId);
+
+            String destinationCalendarId = insertNewGoogleCalendar(kalendar.getName());
+            kalendar.setGoogleCalendarId(destinationCalendarId);
+
             GoogleCalendarFromAndroid[] sourceCalendarIds = kalendarFromAndroid.getInputGoogleCalendars();
 
-            GoogleAuth googleAuth = googleAuthRepository.findByEmail(kalendarFromAndroid.getOutputGoogleAuthId());
-            String accessToken = googleAuth.getAccessToken();
-
-            buildMergedCalendarClient(mergedCalendarId);
-            String destinationCalendarId = insertNewGoogleCalendar(kalendar.getName());
-
-            kalendar.setGoogleCalendarId(destinationCalendarId);
             migrateEvents(sourceCalendarIds, destinationCalendarId);
             kalendarService.saveKalendar(kalendar);
         } catch (GoogleJsonResponseException e) {
