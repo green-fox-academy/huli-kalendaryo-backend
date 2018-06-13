@@ -194,4 +194,14 @@ public class KalendarControllerTest {
                 .headers(headers))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    public void deleteKalendar_withWrongId() throws Exception {
+        long rightId = 1;
+        mock.perform(delete("/calendar/{rightId}", rightId)
+                .contentType(contentType)
+                .headers(headers))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("rightId").value(1));
+    }
 }
