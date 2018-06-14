@@ -6,7 +6,9 @@ import javax.persistence.*;
 public class GoogleCalendar {
 
     @Id
-    private String id;
+    @GeneratedValue
+    private long id;
+    private String googleCalendarId;
     @ManyToOne
     @JoinColumn(name="google_auth_id")
     GoogleAuth googleAuth;
@@ -17,18 +19,28 @@ public class GoogleCalendar {
     public GoogleCalendar() {
     }
 
-    public GoogleCalendar(String id, GoogleAuth googleAuth, Kalendar kalendar) {
+    public GoogleCalendar(long id, String googleCalendarId, GoogleAuth googleAuth, Kalendar
+        kalendar) {
         this.id = id;
+        this.googleCalendarId = googleCalendarId;
         this.googleAuth = googleAuth;
         this.kalendar = kalendar;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public String getGoogleCalendarId() {
+        return googleCalendarId;
+    }
+
+    public void setGoogleCalendarId(String googleCalendarId) {
+        this.googleCalendarId = googleCalendarId;
     }
 
     public GoogleAuth getGoogleAuth() {

@@ -14,32 +14,33 @@ import org.springframework.stereotype.Service;
 @Service
 public class GoogleCalendarService {
 
-    @Autowired
-    GoogleCalendarRepository googleCalendarRepository;
+  @Autowired
+  GoogleCalendarRepository googleCalendarRepository;
 
-    @Autowired
-    GoogleAuthRepository googleAuthRepository;
+  @Autowired
+  GoogleAuthRepository googleAuthRepository;
 
-    @Autowired
-    KalendarRepository kalendarRepository;
+  @Autowired
+  KalendarRepository kalendarRepository;
 
-    @Autowired
-    KalendarService kalendarService;
+  @Autowired
+  KalendarService kalendarService;
 
-    public void saveGoogleCalendar(GoogleCalendar googleCalendar) {
-        googleCalendarRepository.save(googleCalendar);
+  public void saveGoogleCalendar(GoogleCalendar googleCalendar) {
+    googleCalendarRepository.save(googleCalendar);
+  }
+
+  public void setGoogleCalendar(Kalendar kalendar, KalendarFromAndroid fromAndroid, String clientToken) throws ValidationException {
+    Kalendar newKalendar = kalendarService.setKalendarAttribute(kalendar, fromAndroid,
+        clientToken);
+    kalendarService.saveKalendar(newKalendar);
+    for (int i = 0; i < fromAndroid.getInputGoogleCalendars().length; i++) {
+      GoogleCalendar googleCalendar = new GoogleCalendar();
+      googleCalendar.setGoogleCalendarId(((fromAndroid.getInputGoogleCalendars()[i].getId())));
+      googleCalendar.setGoogleAuth(googleAuthRepository.findByEmail(fromAndroid.getOutputGoogleAuthId()));
+      googleCalendar.setId(googleCalendar.getId());
+      googleCalendar.setKalendar(kalendar);
+      saveGoogleCalendar(googleCalendar);
     }
-
-    public void setGoogleCalendar(Kalendar kalendar, KalendarFromAndroid fromAndroid, String clientToken) throws ValidationException {
-        Kalendar newKalendar = kalendarService.setKalendarAttribute(kalendar, fromAndroid,
-                clientToken);
-        kalendarService.saveKalendar(newKalendar);
-        for (int i = 0; i < fromAndroid.getInputGoogleCalendars().length; i++) {
-            GoogleCalendar googleCalendar = new GoogleCalendar();
-            googleCalendar.setId(fromAndroid.getInputGoogleCalendars()[i].getId());
-            googleCalendar.setGoogleAuth(googleAuthRepository.findByEmail(fromAndroid.getOutputGoogleAuthId()));
-            googleCalendar.setKalendar(kalendar);
-            saveGoogleCalendar(googleCalendar);
-        }
-    }
+  }
 }
