@@ -14,10 +14,9 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.model.*;
-import com.google.common.collect.Lists;
+import com.greenfoxacademy.kalendaryo.exception.ValidationException;
 import com.greenfoxacademy.kalendaryo.model.api.GoogleCalendarFromAndroid;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleAuth;
-import com.greenfoxacademy.kalendaryo.model.entity.KalUser;
 import com.greenfoxacademy.kalendaryo.model.entity.Kalendar;
 import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarFromAndroid;
@@ -42,7 +41,7 @@ public class AuthorizeKal implements Authorization{
     private static HttpTransport HTTP_TRANSPORT;
     private com.google.api.services.calendar.Calendar mergedCalendarClient;
     private com.google.api.services.calendar.Calendar calendarFromAndroidClient;
-    List<Calendar> addedCalendarUsingBatch = Lists.newArrayList();
+    public static final String NO_MERGED_CALENDAR = "Missing merged calendar id";
 
     @Autowired
     GoogleAuthRepository googleAuthRepository;
@@ -103,9 +102,10 @@ public class AuthorizeKal implements Authorization{
         return tokenResponse;
     }
 
-    public void createGoogleCalendarUnderAccount(KalendarFromAndroid kalendarFromAndroid, Kalendar kalendar, Integer attempt) throws IOException {
+    public void createGoogleCalendarUnderAccount(KalendarFromAndroid kalendarFromAndroid, Kalendar kalendar, Integer attempt)
+      throws ValidationException, IOException {
         try {
-            String mergedCalendarId = kalendarFromAndroid.getOutputGoogleAuthId();
+            String mergedCalendarId = getMergedCalendarId(kalendarFromAndroid);
             buildMergedCalendarClient(mergedCalendarId);
 
             String destinationCalendarId = insertNewGoogleCalendar(kalendar.getName());
@@ -120,8 +120,17 @@ public class AuthorizeKal implements Authorization{
                 GoogleAuth googleAuth = googleAuthRepository.findByEmail(kalendarFromAndroid.getOutputGoogleAuthId());
                 saveRefreshedAccessToken(googleAuth);
                 createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar, attempt++);
-            } else
+            } else {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    public String getMergedCalendarId(KalendarFromAndroid kalendarFromAndroid) throws ValidationException {
+        if(kalendarFromAndroid.getOutputGoogleAuthId() == null){
+            throw new ValidationException(NO_MERGED_CALENDAR);
+        } else {
+            return kalendarFromAndroid.getOutputGoogleAuthId();
         }
     }
 
@@ -158,7 +167,7 @@ public class AuthorizeKal implements Authorization{
           .setApplicationName(APPLICATION_NAME).build();
     }
 
-    private void buildMergedCalendarClient(String mergedCalendarId) throws IOException{
+    private void buildMergedCalendarClient(String mergedCalendarId) {
         String accessToken = googleAuthRepository.findByEmail(mergedCalendarId).getAccessToken();
             Credential credential =
               new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
