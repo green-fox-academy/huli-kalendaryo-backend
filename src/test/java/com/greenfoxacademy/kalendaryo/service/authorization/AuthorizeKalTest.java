@@ -18,6 +18,8 @@ import static org.junit.Assert.*;
 public class AuthorizeKalTest {
 
   private MockMvc mock;
+  KalendarFromAndroid kalendarFromAndroid;
+  Kalendar kalendar;
 
   @InjectMocks
   AuthorizeKal authorizeKal;
@@ -25,13 +27,12 @@ public class AuthorizeKalTest {
   @Before
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
+    kalendarFromAndroid = new KalendarFromAndroid();
+    kalendar = new Kalendar();
   }
 
   @Test
   public void createGoogleCalendarUnderAccount_getOutputGoogleAuthIdNull() throws IOException {
-    KalendarFromAndroid kalendarFromAndroid = new KalendarFromAndroid();
-    Kalendar kalendar = new Kalendar();
-
     try {
       authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid,kalendar,1);
     } catch (ValidationException val){
@@ -41,7 +42,6 @@ public class AuthorizeKalTest {
 
   @Test
   public void createGoogleCalendarUnderAccount_getOutputGoogleAuthIdIsOK() {
-    KalendarFromAndroid kalendarFromAndroid = new KalendarFromAndroid();
     kalendarFromAndroid.setOutputGoogleAuthId("www");
     assertEquals(kalendarFromAndroid.getOutputGoogleAuthId(),"www");
   }
@@ -49,7 +49,6 @@ public class AuthorizeKalTest {
   @Test
   public void getMergedCalendarId_IdIsOK() throws ValidationException {
     String id = "id01";
-    KalendarFromAndroid kalendarFromAndroid = new KalendarFromAndroid();
     kalendarFromAndroid.setOutputGoogleAuthId(id);
 
     try {
@@ -62,7 +61,6 @@ public class AuthorizeKalTest {
   @Test
   public void getMergedCalendarId_IdIsNull() {
     String id = null;
-    KalendarFromAndroid kalendarFromAndroid = new KalendarFromAndroid();
     kalendarFromAndroid.setOutputGoogleAuthId(id);
 
     try {
@@ -73,5 +71,7 @@ public class AuthorizeKalTest {
   }
 
   @Test
-  public void
+  public void migrateEvents_everythingIsOk(){
+
+  }
 }
