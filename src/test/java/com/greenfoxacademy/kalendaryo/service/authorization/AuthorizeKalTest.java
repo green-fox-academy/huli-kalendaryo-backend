@@ -17,8 +17,7 @@ import static com.greenfoxacademy.kalendaryo.service.authorization.AuthorizeKal.
 import static org.junit.Assert.*;
 
 public class AuthorizeKalTest {
-
-  private MockMvc mock;
+  
   KalendarFromAndroid kalendarFromAndroid;
   Kalendar kalendar;
 
