@@ -1,6 +1,7 @@
 package com.greenfoxacademy.kalendaryo.service.authorization;
 
 import com.greenfoxacademy.kalendaryo.exception.ValidationException;
+import com.greenfoxacademy.kalendaryo.model.api.GoogleCalendarFromAndroid;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.kalendaryo.model.entity.Kalendar;
 import org.junit.Before;
@@ -68,10 +69,5 @@ public class AuthorizeKalTest {
     } catch (ValidationException val){
       assertEquals(NO_MERGED_CALENDAR,val.getMessage());
     }
-  }
-
-  @Test
-  public void migrateEvents_everythingIsOk(){
-
   }
 }
