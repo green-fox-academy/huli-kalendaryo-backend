@@ -170,5 +170,4 @@ public class NotificationControllerTest {
                 .headers(headers)).andDo(print())
                 .andExpect(status().isOk());
     }
-
 }

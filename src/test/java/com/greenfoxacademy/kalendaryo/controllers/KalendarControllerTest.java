@@ -42,6 +42,11 @@ public class KalendarControllerTest {
 
     private MockMvc mock;
     private HttpHeaders headers = new HttpHeaders();
+    private String json = "{\n"
+            + "\"outputGoogleAuthId\":\"someId\",\n"
+            + "\"googleCalendarFromAndroid\":[\"someGoogleCalendar1\",\"someGoogleCalendar2\"],\n"
+            + "\"customName\":\"someCustomName\"\n"
+            + "}\n";
 
     @Mock
     KalendarRepository kalendarRepository;
@@ -71,6 +76,7 @@ public class KalendarControllerTest {
         headers.add("X-Client-Token", "+Q9rka18/XMiFLM3u8ainUIzU/o=");
     }
 
+    //getKalendar tests
     @Test
     public void getKalendarList_everythingOk() throws Exception {
         mock.perform(get("/calendar")
@@ -119,14 +125,9 @@ public class KalendarControllerTest {
                 .andExpect(jsonPath("$.kalendars[0].outputCalendarId", is(expectedOutputAccountId)));
     }
 
+    //postKalendar tests
     @Test
     public void postKalendar_everythingOk() throws Exception {
-
-        String json = "{\n"
-                + "\"outputGoogleAuthId\":\"someId\",\n"
-                + "\"googleCalendarFromAndroid\":[\"someGoogleCalendar1\",\"someGoogleCalendar2\"],\n"
-                + "\"customName\":\"someCustomName\"\n"
-                + "}\n";
 
         mock.perform(post("/calendar")
                 .contentType(contentType)
@@ -138,12 +139,6 @@ public class KalendarControllerTest {
     @Test
     public void postKalendar_withoutClientToken() throws Exception {
 
-        String json = "{\n"
-                + "\"outputGoogleAuthId\":\"someId\",\n"
-                + "\"googleCalendarFromAndroid\":[\"someGoogleCalendar1\",\"someGoogleCalendar2\"],\n"
-                + "\"customName\":\"someCustomName\"\n"
-                + "}\n";
-
         mock.perform(post("/calendar")
                 .contentType(contentType)
                 .content(json))
@@ -152,12 +147,6 @@ public class KalendarControllerTest {
 
     @Test
     public void postKalendar_withWrongClientToken() throws Exception {
-
-        String json = "{\n"
-                + "\"outputGoogleAuthId\":\"someId\",\n"
-                + "\"googleCalendarFromAndroid\":[\"someGoogleCalendar1\",\"someGoogleCalendar2\"],\n"
-                + "\"customName\":\"someCustomName\"\n"
-                + "}\n";
 
         doThrow(new ValidationException(""))
                 .when(kalendarService).createNewKalendar(anyString(), anyObject());
@@ -169,6 +158,7 @@ public class KalendarControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    //deleteKalendar tests
     @Test
     public void deleteKalendar_everythingOk() throws Exception {
         mock.perform(delete("/calendar/1")

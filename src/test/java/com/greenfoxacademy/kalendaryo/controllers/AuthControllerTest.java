@@ -30,6 +30,13 @@ public class AuthControllerTest {
 
     private MockMvc mock;
     private HttpHeaders headers = new HttpHeaders();
+    private String json = "{\n"
+            + "\"email\":\"mail@test.com\",\n"
+            + "\"authCode\":\"someCode\",\n"
+            + "\"displayName\":\"someName\",\n"
+            + "\"accessToken\":\"someAccessToken\",\n"
+            + "\"refreshToken\":\"someRefreshToken\"\n"
+            + "}\n";
 
     @Mock
     AuthAndUserService authAndUserService;
@@ -53,14 +60,6 @@ public class AuthControllerTest {
     @Test
     public void postAuth_everythingOk() throws Exception {
 
-        String json = "{\n"
-            + "\"email\":\"mail@test.com\",\n"
-            + "\"authCode\":\"someCode\",\n"
-            + "\"displayName\":\"someName\",\n"
-            + "\"accessToken\":\"someAccessToken\",\n"
-            + "\"refreshToken\":\"someRefreshToken\"\n"
-            + "}\n";
-
         mock.perform(post("/auth")
             .contentType(contentType)
             .content(json)
@@ -71,14 +70,6 @@ public class AuthControllerTest {
     @Test
     public void postAuth_withoutClientToken() throws Exception {
 
-        String json = "{\n"
-            + "\"email\":\"mail@test.com\",\n"
-            + "\"authCode\":\"someCode\",\n"
-            + "\"displayName\":\"someName\",\n"
-            + "\"accessToken\":\"someAccessToken\",\n"
-            + "\"refreshToken\":\"someRefreshToken\"\n"
-            + "}\n";
-
         mock.perform(post("/auth")
             .contentType(contentType)
             .content(json))
@@ -87,14 +78,6 @@ public class AuthControllerTest {
 
     @Test
     public void postAuth_withWrongClientToken() throws Exception {
-
-        String json = "{\n"
-            + "\"email\":\"mail@test.com\",\n"
-            + "\"authCode\":\"someCode\",\n"
-            + "\"displayName\":\"someName\",\n"
-            + "\"accessToken\":\"someAccessToken\",\n"
-            + "\"refreshToken\":\"someRefreshToken\"\n"
-            + "}\n";
 
         doThrow(new ValidationException(""))
             .when(authAndUserService).createPostAuthResponse(Matchers.anyString(), anyObject());

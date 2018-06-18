@@ -94,4 +94,3 @@ public class AccountControllerTest {
             .andExpect(status().isBadRequest());
   }
 }
-
