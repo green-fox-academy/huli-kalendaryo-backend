@@ -1,6 +1,5 @@
 package com.greenfoxacademy.kalendaryo.controllers;
 
-import com.greenfoxacademy.kalendaryo.controllers.NotificationController;
 import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.kalendaryo.service.GoogleCalendarUpdateService;
 import org.junit.Before;
@@ -171,5 +170,4 @@ public class NotificationControllerTest {
                 .headers(headers)).andDo(print())
                 .andExpect(status().isOk());
     }
-
 }

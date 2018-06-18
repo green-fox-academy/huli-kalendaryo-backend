@@ -1,7 +1,7 @@
 package com.greenfoxacademy.kalendaryo.controllers;
 
+import com.greenfoxacademy.kalendaryo.exception.ValidationException;
 import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
-import com.greenfoxacademy.kalendaryo.controllers.AccountController;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -14,10 +14,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.nio.charset.Charset;
 
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.core.Is.is;
 
 public class AccountControllerTest {
   private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
@@ -42,14 +43,7 @@ public class AccountControllerTest {
   }
 
   @Test
-  public void getAccountShouldReturnHttp401WithoutClientToken() throws Exception {
-    mock.perform(get("/account")
-            .contentType(contentType))
-            .andExpect(status().is4xxClientError());
-  }
-
-  @Test
-  public void getAccountstatusShouldBe200WithClientToken() throws Exception {
+  public void getAccount_everythingOk() throws Exception {
     mock.perform(get("/account")
             .contentType(contentType)
             .headers(headers))
@@ -57,18 +51,46 @@ public class AccountControllerTest {
   }
 
   @Test
-  public void deleteAccountstatusShouldBe400WithoutHeader() throws Exception {
+  public void getAccount_withoutClientToken() throws Exception {
+    mock.perform(get("/account")
+            .contentType(contentType))
+            .andExpect(status().is4xxClientError());
+  }
+
+  @Test
+  public void getAccount_withWrongClientToken() throws Exception {
+    doThrow(new ValidationException(""))
+            .when(authAndUserService).createUserResponseForGetAccounts(anyString());
+
+    mock.perform(get("/account")
+            .contentType(contentType)
+            .headers(headers))
+            .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void deleteAccount_everythingOk() throws Exception {
+    mock.perform(delete("/account")
+            .contentType(contentType)
+            .headers(headers))
+            .andExpect(status().is2xxSuccessful());
+  }
+
+  @Test
+  public void deleteAccount_withoutHeader() throws Exception {
     mock.perform(delete("/account")
             .contentType(contentType))
             .andExpect(status().is4xxClientError());
   }
 
   @Test
-  public void deleteAccountstatusShouldBe200WithClientToken() throws Exception {
+  public void deleteAccount_withWrongClientToken() throws Exception {
+    doThrow(new ValidationException(""))
+            .when(authAndUserService).deleteGoogleAuth(anyString(), anyString());
+
     mock.perform(delete("/account")
             .contentType(contentType)
             .headers(headers))
-            .andExpect(status().is2xxSuccessful());
+            .andExpect(status().isBadRequest());
   }
 }
-
