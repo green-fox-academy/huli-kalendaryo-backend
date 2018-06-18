@@ -1,5 +1,7 @@
 package com.greenfoxacademy.kalendaryo.model.api;
 
+import java.util.Arrays;
+
 public class KalendarFromAndroid {
 
   private String outputGoogleAuthId;
@@ -27,6 +29,10 @@ public class KalendarFromAndroid {
     return inputGoogleCalendars;
   }
 
+  public GoogleCalendarFromAndroid getCalendarId(int index){
+    return inputGoogleCalendars[index];
+  }
+
   public void setInputGoogleCalendars(GoogleCalendarFromAndroid[] inputGoogleCalendars) {
     this.inputGoogleCalendars = inputGoogleCalendars;
   }
@@ -39,3 +45,4 @@ public class KalendarFromAndroid {
     this.customName = customName;
   }
 }
+
