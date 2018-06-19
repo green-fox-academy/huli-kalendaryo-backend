@@ -4,16 +4,14 @@ public class GoogleCalendarFromAndroid {
   private String id;
   private String summary;
   private String sharingOption;
-  private String email;
-
 
   public GoogleCalendarFromAndroid() {
   }
 
-  public GoogleCalendarFromAndroid(String id, String summary, String sharingOption) {
+  public GoogleCalendarFromAndroid(String id, String summary, String sharingOptions) {
     this.id = id;
     this.summary = summary;
-    this.sharingOption = sharingOption;
+    this.sharingOption = sharingOptions;
   }
 
   public String getId() {
@@ -36,15 +34,7 @@ public class GoogleCalendarFromAndroid {
     return sharingOption;
   }
 
-  public void setSharingOption(String sharingOption) {
-    this.sharingOption = sharingOption.toLowerCase();
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
+  public void setSharingOption(String sharingOptions) {
+    this.sharingOption = sharingOptions;
   }
 }
