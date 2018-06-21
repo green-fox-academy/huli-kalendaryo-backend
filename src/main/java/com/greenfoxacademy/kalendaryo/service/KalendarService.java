@@ -4,6 +4,7 @@ package com.greenfoxacademy.kalendaryo.service;
 import com.github.javafaker.Faker;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+import com.google.api.client.util.DateTime;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarListResponse;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleAuth;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleCalendar;
@@ -24,8 +25,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -121,7 +124,6 @@ public class KalendarService {
 
     public Kalendar setKalendarAttribute(Kalendar kalendar, KalendarFromAndroid kalendarFromAndroid, String clientToken) throws ValidationException {
         String customName = kalendarFromAndroid.getCustomName();
-
         if (StringUtils.isEmpty(customName)) {
             Faker faker = new Faker();
             kalendar.setName(faker.gameOfThrones().character());
@@ -271,6 +273,16 @@ public class KalendarService {
             return kalUserRepository.findByClientToken(clientToken);
         } catch (NullPointerException ne) {
             throw new ValidationException(USER_NOT_FOUND_TOKEN + clientToken);
+        }
+    }
+
+    public void syncCalendar(String clientToken, long kalendarId) throws ValidationException {
+        try {
+            validateUser(clientToken, kalendarId);
+            Kalendar kalendar = kalendarRepository.findKalendarById(kalendarId);
+            authorizeKal.addNewEvents(kalendar);
+        } catch (IOException i) {
+            i.printStackTrace();
         }
     }
 }

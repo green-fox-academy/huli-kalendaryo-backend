@@ -13,14 +13,16 @@ public class GoogleCalendar {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="kalendar_id")
     Kalendar kalendar;
+    String visibility;
 
     public GoogleCalendar() {
     }
 
-    public GoogleCalendar(String id, GoogleAuth googleAuth, Kalendar kalendar) {
+    public GoogleCalendar(String id, GoogleAuth googleAuth, Kalendar kalendar, String visibility) {
         this.id = id;
         this.googleAuth = googleAuth;
         this.kalendar = kalendar;
+        this.visibility = visibility;
     }
 
     public String getId() {
@@ -45,5 +47,13 @@ public class GoogleCalendar {
 
     public void setKalendar(Kalendar kalendar) {
         this.kalendar = kalendar;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
     }
 }

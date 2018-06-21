@@ -12,13 +12,16 @@ import com.google.api.client.http.*;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.model.*;
 import com.google.common.collect.Lists;
 import com.greenfoxacademy.kalendaryo.model.api.GoogleCalendarFromAndroid;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleAuth;
+import com.greenfoxacademy.kalendaryo.model.entity.GoogleCalendar;
 import com.greenfoxacademy.kalendaryo.model.entity.KalUser;
 import com.greenfoxacademy.kalendaryo.model.entity.Kalendar;
+import com.greenfoxacademy.kalendaryo.repository.KalendarRepository;
 import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.kalendaryo.repository.GoogleAuthRepository;
@@ -28,7 +31,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Profile("dev")
@@ -41,6 +47,7 @@ public class AuthorizeKal implements Authorization{
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static HttpTransport HTTP_TRANSPORT;
     private com.google.api.services.calendar.Calendar mergedCalendarClient;
+    private com.google.api.services.calendar.Calendar updateCalendarClient;
     private com.google.api.services.calendar.Calendar calendarFromAndroidClient;
     List<Calendar> addedCalendarUsingBatch = Lists.newArrayList();
 
@@ -52,6 +59,9 @@ public class AuthorizeKal implements Authorization{
 
     @Autowired
     AuthAndUserService authAndUserService;
+
+    @Autowired
+    KalendarRepository kalendarRepository;
 
     static {
         try {
@@ -190,5 +200,37 @@ public class AuthorizeKal implements Authorization{
         mergedCalendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).
           setApplicationName(APPLICATION_NAME).build();
         mergedCalendarClient.calendars().delete(googleCalendarId).execute();
+   }
+
+   public void addNewEvents( Kalendar kalendar) throws IOException {
+       for (int i = 0; i < kalendar.getGoogleCalendars().size(); i++) {
+           String pageToken = null;
+           do {
+               Events events = getNewEvents(kalendar.getGoogleCalendars().get(i), kalendar, pageToken);
+               List<Event> items = events.getItems();
+               buildMergedCalendarClient(kalendar.getOutputGoogleAuthId());
+               String visibility = kalendar.getGoogleCalendars().get(i).getVisibility();
+               for (Event event : items) {
+                   event.setVisibility(visibility);
+                   mergedCalendarClient.events().insert(kalendar.getGoogleCalendarId(), event).execute();
+               }
+               pageToken = events.getNextPageToken();
+           } while (pageToken != null);
+       }
+       kalendar.setLastSync(new Date());
+       kalendarRepository.save(kalendar);
+
+   }
+
+   public Events getNewEvents(GoogleCalendar calendar, Kalendar kalendar, String pageToken) throws IOException {
+       String accessToken = googleAuthRepository.findByEmail(calendar.getGoogleAuth().getEmail()).getAccessToken();
+       DateTime lastSync = new DateTime(kalendar.getLastSync());
+       Credential credential =
+               new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
+       updateCalendarClient = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).
+               setApplicationName(APPLICATION_NAME).build();
+       Events events = updateCalendarClient.events().list(calendar.getId())
+               .setUpdatedMin(lastSync).setPageToken(pageToken).execute();
+       return  events;
    }
 }
