@@ -66,13 +66,13 @@ public class KalendarService {
     GoogleCalendarService googleCalendarService;
 
     public void createNewKalendar(String clientToken, KalendarFromAndroid kalendarFromAndroid) throws ValidationException {
-        try {
-            Kalendar kalendar = new Kalendar();
-            googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
-            authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar, FIRST_ATTEMPT);
-        } catch (IOException e) {
-            throw new ValidationException(GOOGLE_API_UNREACHABLE + kalendarFromAndroid.getOutputGoogleAuthId());
-        }
+            try {
+                Kalendar kalendar = new Kalendar();
+                googleCalendarService.setGoogleCalendar(kalendar, kalendarFromAndroid, clientToken);
+                authorizeKal.createGoogleCalendarUnderAccount(kalendarFromAndroid, kalendar, FIRST_ATTEMPT);
+            } catch (IOException e) {
+                throw new ValidationException(GOOGLE_API_UNREACHABLE + kalendarFromAndroid.getOutputGoogleAuthId());
+            }
     }
 
     public KalendarListResponse getKalendarsByClientToken(String clientToken) throws ValidationException {
