@@ -141,8 +141,11 @@ public class AuthorizeKal implements Authorization{
             String calendarId = sourceCalendarIds[i].getId();
             String pageToken = null;
             do {
-                Events events = calendarFromAndroidClient.events()
-                  .list(calendarId).setPageToken(pageToken).execute();
+                Events events = calendarFromAndroidClient
+                    .events()
+                    .list(calendarId)
+                    .setPageToken(pageToken)
+                    .execute();
                 List<Event> items = events.getItems();
                     for (Event event : items) {
                         event.setVisibility(visibility);
