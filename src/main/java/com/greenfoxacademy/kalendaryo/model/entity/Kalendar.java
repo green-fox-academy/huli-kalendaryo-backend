@@ -2,6 +2,7 @@ package com.greenfoxacademy.kalendaryo.model.entity;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import javax.persistence.*;
 import java.util.List;
 
@@ -17,11 +18,13 @@ public class Kalendar {
     private String outputGoogleAuthId;
     private String name;
     private String googleCalendarId;
+    private Date lastSync;
 
     @OneToMany(mappedBy = "kalendar")
     List<GoogleCalendar> googleCalendars;
 
     public Kalendar() {
+        this.lastSync = new Date();
     }
 
     public Kalendar(String outputGoogleAuthId, String name) {
@@ -33,6 +36,7 @@ public class Kalendar {
         this.user = user;
         this.outputGoogleAuthId = outputGoogleAuthId;
         this.name = name;
+        this.lastSync = new Date();
     }
 
     public Kalendar(long id, KalUser user, String outputGoogleAuthId, String name, List<GoogleCalendar> googleCalendars) {
@@ -89,6 +93,14 @@ public class Kalendar {
 
     public void setGoogleCalendarId(String googleCalendarId) {
         this.googleCalendarId = googleCalendarId;
+    }
+
+    public Date getLastSync() {
+        return lastSync;
+    }
+
+    public void setLastSync(Date lastSync) {
+        this.lastSync = lastSync;
     }
 
     public List<GoogleCalendar> getGoogleCalendarList(String[] arrayOfStrings) {

@@ -221,7 +221,7 @@ public class KalendarService {
         googleCalendarRepository.deleteAllByKalendar_Id(id);
     }
 
-    private void validateUser(String clientToken, long kalendarId) throws ValidationException {
+    public void validateUser(String clientToken, long kalendarId) throws ValidationException {
         Long userIdByClientToken = getUserIdByClientToken(clientToken);
         Long userIdByKalendarId = getUserIdByKalendarId(kalendarId);
 
@@ -272,5 +272,15 @@ public class KalendarService {
         } catch (NullPointerException ne) {
             throw new ValidationException(USER_NOT_FOUND_TOKEN + clientToken);
         }
+    }
+
+    public void syncCalendar(String clientToken, long kalendarId) throws ValidationException {
+        try {
+            validateUser(clientToken, kalendarId);
+            Kalendar kalendar = kalendarRepository.findKalendarById(kalendarId);
+            authorizeKal.addNewEvents(kalendar);
+            } catch (IOException i) {
+            i.printStackTrace();
+            }
     }
 }

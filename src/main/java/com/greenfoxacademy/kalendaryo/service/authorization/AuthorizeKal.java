@@ -12,16 +12,20 @@ import com.google.api.client.http.*;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.model.*;
 import com.greenfoxacademy.kalendaryo.exception.ValidationException;
 import com.greenfoxacademy.kalendaryo.model.api.GoogleCalendarFromAndroid;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleAuth;
+import com.greenfoxacademy.kalendaryo.model.entity.GoogleCalendar;
 import com.greenfoxacademy.kalendaryo.model.entity.Kalendar;
+import com.greenfoxacademy.kalendaryo.repository.KalendarRepository;
 import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.kalendaryo.service.KalendarService;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -41,10 +45,14 @@ public class AuthorizeKal implements Authorization{
     private static HttpTransport HTTP_TRANSPORT;
     private com.google.api.services.calendar.Calendar mergedCalendarClient;
     private com.google.api.services.calendar.Calendar calendarFromAndroidClient;
+    private com.google.api.services.calendar.Calendar updateCalendarClient;
     public static final String NO_MERGED_CALENDAR = "Missing merged calendar id";
 
     @Autowired
     GoogleAuthRepository googleAuthRepository;
+
+    @Autowired
+    KalendarRepository kalendarRepository;
 
     @Autowired
     KalendarService kalendarService;
@@ -170,7 +178,7 @@ public class AuthorizeKal implements Authorization{
           .setApplicationName(APPLICATION_NAME).build();
     }
 
-    private void buildMergedCalendarClient(String mergedCalendarId) {
+    public void buildMergedCalendarClient(String mergedCalendarId) {
         String accessToken = googleAuthRepository.findByEmail(mergedCalendarId).getAccessToken();
             Credential credential =
               new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
@@ -203,4 +211,41 @@ public class AuthorizeKal implements Authorization{
           setApplicationName(APPLICATION_NAME).build();
         mergedCalendarClient.calendars().delete(googleCalendarId).execute();
    }
+
+    public void addNewEvents( Kalendar kalendar) throws IOException {
+        for (int i = 0; i < kalendar.getGoogleCalendars().size(); i++) {
+            String pageToken = null;
+            do {
+                Events events = getNewEvents(kalendar.getGoogleCalendars().get(i), kalendar, pageToken);
+                List<Event> items = events.getItems();
+                buildMergedCalendarClient(kalendar.getOutputGoogleAuthId());
+                String visibility = kalendar.getGoogleCalendars().get(i).getVisibility();
+                for (Event event : items) {
+                    event.setVisibility(visibility);
+                    mergedCalendarClient.events().insert(kalendar.getGoogleCalendarId(), event).execute();
+                }
+                pageToken = events.getNextPageToken();
+            } while (pageToken != null);
+        }
+        kalendar.setLastSync(new Date());
+        kalendarRepository.save(kalendar);
+
+    }
+
+    public Events getNewEvents(GoogleCalendar calendar, Kalendar kalendar, String pageToken) throws IOException {
+        String accessToken = googleAuthRepository.findByEmail(calendar.getGoogleAuth().getEmail()).getAccessToken();
+        DateTime lastSync = new DateTime(kalendar.getLastSync());
+        Credential credential =
+            new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
+        updateCalendarClient = new com.google.api.services.calendar.Calendar
+            .Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+            .setApplicationName(APPLICATION_NAME)
+            .build();
+        Events events = updateCalendarClient.events()
+            .list(calendar.getGoogleCalendarId())
+            .setUpdatedMin(lastSync)
+            .setPageToken(pageToken)
+            .execute();
+        return  events;
+    }
 }
