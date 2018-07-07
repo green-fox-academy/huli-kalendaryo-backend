@@ -1,6 +1,5 @@
 package com.greenfoxacademy.kalendaryo.model.api;
 
-import java.util.Arrays;
 
 public class KalendarFromAndroid {
 
@@ -45,4 +44,3 @@ public class KalendarFromAndroid {
     this.customName = customName;
   }
 }
-
