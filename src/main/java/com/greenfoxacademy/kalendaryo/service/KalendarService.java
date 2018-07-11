@@ -2,7 +2,6 @@ package com.greenfoxacademy.kalendaryo.service;
 
 
 import com.github.javafaker.Faker;
-import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarListResponse;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleAuth;
@@ -25,7 +24,6 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -228,7 +226,7 @@ public class KalendarService {
         if (userIdByClientToken != userIdByKalendarId) {
             throw new ValidationException("The kalendar does not belong to the user, " +
                 "clientToken=" + clientToken + " kalendarId=" + kalendarId);
-        };
+        }
     }
 
     private long getUserIdByClientToken(String clientToken) throws ValidationException {
