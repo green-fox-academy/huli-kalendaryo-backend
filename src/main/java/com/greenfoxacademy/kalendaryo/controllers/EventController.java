@@ -36,9 +36,9 @@ public class EventController {
 
 
     @GetMapping(value = "/events")
-    public ResponseEntity getEventList(@RequestHeader("X-Client-Token") String clientToken)
-        throws IOException {
+    public ResponseEntity getEventList(@RequestHeader("X-Client-Token") String clientToken) throws IOException {
         List<GoogleCalendar> googleCalendars = new ArrayList<>();
+        List<Events> allEvents = new ArrayList<>();
         List<GoogleAuth> googleAuths = googleAuthRepository.findAllByUser(kalUserRepository.findByClientToken(clientToken));
 
         for (GoogleAuth googleAuth : googleAuths) {
@@ -46,13 +46,9 @@ public class EventController {
         }
 
         for (GoogleCalendar googleCalendar : googleCalendars) {
-            try {
-                Events events = authorizeKal.getEventList(googleCalendar);
-                return new ResponseEntity<>(events, HttpStatus.OK);
-            } catch (ValidationException val) {
-                return new ResponseEntity(val.getMessage(), HttpStatus.BAD_REQUEST);
-            }
+            Events events = authorizeKal.getEventList(googleCalendar);
+            allEvents.add(events);
         }
+        return new ResponseEntity<>(allEvents, HttpStatus.OK);
     }
-
 }

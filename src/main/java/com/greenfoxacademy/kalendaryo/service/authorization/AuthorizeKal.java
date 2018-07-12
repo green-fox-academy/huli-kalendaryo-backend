@@ -215,7 +215,7 @@ public class AuthorizeKal implements Authorization{
         mergedCalendarClient.calendars().delete(googleCalendarId).execute();
    }
 
-    public void addNewEvents( Kalendar kalendar) throws IOException {
+    public void addNewEvents(Kalendar kalendar) throws IOException {
         for (int i = 0; i < kalendar.getGoogleCalendars().size(); i++) {
             String pageToken = null;
             do {
@@ -279,8 +279,8 @@ public class AuthorizeKal implements Authorization{
             new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
         com.google.api.services.calendar.Calendar service = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
             .setApplicationName(APPLICATION_NAME).build();
-
         String pageToken = null;
+
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         String start = dateFormat.format( LocalDateTime.now().minusDays(7));
         String end = dateFormat.format(LocalDateTime.now().plusDays(7));
