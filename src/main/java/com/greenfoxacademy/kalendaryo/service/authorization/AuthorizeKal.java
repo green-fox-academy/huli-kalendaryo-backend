@@ -25,6 +25,9 @@ import com.greenfoxacademy.kalendaryo.service.AuthAndUserService;
 import com.greenfoxacademy.kalendaryo.model.api.KalendarFromAndroid;
 import com.greenfoxacademy.kalendaryo.repository.GoogleAuthRepository;
 import com.greenfoxacademy.kalendaryo.service.KalendarService;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -268,6 +271,29 @@ public class AuthorizeKal implements Authorization{
             }
             pageToken = calendarList.getNextPageToken();
         } while (pageToken != null);
+    }
 
+    public Events getEventList(GoogleCalendar calendar) throws IOException {
+        String accessToken = googleAuthRepository.findByEmail(calendar.getGoogleAuth().getEmail()).getAccessToken();
+        Credential credential =
+            new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
+        com.google.api.services.calendar.Calendar service = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+            .setApplicationName(APPLICATION_NAME).build();
+
+        String pageToken = null;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        String start = dateFormat.format( LocalDateTime.now().minusDays(7));
+        String end = dateFormat.format(LocalDateTime.now().plusDays(7));
+        Events events;
+        do {
+            events = service.events()
+                .list(calendar.getGoogleCalendarId())
+                .setPageToken(pageToken)
+                .setTimeMin(DateTime.parseRfc3339(start))
+                .setTimeMax(DateTime.parseRfc3339(end))
+                .execute();
+            pageToken = events.getNextPageToken();
+        } while (pageToken != null);
+        return events;
     }
 }

@@ -1,5 +1,6 @@
 package com.greenfoxacademy.kalendaryo.repository;
 
+import com.greenfoxacademy.kalendaryo.model.entity.GoogleAuth;
 import com.greenfoxacademy.kalendaryo.model.entity.GoogleCalendar;
 import com.greenfoxacademy.kalendaryo.model.entity.Kalendar;
 import org.springframework.data.repository.CrudRepository;
@@ -12,4 +13,5 @@ public interface GoogleCalendarRepository extends CrudRepository<GoogleCalendar,
 
     List<GoogleCalendar> findGoogleCalendarsByKalendar(Kalendar kalendar);
     void deleteAllByKalendar_Id(long id);
+    List<GoogleCalendar> findGoogleCalendarByGoogleAuth (GoogleAuth googleAuth);
 }
