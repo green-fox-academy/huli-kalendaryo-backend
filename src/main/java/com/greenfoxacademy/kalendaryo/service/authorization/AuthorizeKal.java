@@ -249,18 +249,25 @@ public class AuthorizeKal implements Authorization{
         return  events;
     }
 
-    public void getGoogleCalendars(GoogleCalendar calendar) throws IOException {
 
+    // set this up properly
+    public void getGoogleCalendars(GoogleCalendar calendar) throws IOException {
         String accessToken = googleAuthRepository.findByEmail(calendar.getGoogleAuth().getEmail()).getAccessToken();
         Credential credential =
             new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
-
         com.google.api.services.calendar.Calendar service = new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
             .setApplicationName(APPLICATION_NAME).build();
+        String pageToken = null;
 
-        com.google.api.services.calendar.model.Calendar newCalendar =
-            service.calendars().get('primary').execute();
+        do {
+            CalendarList calendarList = service.calendarList().list().setPageToken(pageToken).execute();
+            List<CalendarListEntry> items = calendarList.getItems();
 
-        
+            for (CalendarListEntry calendarListEntry : items) {
+
+            }
+            pageToken = calendarList.getNextPageToken();
+        } while (pageToken != null);
+
     }
 }
