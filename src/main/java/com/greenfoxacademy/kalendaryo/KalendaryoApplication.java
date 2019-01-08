@@ -13,23 +13,23 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("dev")
 public class KalendaryoApplication implements CommandLineRunner {
 
-	@Value("${RDS_USERNAME}")
-	private String username;
+  @Value("${RDS_USERNAME}")
+  private String username;
 
-	@Value("${RDS_PASSWORD}")
-	private String password;
+  @Value("${RDS_PASSWORD}")
+  private String password;
 
-	@Value("jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}")
-	private String url;
+  @Value("jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}")
+  private String url;
 
-	public static void main(String[] args) {
-		SpringApplication.run(KalendaryoApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(KalendaryoApplication.class, args);
+  }
 
-	@Override
-	public void run(String... args) throws Exception {
-		Flyway flyway = new Flyway();
-		flyway.setDataSource(url, username, password);
-		flyway.migrate();
-	}
+  @Override
+  public void run(String... args) throws Exception {
+    Flyway flyway = new Flyway();
+    flyway.setDataSource(url, username, password);
+    flyway.migrate();
+  }
 }

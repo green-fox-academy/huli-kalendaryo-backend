@@ -30,8 +30,7 @@ public class AccountController {
 
   @Transactional
   @DeleteMapping(value = "/account")
-  public ResponseEntity deleteGoogleAccount(@RequestHeader("X-Client-Token") String clientToken, @RequestHeader("email") String email,
-                                            HttpServletRequest request) throws IOException {
+  public ResponseEntity deleteGoogleAccount(@RequestHeader("X-Client-Token") String clientToken, @RequestHeader("email") String email, HttpServletRequest request) throws IOException {
     try {
       authAndUserService.deleteGoogleAuth(email, clientToken);
       return new ResponseEntity(HttpStatus.OK);
